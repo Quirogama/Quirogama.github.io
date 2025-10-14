@@ -133,7 +133,7 @@
 		on:click={toggle}
 		on:keydown={onButtonKeydown}
 	>
-		<!-- small classic-style icon (simple square) -->
+		<!-- small classic-style icon -->
 		<svg
 			width="16"
 			height="16"
