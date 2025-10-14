@@ -47,7 +47,7 @@
     {/each}
   </div>
   <div class="tray">
-    <!-- clock is display-only; not interactive -->
+    <!-- clock is display-only -->
     <span class="task clock" aria-hidden="false">{clock}</span>
     <!-- right-side "inicio" removed as requested -->
   </div>
