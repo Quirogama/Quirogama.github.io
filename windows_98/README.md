@@ -36,3 +36,13 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+
+## Fonts and Licenses
+
+This project may include third-party fonts. In particular it can use the
+Terminus bitmap font (SIL Open Font License 1.1). If you include the
+Terminus font binary in this repository, the OFL license text is available
+in `static/fonts/OFL.txt` and must be distributed alongside the font file
+as required by the license.
+
+If you use a different font, verify its license before redistributing.
