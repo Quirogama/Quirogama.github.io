@@ -3,7 +3,7 @@
 	import DesktopIcon from './DesktopIcon.svelte';
 	export let windows = [];
 
-	// example icons for the portfolio desktop
+	// example icons for the portfolio
 	// icons without positions will be laid out column-major from top-left
 	let icons = [
 		{ id: 'cv', icon: '/icons/cv.png', label: 'CV', content: 'Aquí va mi CV...' },
