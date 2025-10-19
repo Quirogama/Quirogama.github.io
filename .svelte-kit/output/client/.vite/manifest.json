@@ -1,0 +1,111 @@
+{
+  ".svelte-kit/generated/client-optimized/app.js": {
+    "file": "_app/immutable/entry/app.RR2XPkG8.js",
+    "name": "entry/app",
+    "src": ".svelte-kit/generated/client-optimized/app.js",
+    "isEntry": true,
+    "imports": [
+      "_Gh2S5eGj.js",
+      "_DsnmJJEf.js",
+      "_CpW7Jdrt.js"
+    ],
+    "dynamicImports": [
+      ".svelte-kit/generated/client-optimized/nodes/0.js",
+      ".svelte-kit/generated/client-optimized/nodes/1.js",
+      ".svelte-kit/generated/client-optimized/nodes/2.js"
+    ]
+  },
+  ".svelte-kit/generated/client-optimized/nodes/0.js": {
+    "file": "_app/immutable/nodes/0.B1JJanJX.js",
+    "name": "nodes/0",
+    "src": ".svelte-kit/generated/client-optimized/nodes/0.js",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_DsnmJJEf.js",
+      "_Gh2S5eGj.js",
+      "_D5_2jSvg.js"
+    ]
+  },
+  ".svelte-kit/generated/client-optimized/nodes/1.js": {
+    "file": "_app/immutable/nodes/1.DLL0Xi3R.js",
+    "name": "nodes/1",
+    "src": ".svelte-kit/generated/client-optimized/nodes/1.js",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_DsnmJJEf.js",
+      "_CS-ZYib0.js",
+      "_Gh2S5eGj.js",
+      "_cxH3LUjo.js"
+    ]
+  },
+  ".svelte-kit/generated/client-optimized/nodes/2.js": {
+    "file": "_app/immutable/nodes/2._-C58uOM.js",
+    "name": "nodes/2",
+    "src": ".svelte-kit/generated/client-optimized/nodes/2.js",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_DsnmJJEf.js",
+      "_CS-ZYib0.js",
+      "_Gh2S5eGj.js",
+      "_D5_2jSvg.js"
+    ]
+  },
+  "_CS-ZYib0.js": {
+    "file": "_app/immutable/chunks/CS-ZYib0.js",
+    "name": "legacy",
+    "imports": [
+      "_Gh2S5eGj.js"
+    ]
+  },
+  "_CpW7Jdrt.js": {
+    "file": "_app/immutable/chunks/CpW7Jdrt.js",
+    "name": "props",
+    "imports": [
+      "_Gh2S5eGj.js"
+    ]
+  },
+  "_D5_2jSvg.js": {
+    "file": "_app/immutable/chunks/D5_2jSvg.js",
+    "name": "Taskbar",
+    "imports": [
+      "_DsnmJJEf.js",
+      "_CS-ZYib0.js",
+      "_Gh2S5eGj.js",
+      "_CpW7Jdrt.js"
+    ],
+    "css": [
+      "_app/immutable/assets/Taskbar.9pw2niHH.css"
+    ]
+  },
+  "_DsnmJJEf.js": {
+    "file": "_app/immutable/chunks/DsnmJJEf.js",
+    "name": "disclose-version"
+  },
+  "_Gh2S5eGj.js": {
+    "file": "_app/immutable/chunks/Gh2S5eGj.js",
+    "name": "index-client"
+  },
+  "_Taskbar.9pw2niHH.css": {
+    "file": "_app/immutable/assets/Taskbar.9pw2niHH.css",
+    "src": "_Taskbar.9pw2niHH.css"
+  },
+  "_cxH3LUjo.js": {
+    "file": "_app/immutable/chunks/cxH3LUjo.js",
+    "name": "entry",
+    "imports": [
+      "_Gh2S5eGj.js"
+    ]
+  },
+  "node_modules/@sveltejs/kit/src/runtime/client/entry.js": {
+    "file": "_app/immutable/entry/start.VYr02bbP.js",
+    "name": "entry/start",
+    "src": "node_modules/@sveltejs/kit/src/runtime/client/entry.js",
+    "isEntry": true,
+    "imports": [
+      "_cxH3LUjo.js"
+    ]
+  }
+}
