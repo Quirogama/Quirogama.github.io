@@ -1,48 +1,41 @@
-# sv
+# Portafolio de Andrés Quiroga
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+¡Bienvenido/a! Soy Andrés Quiroga, Ingeniero de Sistemas con interés en desarrollar interfaces retro-inspiradas, optimización web y experiencias de usuario creativas.  
+Este sitio web es mi portafolio personal y está alojado en: [https://quirogama.github.io/](https://quirogama.github.io/)
 
-## Creating a project
+## 🔍 ¿Qué encontrarás aquí?
+- Proyectos personales, incluyendo una recreación estilizada de la interfaz de Windows 98.  
+- Ejemplos de código en JavaScript, Svelte y CSS que demuestran mis capacidades técnicas.  
+- Diseño, usabilidad y un toque de nostalgia tecnológica.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## 🧰 Tecnologías utilizadas
+- SvelteKit / Svelte  
+- JavaScript / TypeScript  
+- HTML5 & CSS3 (con estilo “Windows 98”)  
+- Vite (para build y optimización)  
+- GitHub Pages (despliegue estático)
 
-```sh
-# create a new project in the current directory
-npx sv create
+## 🚀 Cómo ejecutar el proyecto localmente
 
-# create a new project in my-app
-npx sv create my-app
-```
+1. Clona este repositorio:  
+   ```bash
+   git clone https://github.com/quirogama/quirogama.github.io.git
+   cd quirogama.github.io
+Instala dependencias:
 
-## Developing
+npm install
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
-```sh
+Ejecuta en modo desarrollo:
+
 npm run dev
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
 
-## Building
+Genera el build para producción:
 
-To create a production version of your app:
-
-```sh
 npm run build
-```
 
-You can preview the production build with `npm run preview`.
+🤝 Contribuciones
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
-
-## Fonts and Licenses
-
-This project may include third-party fonts. In particular it can use the
-Terminus bitmap font (SIL Open Font License 1.1). If you include the
-Terminus font binary in this repository, the OFL license text is available
-in `static/fonts/OFL.txt` and must be distributed alongside the font file
-as required by the license.
-
-If you use a different font, verify its license before redistributing.
+Este proyecto es principalmente de uso personal, pero eres bienvenido a ver el código, sugerir mejoras o simplemente inspirarte.
+Gracias por visitar mi portafolio.
