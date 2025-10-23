@@ -6,9 +6,12 @@ const config = {
     adapter: adapter({
       pages: 'docs',
       assets: 'docs',
-      fallback: 'index.html' // si quieres comportamiento SPA para rutas no prerenderizadas
-    })
-    // NO pongas `prerender: { default: true }` aquí si te da error
+      fallback: 'index.html'
+    }),
+    paths: {
+      base: '',
+      relative: true  // ← AÑADE ESTA LÍNEA CRÍTICA
+    }
   }
 };
 
