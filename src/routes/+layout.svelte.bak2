@@ -9,14 +9,25 @@
 	let windows = [
 		{
 			id: 1,
-			title: 'Bienvenido - Quirogama',
-			width: 650,
-			height: 420,
+			title: '💼 Quirogama - Analista de Datos',
+			width: 580,
+			height: 400,
 			z: 2,
-			left: 200,
-			top: 50,
+			left: 280,
+			top: 60,
 			content:
-				'Hola! Soy Quirogama.\n\nANALISTA DE DATOS & DESARROLLADOR JUNIOR\n\n━━━ STACK TÉCNICO ━━━\n• Python (Pandas, NumPy), SQL\n• Power BI, Matplotlib, Seaborn\n• Svelte, JavaScript, HTML/CSS\n• Git, VS Code, Jupyter\n\n━━━ EXPERIENCIA ━━━\n• 6 meses en análisis y visualización\n• Reducción de 40% en tiempo de análisis\n• Automatización que procesa 10k+ registros/día\n\n━━━ NAVEGACIÓN ━━━\nHaz doble clic en los íconos del escritorio para:\n✓ Ver CV completo\n✓ Explorar proyectos detallados\n✓ Acceder a GitHub y contacto\n\nO scroll abajo para ver el resumen completo.\n\nGitHub: github.com/Quirogama'
+				'👋 ¡Bienvenido!\n\n📊 ANALISTA DE DATOS & DESARROLLADOR JUNIOR\n\n🔧 Stack Técnico:\n• Python (Pandas, NumPy) | SQL\n• Power BI | Matplotlib | Seaborn\n• Svelte | JavaScript | HTML/CSS\n• Git | VS Code | Jupyter\n\n📈 Experiencia:\n• 6 meses en análisis y visualización\n• Proyectos con impacto (-40% tiempo)\n• Automatización (10k+ registros/día)\n\n💡 Haz doble clic en los íconos del escritorio.\n📄 CV y más info en el footer de abajo.'
+		},
+		{
+			id: 99,
+			title: '📋 Menú Rápido',
+			width: 240,
+			height: 300,
+			z: 3,
+			left: 20,
+			top: 20,
+			content:
+				'NAVEGACIÓN:\n\n🏠 Bienvenida ←\n📊 Proyectos (escritorio)\n💼 CV (escritorio)\n💻 GitHub (escritorio)\n📧 Contacto (escritorio)\n\n───────────────\n\nINFO COMPLETA:\n✓ Footer de abajo\n✓ Scroll hacia abajo\n\n───────────────\n\n💾 GitHub:\ngithub.com/Quirogama\n\n📧 Contacto:\n(ver icono escritorio)'
 		}
 	];
 
