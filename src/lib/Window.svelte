@@ -88,4 +88,8 @@
 		left: 40px;
 		top: 40px;
 	}
+	/* Preservar saltos de línea del contenido de texto plano */
+	.window-body {
+		white-space: pre-wrap;
+	}
 </style>

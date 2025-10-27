@@ -6,25 +6,35 @@
 	// example icons for the portfolio desktop
 	// icons without positions will be laid out column-major from top-left
 	let icons = [
-		{ id: 'cv', icon: '/icons/cv.png', label: 'CV', content: 'Aquí va mi CV...' },
+		{ 
+			id: 'cv', 
+			icon: '/icons/cv.png', 
+			label: 'CV', 
+			content: 'CV - Quirogama\n\nAnalista de Datos & Desarrollador Junior.\n\nExperiencia: 6 meses en análisis de datos y desarrollo.\nProyectos: Automatización con Python, dashboards y visualización.\nHabilidades: Python, SQL, Power BI, Git.' 
+		},
 		{
 			id: 'projects',
 			icon: '/icons/proyectos.png',
 			label: 'Proyectos',
-			content: 'Listado de proyectos...'
+			content: 'Proyectos Destacados\n\n- Dashboard Analítico (Power BI): -40% tiempo de análisis.\n- Automatización ETL (Python): procesa 10k+ registros/día.\n- Portafolio Web (Svelte): este sitio estilo Windows 98.\n- Análisis Predictivo (ML): modelo con scikit-learn.'
 		},
-		{ id: 'github', icon: '/icons/github.png', label: 'GitHub', content: 'Mi perfil de GitHub...' },
+		{ 
+			id: 'github', 
+			icon: '/icons/github.png', 
+			label: 'GitHub', 
+			content: 'GitHub - @Quirogama\n\nExplora mis repos: análisis de datos, automatización en Python, apps web y notebooks.\nEnlace: github.com/Quirogama'
+		},
 		{
 			id: 'linkedin',
 			icon: '/icons/linkedin.png',
 			label: 'LinkedIn',
-			content: 'Mi perfil de LinkedIn...'
+			content: 'LinkedIn\n\nPerfil profesional: Quirogama (Analista de Datos & Dev Junior).\nAbierto a oportunidades en Análisis de datos, BI, Desarrollo web, Data Science Jr.\nEnlace: (próximamente)'
 		},
 		{
 			id: 'contact',
 			icon: '/icons/contacto.png',
 			label: 'Contacto',
-			content: 'Contacto: correo@ejemplo.com'
+			content: 'Contacto\n\nUbicación: [Tu ciudad/país]\nEmail: correo@ejemplo.com\nGitHub: @Quirogama\n\nOfrezco: análisis accionables, automatización, dashboards, desarrollo web.'
 		}
 	];
 

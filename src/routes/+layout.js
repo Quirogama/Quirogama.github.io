@@ -1,2 +1,3 @@
 export const prerender = true;
-export const ssr = false;
+// Habilitamos SSR para que el HTML se renderice de forma estática y sea legible por IAs/crawlers
+export const ssr = true;
