@@ -3,10 +3,13 @@
   
   export let tasks = [];
 
-  // Filtramos cualquier task llamada "welcome" (case-insensitive)
+  // Filtramos tasks no deseadas (welcome/bienvenido)
   $: visibleTasks = (tasks || []).filter(t => {
     try {
-      return String(t).trim().toLowerCase() !== 'welcome';
+      const s = String(t).trim().toLowerCase();
+      if (s === 'welcome') return false;
+      if (s.includes('bienvenido')) return false;
+      return true;
     } catch {
       return true;
     }

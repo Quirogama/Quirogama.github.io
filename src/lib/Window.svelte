@@ -87,9 +87,15 @@
 		position: absolute;
 		left: 40px;
 		top: 40px;
+		display: flex;
+		flex-direction: column;
 	}
 	/* Preservar saltos de línea del contenido de texto plano */
 	.window-body {
 		white-space: pre-wrap;
+		/* permitir scroll interno cuando el contenido excede la altura */
+		flex: 1 1 auto;
+		min-height: 0;
+		overflow: auto;
 	}
 </style>
