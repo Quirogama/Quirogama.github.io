@@ -54,12 +54,12 @@
 </div>
 
 <style>
-  .taskbar {
+.taskbar { /* Barra de tareas inferior */
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 50px;
+    height: 5%;
     display:flex;
     align-items:center;
     padding:4px 6px;
@@ -69,21 +69,23 @@
     z-index: 1000;
   }
   .start { display:flex; align-items:center }
-  .inicio-wrap { padding-left: 6px }
-  .inicio {
-    display:inline-block;
-    padding: 6px 10px;
-    min-width: 72px;    /* altura horizontal */
-    height: 30px;       /* altura vertical */
-    text-align: center;
-    line-height: 30px;
-    border-top: 2px solid #ffffff; /* dark top */
-    border-left: 2px solid #ffffff; /* dark left */
-    border-right: 2px solid #363636; /* white right */
-    border-bottom: 2px solid #363636; /* white bottom */
-    background: var(--window-frame, #c0c0c0);
+  .inicio-wrap
+  .inicio { /* Botón de inicio */
     font-weight: bold;
     font-family: 'MS Sans Serif', Tahoma, Verdana, Arial, sans-serif;
+    font-size: 24px;
+
+    display:inline-block;
+    padding: 6px 10px;
+    min-width: 80px;    /* altura horizontal */
+    height: 5%;       /* altura vertical */
+    text-align: center;
+    line-height: 30px;
+    border-top: 3px solid #ffffff; /* dark top */
+    border-left: 3px solid #ffffff; /* dark left */
+    border-right: 3px solid #363636; /* white right */
+    border-bottom: 3px solid #363636; /* white bottom */
+    background: var(--window-frame, #c0c0c0);
     cursor: default;
   }
   .tasks { display:flex; gap:6px; flex:1; padding-left:8px; align-items:center; overflow:hidden }
@@ -95,15 +97,13 @@
     /* Texto */
     font-family: 'MS Sans Serif', Tahoma, Verdana, Arial, sans-serif;
     font-weight: 500;
-    font-size: 18px;
+    font-size: 24px;
     color: #000;
 
     /* Caja del reloj */
     padding: 0 8px;
-    min-width: 96px;    /* altura horizontal */
-    height: 42px;       /* altura vertical */
-    line-height: 34px;
-    text-align: center;
+    min-width: 120px;    /* altura horizontal */
+    height: 44px;       /* altura vertical */
 
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: auto;
@@ -111,11 +111,12 @@
     font-variant-numeric: tabular-nums;
     -webkit-text-stroke: 0.2px rgba(0,0,0,0.06);
 
-    border: 1px solid #808080;
-    box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #404040;
-    background: var(--window-frame, #c0c0c0);
+    border-top: 2px solid #a1a1a1; /* gray top */
+    border-left: 3px solid #a1a1a1; /* gray left */
+    border-right: 3px solid #ffffff; /* white right */
+    border-bottom: 3px solid #ffffff; /* white bottom */
+    background: var(--window-frame, #c0c0c0); /* sunken window color */
 
-    margin-left: 6px;
     cursor: default;
   }
 </style>
