@@ -1,38 +1,32 @@
-# sv
+# Portafolio Personal - Windows 98 Style
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+¡Bienvenido a mi portafolio personal con un toque nostálgico de Windows 98! Este proyecto es una representación interactiva de mi trabajo y habilidades, presentada en una interfaz que emula el clásico sistema operativo de Microsoft.
 
-## Creating a project
+Para acceder, ingresa la url: https://quirogama.github.io/
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Características
 
-```sh
-# create a new project in the current directory
-npx sv create
+- **Interfaz de Windows 98**: Experimenta la nostalgia con una UI que replica fielmente el diseño de Windows 98.
+- **Portafolio Interactivo**: Navega por mis proyectos, habilidades y experiencia como si estuvieras usando un sistema operativo antiguo.
+- **Desarrollado con Svelte**: Utilizando las últimas tecnologías web para una experiencia fluida y moderna.
 
-# create a new project in my-app
-npx sv create my-app
-```
+## Tecnologías Utilizadas
 
-## Developing
+- [Svelte](https://svelte.dev/) - Framework de JavaScript
+- [98.css](https://github.com/jdan/98.css) - Biblioteca de CSS para el estilo de Windows 98
+- [Vite](https://vitejs.dev/) - Herramienta de construcción y desarrollo
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Cómo Ejecutar el Proyecto
 
-```sh
-npm run dev
+### Prerrequisitos
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+- Node.js (versión 18 o superior)
+- npm (o yarn, pnpm)
 
-## Building
+### Instalación
 
-To create a production version of your app:
+1. Clona el repositorio:
+   ```sh
+   git clone https://github.com/quirogama/quirogama.github.io
 
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+   
