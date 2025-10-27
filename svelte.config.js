@@ -6,11 +6,12 @@ const config = {
     adapter: adapter({
       pages: 'docs',
       assets: 'docs',
-      fallback: 'index.html'
+      fallback: undefined,
+      strict: true
     }),
     paths: {
       base: '',
-      relative: true  // ← AÑADE ESTA LÍNEA CRÍTICA
+      relative: false
     }
   }
 };
