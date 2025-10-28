@@ -4,7 +4,9 @@
 		label = 'Item',
 		x = 16,
 		y = 16,
-		onopen = () => {}
+		selected = false,
+		onopen = () => {},
+		onselect = () => {}
 	} = $props();
 
 	let clickCount = $state(0);
@@ -13,9 +15,11 @@
 	function handleClick() {
 		clickCount++;
 		clearTimeout(clickTimer);
+		if (clickCount === 1) {
+			onselect();
+		}
 		clickTimer = setTimeout(() => (clickCount = 0), 400);
 		if (clickCount === 2) {
-			console.log('Double click detected on:', label);
 			onopen();
 			clickCount = 0;
 		}
@@ -23,7 +27,7 @@
 </script>
 
 <div
-	class="desktop-icon"
+	class="desktop-icon {selected ? 'selected' : ''}"
 	style="left:{x}px; top:{y}px"
 	onclick={handleClick}
 	onkeydown={(e) => {
@@ -43,7 +47,7 @@
 <style>
 	.desktop-icon {
 		position: absolute;
-		width: 140px;
+		width: 120px;
 		text-align: center;
 		cursor: default;
 		user-select: none;
@@ -54,9 +58,20 @@
 		margin: 0 auto;
 	}
 	.desktop-icon .label {
-		font-size: 22px;
+		font-size: 14px;
 		color: #ffffff;
 		word-wrap: break-word;
 		line-height: 1.1;
+		display: inline-block;
+		margin-top: 4px;
+		padding: 2px 4px;
+	}
+	.desktop-icon.selected .label {
+		background: #000080; /* Win98 blue */
+		color: #fff;
+	}
+	.desktop-icon.selected img {
+		outline: 1px dotted #ffffff;
+		outline-offset: 2px;
 	}
 </style>

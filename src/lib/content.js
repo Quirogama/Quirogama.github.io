@@ -1,36 +1,36 @@
-export const aboutTitle = 'Bienvenido - Andrés Quiroga';
+export const aboutTitle = 'Welcome - Andrés Quiroga';
 export const aboutWidth = 650;
 export const aboutHeight = 420;
 
-export const aboutText = `Andrés Quiroga — Analista de Datos & Desarrollador Junior
+export const aboutText = `Andrés Quiroga — Data Analyst & Junior Developer
 
-Sobre mí
-Soy Analista de Datos y Programador Junior con 6 meses de experiencia en análisis, visualización y desarrollo web. Me enfoco en transformar datos en decisiones, automatizando tareas y creando dashboards claros.
+About me
+I'm a Data Analyst and Junior Developer with 6 months of hands-on experience in analysis, visualization, and web development. I focus on turning data into decisions by automating workflows and building clear dashboards.
 
-Stack técnico
-• Análisis: Python (Pandas, NumPy), SQL, estadística
-• Visualización: Power BI, Matplotlib, Seaborn, Excel avanzado
-• Desarrollo: Svelte, JavaScript, HTML5, CSS3
-• Herramientas: Git, GitHub, VS Code, Jupyter Notebooks
+Tech stack
+• Analytics: Python (Pandas, NumPy), SQL, statistics
+• Visualization: Power BI, Matplotlib, Seaborn, advanced Excel
+• Development: Svelte, JavaScript, HTML5, CSS3
+• Tools: Git, GitHub, VS Code, Jupyter Notebooks
 
-Proyectos destacados
-• Dashboard Analítico (Power BI) — Redujo ~40% el tiempo de análisis. Métricas en tiempo real.
-• Automatización ETL (Python) — Pipeline que procesa 10,000+ registros diarios automáticamente.
-• Portafolio Web Interactivo (Svelte + SvelteKit) — Este sitio con estética Windows 98 (GitHub Pages).
+Selected projects
+• Analytics Dashboard (Power BI) — Reduced analysis time by ~40%. Real-time metrics.
+• ETL Automation (Python) — Pipeline processing 10,000+ records daily automatically.
+• Interactive Web Portfolio (Svelte + SvelteKit) — This Windows 98–style site (GitHub Pages).
 
-Experiencia (brief)
-• 6 meses en análisis y visualización de datos.
-• Automatización y limpieza de datos; reporting con BI.
-• Desarrollo web básico para publicar resultados y demos.
+Experience (brief)
+• 6 months in data analysis and visualization
+• Data cleaning and automation; BI reporting
+• Basic web development to publish results and demos
 
-Enlaces
+Links
 • GitHub: https://github.com/Quirogama
 • Portfolio: https://quirogama.github.io
-• CV (PDF): /cv.pdf
+• Resume (PDF): /cv.pdf
 
-Contacto
-• Email: (agrega tu correo aquí)
-• LinkedIn: (próximamente)
+Contact
+• Email: (add your email here)
+• LinkedIn: (coming soon)
 
-Nota
-Desplázate hacia abajo dentro de esta ventana para leer todo el contenido.`;
+Note
+Scroll inside this window to read the full content.`;

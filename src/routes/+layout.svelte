@@ -25,13 +25,25 @@
 			width: aboutWidth,
 			height: aboutHeight,
 			z: 2,
+			// App identity for taskbar
+			appLabel: 'About Me',
+			icon: '/icons/sobremi.png',
+			hiddenInTaskbar: true,
 			get left() { return centerLeft; },
 			get top() { return centerTop; },
 			content: aboutText
 		}
 	]);
 
-	let tasks = $derived(windows.map((w) => w.title));
+	function pathLabel(label) {
+		return `/Computer/ ${label}`;
+	}
+
+	let tasks = $derived(
+		windows
+			.filter((w) => !w.minimized && !w.hiddenInTaskbar)
+			.map((w) => ({ id: w.id, label: pathLabel(w.appLabel ?? w.title), icon: w.icon }))
+	);
 </script>
 
 <svelte:head>

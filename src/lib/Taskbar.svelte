@@ -1,19 +1,8 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
   
+  // tasks: Array<{ id: number, label: string, icon?: string }>
   export let tasks = [];
-
-  // Filtramos tasks no deseadas (welcome/bienvenido)
-  $: visibleTasks = (tasks || []).filter(t => {
-    try {
-      const s = String(t).trim().toLowerCase();
-      if (s === 'welcome') return false;
-      if (s.includes('bienvenido')) return false;
-      return true;
-    } catch {
-      return true;
-    }
-  });
 
   let clock = '';
   let timer;
@@ -41,12 +30,17 @@
 <div class="taskbar">
   <div class="start">
     <div class="inicio-wrap">
-      <span class="inicio">Inicio</span>
+      <span class="inicio">Start</span>
     </div>
   </div>
   <div class="tasks">
-    {#each visibleTasks as t}
-      <button class="task">{t}</button>
+    {#each tasks as t}
+      <button class="task" title={t.label}>
+        {#if t.icon}
+          <img class="task-icon" src={t.icon} alt="" aria-hidden="true" />
+        {/if}
+        <span class="task-label">{t.label}</span>
+      </button>
     {/each}
   </div>
   <div class="tray">
@@ -92,7 +86,9 @@
     cursor: default;
   }
   .tasks { display:flex; gap:6px; flex:1; padding-left:8px; align-items:center; overflow:hidden }
-  .task { padding:4px 8px; white-space:nowrap; text-overflow:ellipsis; overflow:hidden; border:1px solid #808080; background: linear-gradient(#f3f3f3,#e9e9e9); }
+  .task { display:flex; align-items:center; gap:6px; padding:4px 8px; white-space:nowrap; text-overflow:ellipsis; overflow:hidden; border:1px solid #808080; background: linear-gradient(#f3f3f3,#e9e9e9); }
+  .task-icon { width:16px; height:16px; image-rendering: pixelated; }
+  .task-label { max-width: 16ch; overflow:hidden; text-overflow: ellipsis; }
   .tray { padding-right: 8px; display:flex; align-items:center }
 
   /* Reloj */
