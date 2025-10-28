@@ -31,7 +31,7 @@
 		}
 	]);
 
-	let tasks = windows.map((w) => w.title);
+	let tasks = $derived(windows.map((w) => w.title));
 </script>
 
 <svelte:head>
@@ -39,7 +39,7 @@
 </svelte:head>
 
 <div class="shell-root">
-	<Desktop {windows} />
+	<Desktop bind:windows />
 	<Taskbar {tasks} />
 </div>
 

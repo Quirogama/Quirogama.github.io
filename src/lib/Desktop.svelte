@@ -2,7 +2,8 @@
 	import Window from './Window.svelte';
 	import DesktopIcon from './DesktopIcon.svelte';
 	import { aboutText, aboutTitle, aboutWidth, aboutHeight } from '$lib/content.js';
-	
+	import { onMount } from 'svelte';
+    
 	let { windows = $bindable([]) } = $props();
 
 	// example icons for the portfolio desktop
@@ -102,13 +103,18 @@
 		});
 	}
 
-	// Initial layout
-	$effect(() => {
+	// Initial layout + resize listener (once on mount)
+	onMount(() => {
 		updateLayoutMode();
+		const handler = () => updateLayoutMode();
 		if (typeof window !== 'undefined') {
-			window.addEventListener('resize', updateLayoutMode);
-			return () => window.removeEventListener('resize', updateLayoutMode);
+			window.addEventListener('resize', handler);
 		}
+		return () => {
+			if (typeof window !== 'undefined') {
+				window.removeEventListener('resize', handler);
+			}
+		};
 	});
 
 	function openIcon(icon) {
@@ -143,21 +149,19 @@
 	{/each}
 
 	{#each windows as w (w.id)}
-		{#if !w.closed}
-			<Window
-				title={w.title}
-				width={w.width}
-				height={w.height}
-				left={w.left ?? 40}
-				top={w.top ?? 40}
-				z={w.z}
-				onclose={() => {
-					w.closed = true;
-				}}
-			>
-				<div style="padding:8px">{w.content}</div>
-			</Window>
-		{/if}
+		<Window
+			title={w.title}
+			width={w.width}
+			height={w.height}
+			left={w.left ?? 40}
+			top={w.top ?? 40}
+			z={w.z}
+			onclose={() => {
+				windows = windows.filter(win => win.id !== w.id);
+			}}
+		>
+			<div style="padding:8px">{w.content}</div>
+		</Window>
 	{/each}
 </div>
 

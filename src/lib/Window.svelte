@@ -74,9 +74,21 @@
 	<div class="title-bar" style="touch-action: none;">
 		<div class="title-bar-text">{title}</div>
 		<div class="title-bar-controls">
-			<button aria-label="Minimize" onclick={minimize}></button>
+			<button 
+				aria-label="Minimize" 
+				onclick={(e) => {
+					e.stopPropagation();
+					minimize();
+				}}
+			></button>
 			<button aria-label="Maximize" disabled></button>
-			<button aria-label="Close" onclick={close}></button>
+			<button 
+				aria-label="Close" 
+				onclick={(e) => {
+					e.stopPropagation();
+					close();
+				}}
+			></button>
 		</div>
 	</div>
 	<div class="window-body">

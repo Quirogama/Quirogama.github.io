@@ -15,6 +15,7 @@
 		clearTimeout(clickTimer);
 		clickTimer = setTimeout(() => (clickCount = 0), 400);
 		if (clickCount === 2) {
+			console.log('Double click detected on:', label);
 			onopen();
 			clickCount = 0;
 		}
