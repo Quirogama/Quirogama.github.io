@@ -2,60 +2,113 @@
 	import Window from './Window.svelte';
 	import DesktopIcon from './DesktopIcon.svelte';
 	import { aboutText, aboutTitle, aboutWidth, aboutHeight } from '$lib/content.js';
-	export let windows = [];
+	
+	let { windows = $bindable([]) } = $props();
 
 	// example icons for the portfolio desktop
-	// icons without positions will be laid out column-major from top-left
-	let icons = [
+	// icons without positions will be laid out adaptively
+	let icons = $state([
 		{
 			id: 'about',
-			icon: '/icons/contacto.png',
+			icon: '/icons/sobremi.png',
 			label: 'Sobre Mi',
-			content: aboutText
+			content: aboutText,
+			x: 16,
+			y: 16
 		},
 		{ 
 			id: 'cv', 
 			icon: '/icons/cv.png', 
 			label: 'CV', 
-			content: 'CV - Andrés Quiroga\n\nAnalista de Datos & Desarrollador Junior.\n\nExperiencia: 6 meses en análisis de datos y desarrollo.\nProyectos: Automatización con Python, dashboards y visualización.\nHabilidades: Python, SQL, Power BI, Git.' 
+			content: 'CV - Andrés Quiroga\n\nAnalista de Datos & Desarrollador Junior.\n\nExperiencia: 6 meses en análisis de datos y desarrollo.\nProyectos: Automatización con Python, dashboards y visualización.\nHabilidades: Python, SQL, Power BI, Git.',
+			x: 16,
+			y: 126
 		},
 		{
 			id: 'projects',
 			icon: '/icons/proyectos.png',
 			label: 'Proyectos',
-			content: 'Proyectos Destacados\n\n- Dashboard Analítico (Power BI): -40% tiempo de análisis.\n- Automatización ETL (Python): procesa 10k+ registros/día.\n- Portafolio Web (Svelte): este sitio estilo Windows 98.\n- Análisis Predictivo (ML): modelo con scikit-learn.'
+			content: 'Proyectos Destacados\n\n- Dashboard Analítico (Power BI): -40% tiempo de análisis.\n- Automatización ETL (Python): procesa 10k+ registros/día.\n- Portafolio Web (Svelte): este sitio estilo Windows 98.\n- Análisis Predictivo (ML): modelo con scikit-learn.',
+			x: 16,
+			y: 236
 		},
 		{ 
 			id: 'github', 
 			icon: '/icons/github.png', 
 			label: 'GitHub', 
-			content: 'GitHub - @Quirogama\n\nExplora mis repos: análisis de datos, automatización en Python, apps web y notebooks.\nEnlace: github.com/Quirogama'
+			content: 'GitHub - @Quirogama\n\nExplora mis repos: análisis de datos, automatización en Python, apps web y notebooks.\nEnlace: github.com/Quirogama',
+			x: 16,
+			y: 346
 		},
 		{
 			id: 'linkedin',
 			icon: '/icons/linkedin.png',
 			label: 'LinkedIn',
-			content: 'LinkedIn\n\nPerfil profesional: Quirogama (Analista de Datos & Dev Junior).\nAbierto a oportunidades en Análisis de datos, BI, Desarrollo web, Data Science Jr.\nEnlace: (próximamente)'
+			content: 'LinkedIn\n\nPerfil profesional: Quirogama (Analista de Datos & Dev Junior).\nAbierto a oportunidades en Análisis de datos, BI, Desarrollo web, Data Science Jr.\nEnlace: (próximamente)',
+			x: 134,
+			y: 16
 		},
 		{
 			id: 'contact',
 			icon: '/icons/contacto.png',
 			label: 'Contacto',
-			content: 'Contacto\n\nUbicación: [Tu ciudad/país]\nEmail: correo@ejemplo.com\nGitHub: @Quirogama\n\nOfrezco: análisis accionables, automatización, dashboards, desarrollo web.'
+			content: 'Contacto\n\nUbicación: [Tu ciudad/país]\nEmail: correo@ejemplo.com\nGitHub: @Quirogama\n\nOfrezco: análisis accionables, automatización, dashboards, desarrollo web.',
+			x: 134,
+			y: 126
 		}
-	];
+	]);
 
 	const ICON_W = 110; // icon slot width
 	const ICON_H = 110; // vertical spacing
 	const MARGIN_X = 16;
 	const MARGIN_Y = 16;
-	const MAX_PER_COLUMN = 4;
 
-	// assign positions column-major
-	icons = icons.map((ic, i) => {
-		const col = Math.floor(i / MAX_PER_COLUMN);
-		const row = i % MAX_PER_COLUMN;
-		return { ...ic, x: MARGIN_X + col * (ICON_W + 8), y: MARGIN_Y + row * ICON_H };
+	// Determine layout direction based on screen height
+	let layoutMode = $state('column'); // 'column' or 'row'
+	let maxPerLine = $state(4);
+
+	function updateLayoutMode() {
+		if (typeof window === 'undefined') return;
+		const screenHeight = window.innerHeight;
+		// If screen is short (< 600px), use row-major (left-to-right, then down)
+		// Otherwise use column-major (top-to-bottom, then right)
+		if (screenHeight < 600) {
+			layoutMode = 'row';
+			maxPerLine = Math.floor((window.innerWidth - MARGIN_X * 2) / (ICON_W + 8)) || 3;
+		} else {
+			layoutMode = 'column';
+			maxPerLine = Math.floor((screenHeight - 100) / ICON_H) || 4;
+		}
+		repositionIcons();
+	}
+
+	function repositionIcons() {
+		icons = icons.map((ic, i) => {
+			let x, y;
+			if (layoutMode === 'row') {
+				// Row-major: left to right, then down
+				const row = Math.floor(i / maxPerLine);
+				const col = i % maxPerLine;
+				x = MARGIN_X + col * (ICON_W + 8);
+				y = MARGIN_Y + row * ICON_H;
+			} else {
+				// Column-major: top to bottom, then right
+				const col = Math.floor(i / maxPerLine);
+				const row = i % maxPerLine;
+				x = MARGIN_X + col * (ICON_W + 8);
+				y = MARGIN_Y + row * ICON_H;
+			}
+			return { ...ic, x, y };
+		});
+	}
+
+	// Initial layout
+	$effect(() => {
+		updateLayoutMode();
+		if (typeof window !== 'undefined') {
+			window.addEventListener('resize', updateLayoutMode);
+			return () => window.removeEventListener('resize', updateLayoutMode);
+		}
 	});
 
 	function openIcon(icon) {

@@ -14,8 +14,8 @@
 			width: aboutWidth,
 			height: aboutHeight,
 			z: 2,
-			left: 200,
-			top: 50,
+			left: 380,
+			top: 120,
 			content: aboutText
 		}
 	];
