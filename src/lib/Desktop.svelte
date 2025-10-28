@@ -118,9 +118,15 @@
 		const title = isAbout ? aboutTitle : icon.label;
 		const width = isAbout ? aboutWidth : 520;
 		const height = isAbout ? aboutHeight : 360;
+		
+		// Calculate position: slightly offset from previous windows
+		const offset = windows.length * 30;
+		const left = 100 + offset;
+		const top = 100 + offset;
+		
 		windows = [
 			...windows,
-			{ id, title, width, height, z: 2, content: icon.content }
+			{ id, title, width, height, left, top, z: 2, content: icon.content }
 		];
 	}
 </script>
