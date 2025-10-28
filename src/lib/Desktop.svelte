@@ -127,7 +127,13 @@
 
 <div class="desktop">
 	{#each icons as ic}
-		<DesktopIcon icon={ic.icon} label={ic.label} x={ic.x} y={ic.y} on:open={() => openIcon(ic)} />
+		<DesktopIcon 
+			icon={ic.icon} 
+			label={ic.label} 
+			x={ic.x} 
+			y={ic.y} 
+			onopen={() => openIcon(ic)} 
+		/>
 	{/each}
 
 	{#each windows as w (w.id)}
@@ -136,8 +142,10 @@
 				title={w.title}
 				width={w.width}
 				height={w.height}
+				left={w.left ?? 40}
+				top={w.top ?? 40}
 				z={w.z}
-				on:close={() => {
+				onclose={() => {
 					w.closed = true;
 				}}
 			>

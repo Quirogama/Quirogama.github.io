@@ -1,12 +1,13 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
-	export let icon = '/icons/cv.svg';
-	export let label = 'Item';
-	export let x = 16;
-	export let y = 16;
-	const dispatch = createEventDispatcher();
+	let {
+		icon = '/icons/cv.svg',
+		label = 'Item',
+		x = 16,
+		y = 16,
+		onopen = () => {}
+	} = $props();
 
-	let clickCount = 0;
+	let clickCount = $state(0);
 	let clickTimer;
 
 	function handleClick() {
@@ -14,7 +15,7 @@
 		clearTimeout(clickTimer);
 		clickTimer = setTimeout(() => (clickCount = 0), 400);
 		if (clickCount === 2) {
-			dispatch('open');
+			onopen();
 			clickCount = 0;
 		}
 	}
@@ -23,8 +24,8 @@
 <div
 	class="desktop-icon"
 	style="left:{x}px; top:{y}px"
-	on:click={handleClick}
-	on:keydown={(e) => {
+	onclick={handleClick}
+	onkeydown={(e) => {
 		if (e.key === 'Enter' || e.key === ' ') {
 			e.preventDefault();
 			handleClick();
