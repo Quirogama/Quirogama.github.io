@@ -1,16 +1,23 @@
 <script>
 	import Window from './Window.svelte';
 	import DesktopIcon from './DesktopIcon.svelte';
+	import { aboutText, aboutTitle, aboutWidth, aboutHeight } from '$lib/content.js';
 	export let windows = [];
 
 	// example icons for the portfolio desktop
 	// icons without positions will be laid out column-major from top-left
 	let icons = [
+		{
+			id: 'about',
+			icon: '/icons/contacto.png',
+			label: 'Sobre Mi',
+			content: aboutText
+		},
 		{ 
 			id: 'cv', 
 			icon: '/icons/cv.png', 
 			label: 'CV', 
-			content: 'CV - Quirogama\n\nAnalista de Datos & Desarrollador Junior.\n\nExperiencia: 6 meses en análisis de datos y desarrollo.\nProyectos: Automatización con Python, dashboards y visualización.\nHabilidades: Python, SQL, Power BI, Git.' 
+			content: 'CV - Andrés Quiroga\n\nAnalista de Datos & Desarrollador Junior.\n\nExperiencia: 6 meses en análisis de datos y desarrollo.\nProyectos: Automatización con Python, dashboards y visualización.\nHabilidades: Python, SQL, Power BI, Git.' 
 		},
 		{
 			id: 'projects',
@@ -54,9 +61,13 @@
 	function openIcon(icon) {
 		// Create a new window entry and push (larger default size)
 		const id = Math.floor(Math.random() * 100000);
+		const isAbout = icon.id === 'about';
+		const title = isAbout ? aboutTitle : icon.label;
+		const width = isAbout ? aboutWidth : 520;
+		const height = isAbout ? aboutHeight : 360;
 		windows = [
 			...windows,
-			{ id, title: icon.label, width: 520, height: 360, z: 2, content: icon.content }
+			{ id, title, width, height, z: 2, content: icon.content }
 		];
 	}
 </script>
