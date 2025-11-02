@@ -198,7 +198,8 @@
     border-left: 3px solid #a1a1a1; /* gray left */
     border-right: 3px solid #ffffff; /* white right */
     border-bottom: 3px solid #ffffff; /* white bottom */
-    background: var(--window-frame, #c0c0c0); /* sunken window color */
+  /* Allow easy override via --clock-bg; fallback to window frame gray */
+  background: var(--clock-bg, var(--window-frame, #c0c0c0)); /* sunken window color */
 
     cursor: default;
   }

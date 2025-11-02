@@ -39,16 +39,11 @@ body {
 	align-items: center;
 	justify-content: center;
 }
-/* Slightly shift clock left and give it a sunken 3D border (light top/left, dark right/bottom) */
+/* Clock visual moved to Taskbar.svelte to avoid global overrides */
 .taskbar .clock {
-	transform: translateX(6px); /* slightly right */
-	background: linear-gradient(#f8f8f8, #f0f0f0); /* subtle off-white face */
-	/* invert bevel: dark top/left, white bottom/right */
-	border-top: 2px solid #404040; /* darker top */
-	border-left: 2px solid #404040; /* darker left */
-	border-right: 2px solid #ffffff; /* white right */
-	border-bottom: 2px solid #ffffff; /* white bottom */
-	box-shadow: inset 1px 1px 0 rgba(0,0,0,0.04);
+	transform: none;
+	/* Intentionally no background/border here: component controls it */
+	box-shadow: none;
 	cursor: default; /* not interactive */
 }
 
