@@ -35,14 +35,10 @@
 		}
 	]);
 
-	function pathLabel(label) {
-		return `/Computer/ ${label}`;
-	}
-
 	let tasks = $derived(
 		windows
 			.filter((w) => !w.minimized && !w.hiddenInTaskbar)
-			.map((w) => ({ id: w.id, label: pathLabel(w.appLabel ?? w.title), icon: w.icon }))
+			.map((w) => ({ id: w.id, label: w.appLabel ?? w.title, icon: w.icon }))
 	);
 </script>
 
