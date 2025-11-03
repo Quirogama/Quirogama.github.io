@@ -24,7 +24,7 @@
 			icon: '/icons/cv.png', 
 			label: 'Resume',
 			componentType: 'pdf',
-			componentProps: { src: '/CV.pdf' },
+			componentProps: { src: '/cv.pdf' },
 			x: 16,
 			y: 126
 		},

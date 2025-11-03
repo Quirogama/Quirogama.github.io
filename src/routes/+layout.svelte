@@ -88,7 +88,7 @@
 			cv: { 
 				title: 'Resume - Andrés Quiroga', 
 				componentType: 'pdf',
-				componentProps: { src: '/CV.pdf' },
+				componentProps: { src: '/cv.pdf' },
 				width: 700,
 				height: 600,
 				appLabel: 'Resume',
