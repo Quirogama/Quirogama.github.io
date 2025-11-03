@@ -18,14 +18,14 @@
     dispatch('taskclick', { id: taskId });
   }
 
-  // Menú Start estilo Windows 98
+  // Menú Start con las aplicaciones reales del portfolio
   const startMenuItems = [
-    { id: 'programs', label: 'Programs', icon: '📁' },
-    { id: 'documents', label: 'Documents', icon: '📄' },
-    { id: 'settings', label: 'Settings', icon: '⚙️' },
-    { id: 'find', label: 'Find', icon: '🔍' },
-    { id: 'help', label: 'Help', icon: '❓' },
-    { id: 'run', label: 'Run...', icon: '▶️' },
+    { id: 'about', label: 'About Me', icon: '/icons/sobremi.png', isImage: true },
+    { id: 'cv', label: 'Resume', icon: '/icons/cv.png', isImage: true },
+    { id: 'projects', label: 'Projects', icon: '/icons/proyectos.png', isImage: true },
+    { id: 'github', label: 'GitHub', icon: '/icons/github.png', isImage: true },
+    { id: 'linkedin', label: 'LinkedIn', icon: '/icons/linkedin.png', isImage: true },
+    { id: 'contact', label: 'Contact', icon: '/icons/contacto.png', isImage: true },
     { id: 'separator', separator: true },
     { id: 'shutdown', label: 'Shut Down...', icon: '🔌' }
   ];
@@ -40,8 +40,6 @@
     startMenuOpen = false;
     startPressed = false;
     dispatch('menuselect', item);
-    // Por ahora solo loguear, después conectaremos acciones reales
-    console.log('Selected:', item.label);
   }
 
   function handleClickOutside(e) {
@@ -108,7 +106,11 @@
                 }
               }}
             >
-              <span class="menu-icon">{item.icon}</span>
+              {#if item.isImage}
+                <img class="menu-icon" src={item.icon} alt="" />
+              {:else}
+                <span class="menu-icon">{item.icon}</span>
+              {/if}
               <span class="menu-label">{item.label}</span>
             </button>
           {/if}
@@ -324,7 +326,10 @@
   .menu-icon {
     font-size: 18px;
     width: 20px;
+    height: 20px;
     flex-shrink: 0;
+    object-fit: contain;
+    image-rendering: pixelated;
   }
 
   .menu-label {

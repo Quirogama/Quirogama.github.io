@@ -1,6 +1,7 @@
 <script>
 	import Window from './Window.svelte';
 	import DesktopIcon from './DesktopIcon.svelte';
+	import PDFViewer from './PDFViewer.svelte';
 	import { aboutText, aboutTitle, aboutWidth, aboutHeight } from '$lib/content.js';
 	import { onMount } from 'svelte';
     
@@ -20,8 +21,9 @@
 		{ 
 			id: 'cv', 
 			icon: '/icons/cv.png', 
-			label: 'Resume', 
-			content: 'Resume — Andrés Quiroga\n\nData Analyst & Junior Developer.\n\nExperience: 6 months in data analysis and development.\nProjects: Python automation, dashboards, data visualization.\nSkills: Python, SQL, Power BI, Git.',
+			label: 'Resume',
+			componentType: 'pdf',
+			componentProps: { src: '/CV.pdf' },
 			x: 16,
 			y: 126
 		},
@@ -130,9 +132,10 @@
 		// Create a new window entry and push (larger default size)
 		const id = Math.floor(Math.random() * 100000);
 		const isAbout = icon.id === 'about';
+		const isPDF = icon.componentType === 'pdf';
 		const title = isAbout ? aboutTitle : icon.label;
-		const width = isAbout ? aboutWidth : 520;
-		const height = isAbout ? aboutHeight : 360;
+		const width = isAbout ? aboutWidth : (isPDF ? 700 : 520);
+		const height = isAbout ? aboutHeight : (isPDF ? 600 : 360);
 		
 		// Calculate position: slightly offset from previous windows
 		const offset = windows.length * 30;
@@ -140,10 +143,23 @@
 		const top = 100 + offset;
 		
 		zCounter = zCounter + 1;
-		windows = [
-			...windows,
-			{ id, title, width, height, left, top, z: zCounter, content: icon.content, minimized: false, appLabel: icon.label, icon: icon.icon }
-		];
+		const newWindow = { 
+			id, 
+			title, 
+			width, 
+			height, 
+			left, 
+			top, 
+			z: zCounter, 
+			content: icon.content || null, 
+			minimized: false, 
+			appLabel: icon.label, 
+			icon: icon.icon,
+			componentType: icon.componentType || null,
+			componentProps: icon.componentProps || null
+		};
+		
+		windows = [...windows, newWindow];
 	}
 </script>
 
@@ -179,7 +195,13 @@
 				}}
 				onfocus={() => bringToFront(w.id)}
 			>
-				<div style="padding:8px">{w.content}</div>
+				{#if w.componentType === 'pdf' && w.componentProps?.src}
+					<PDFViewer src={w.componentProps.src} />
+				{:else if w.content}
+					<div style="padding:8px">{w.content}</div>
+				{:else}
+					<div style="padding:8px">Loading...</div>
+				{/if}
 			</Window>
 		{/if}
 	{/each}
