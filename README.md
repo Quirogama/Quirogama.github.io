@@ -2,7 +2,9 @@
 
 
 
-[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://quirogama.github.io/)¡Bienvenido a mi portafolio personal con un toque nostálgico de Windows 98! Este proyecto es una representación interactiva de mi trabajo y habilidades, presentada en una interfaz que emula el clásico sistema operativo de Microsoft.
+[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://quirogama.github.io/)
+
+¡Bienvenido a mi portafolio personal con un toque nostálgico de Windows 98! Este proyecto es una representación interactiva de mi trabajo y habilidades, presentada en una interfaz que emula el clásico sistema operativo de Microsoft.
 
 [![GitHub](https://img.shields.io/badge/GitHub-Quirogama-blue)](https://github.com/Quirogama)
 
