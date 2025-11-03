@@ -2,6 +2,7 @@
 	import Window from './Window.svelte';
 	import DesktopIcon from './DesktopIcon.svelte';
 	import PDFViewer from './PDFViewer.svelte';
+	import ProjectsViewer from './ProjectsViewer.svelte';
 	import { aboutText, aboutTitle, aboutWidth, aboutHeight } from '$lib/content.js';
 	import { onMount } from 'svelte';
     
@@ -31,7 +32,35 @@
 			id: 'projects',
 			icon: '/icons/proyectos.png',
 			label: 'Projects',
-			content: 'Selected Projects\n\n- Analytics Dashboard (Power BI): ~40% faster analysis.\n- ETL Automation (Python): processes 10k+ records/day.\n- Web Portfolio (Svelte): this Windows 98–style site.\n- Predictive Analysis (ML): prototype with scikit-learn.',
+			componentType: 'projects',
+			componentProps: { 
+				projects: [
+					{
+						title: 'Analytics Dashboard',
+						description: 'Interactive Power BI dashboard that reduced analysis time by ~40%. Real-time metrics tracking with automated data refresh.',
+						tech: 'Power BI, SQL, DAX',
+						image: null
+					},
+					{
+						title: 'ETL Automation Pipeline',
+						description: 'Python-based ETL system processing 10,000+ records daily. Automated data cleaning, transformation, and loading to database.',
+						tech: 'Python, Pandas, SQL, Apache Airflow',
+						image: null
+					},
+					{
+						title: 'Windows 98 Portfolio',
+						description: 'This retro-styled interactive portfolio website. Features draggable windows, taskbar, and classic Windows 98 UI elements.',
+						tech: 'Svelte, SvelteKit, JavaScript, CSS',
+						image: null
+					},
+					{
+						title: 'Predictive Analysis Model',
+						description: 'Machine learning prototype for forecasting trends. Uses regression and classification algorithms with scikit-learn.',
+						tech: 'Python, scikit-learn, Pandas, Matplotlib',
+						image: null
+					}
+				]
+			},
 			x: 16,
 			y: 236
 		},
@@ -133,9 +162,10 @@
 		const id = Math.floor(Math.random() * 100000);
 		const isAbout = icon.id === 'about';
 		const isPDF = icon.componentType === 'pdf';
+		const isProjects = icon.componentType === 'projects';
 		const title = isAbout ? aboutTitle : icon.label;
-		const width = isAbout ? aboutWidth : (isPDF ? 700 : 520);
-		const height = isAbout ? aboutHeight : (isPDF ? 600 : 360);
+		const width = isAbout ? aboutWidth : (isPDF ? 700 : (isProjects ? 650 : 520));
+		const height = isAbout ? aboutHeight : (isPDF ? 600 : (isProjects ? 500 : 360));
 		
 		// Calculate position: slightly offset from previous windows
 		const offset = windows.length * 30;
@@ -197,6 +227,8 @@
 			>
 				{#if w.componentType === 'pdf' && w.componentProps?.src}
 					<PDFViewer src={w.componentProps.src} />
+				{:else if w.componentType === 'projects' && w.componentProps?.projects}
+					<ProjectsViewer projects={w.componentProps.projects} />
 				{:else if w.content}
 					<div style="padding:8px">{w.content}</div>
 				{:else}

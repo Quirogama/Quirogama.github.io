@@ -3,6 +3,7 @@
 	import Desktop from '$lib/Desktop.svelte';
 	import Taskbar from '$lib/Taskbar.svelte';
 	import PDFViewer from '$lib/PDFViewer.svelte';
+	import ProjectsViewer from '$lib/ProjectsViewer.svelte';
 	import { aboutTitle, aboutText, aboutWidth, aboutHeight } from '$lib/content.js';
 	import { onMount } from 'svelte';
 
@@ -94,10 +95,38 @@
 				icon: '/icons/cv.png'
 			},
 			projects: { 
-				title: 'Projects', 
-				content: 'Selected Projects\n\n- Analytics Dashboard (Power BI): ~40% faster analysis.\n- ETL Automation (Python): processes 10k+ records/day.\n- Web Portfolio (Svelte): this Windows 98–style site.\n- Predictive Analysis (ML): prototype with scikit-learn.',
-				width: 520,
-				height: 360,
+				title: 'My Projects - Portfolio', 
+				componentType: 'projects',
+				componentProps: { 
+					projects: [
+						{
+							title: 'Analytics Dashboard',
+							description: 'Interactive Power BI dashboard that reduced analysis time by ~40%. Real-time metrics tracking with automated data refresh.',
+							tech: 'Power BI, SQL, DAX',
+							image: null
+						},
+						{
+							title: 'ETL Automation Pipeline',
+							description: 'Python-based ETL system processing 10,000+ records daily. Automated data cleaning, transformation, and loading to database.',
+							tech: 'Python, Pandas, SQL, Apache Airflow',
+							image: null
+						},
+						{
+							title: 'Windows 98 Portfolio',
+							description: 'This retro-styled interactive portfolio website. Features draggable windows, taskbar, and classic Windows 98 UI elements.',
+							tech: 'Svelte, SvelteKit, JavaScript, CSS',
+							image: null
+						},
+						{
+							title: 'Predictive Analysis Model',
+							description: 'Machine learning prototype for forecasting trends. Uses regression and classification algorithms with scikit-learn.',
+							tech: 'Python, scikit-learn, Pandas, Matplotlib',
+							image: null
+						}
+					]
+				},
+				width: 650,
+				height: 500,
 				appLabel: 'Projects',
 				icon: '/icons/proyectos.png'
 			},
