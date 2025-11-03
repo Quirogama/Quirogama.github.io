@@ -105,6 +105,13 @@
 		display: flex;
 		flex-direction: column;
 	}
+
+	/* Keep windows inside the viewport and avoid overflow on small screens */
+	.window {
+	  max-width: calc(100vw - 40px);
+	  max-height: calc(100vh - 80px); /* leave room for taskbar */
+	  box-sizing: border-box;
+	}
 	/* Preservar saltos de línea del contenido de texto plano */
 	.window-body {
 		white-space: pre-wrap;

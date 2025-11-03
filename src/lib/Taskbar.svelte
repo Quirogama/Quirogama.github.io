@@ -152,12 +152,14 @@
 </div>
 
 <style>
-.taskbar { /* Barra de tareas inferior */
+  .taskbar { /* Barra de tareas inferior */
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 5%;
+    height: 56px; /* fixed height to avoid percentage scaling */
+    min-height: 56px;
+    max-height: 56px;
     display:flex;
     align-items:center;
     padding:4px 6px;
@@ -165,13 +167,16 @@
     background: var(--window-frame, #c0c0c0);
     box-shadow: inset 0 1px 0 #fff;
     z-index: 1000;
+    box-sizing: border-box;
+    overflow: hidden; /* prevent children from expanding the bar */
   }
   .start { display:flex; align-items:center }
   .inicio-wrap {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 6px 10px;
+    height: 44px;
+    padding: 0 10px;
     border-top: 2px solid #ffffff;
     border-left: 2px solid #ffffff;
     border-right: 2px solid #363636;
@@ -201,8 +206,12 @@
   .inicio { /* Botón de inicio */
     font-weight: bold;
     font-family: 'MS Sans Serif', Tahoma, Verdana, Arial, sans-serif;
-    font-size: 24px;
-    line-height: 30px;
+    font-size: 18px;
+    line-height: 44px; /* center vertically inside fixed height */
+    display: inline-block;
+    height: 44px;
+    box-sizing: border-box;
+    overflow: hidden;
   }
   
   /* Barra separadora */
@@ -214,13 +223,14 @@
     flex-shrink: 0;
   }
   
-  .tasks { display:flex; gap:6px; flex:1; padding-left:4px; align-items:center; overflow:hidden }
+  .tasks { display:flex; gap:6px; flex:1; padding-left:4px; align-items:center; overflow-x:auto; overflow-y:hidden; white-space:nowrap; }
   .task { 
     display:flex; 
     align-items:center; 
     gap:6px; 
     padding: 6px 10px;
-    min-height: 45px;
+    height: 40px;
+    line-height: 40px;
     white-space:nowrap; 
     text-overflow:ellipsis; 
     overflow:hidden; 
@@ -231,7 +241,9 @@
     background: var(--window-frame, #c0c0c0);
     cursor: pointer;
     font-family: 'MS Sans Serif', Tahoma, Verdana, Arial, sans-serif;
-    font-size: 16px;
+    font-size: 14px;
+    flex: 0 0 auto;
+    box-sizing: border-box;
   }
   .task:hover {
     background: #d4d4d4;
@@ -246,24 +258,27 @@
     padding: 7px 9px 5px 11px;
   }
   .task-icon { width:16px; height:16px; image-rendering: pixelated; flex-shrink: 0; }
-  .task-label { max-width: 16ch; overflow:hidden; text-overflow: ellipsis; }
-  .tray { padding-right: 8px; display:flex; align-items:center }
+  .task-label { max-width: 12ch; overflow:hidden; text-overflow: ellipsis; display: inline-block; vertical-align: middle; }
+  /* allow horizontal scrolling without scrollbar styling interfering */
+  .tasks::-webkit-scrollbar { height: 6px; }
+  .tasks::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 3px; }
+  .tray { padding-right: 4px; display:flex; align-items:center }
 
   /* Reloj */
   .clock {
     /* Texto */
     font-family: 'MS Sans Serif', Tahoma, Verdana, Arial, sans-serif;
     font-weight: 500;
-    font-size: 24px;
+  font-size: 16px;
     color: #000;
 
     /* Caja del reloj */
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 0 8px;
-    min-width: 120px;
-    height: 44px;
+  gap: 6px;
+  padding: 0 6px;
+  min-width: 96px;
+  height: 44px;
 
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: auto;
@@ -301,6 +316,13 @@
     box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     z-index: 10000;
     padding: 4px 0;
+  }
+
+  /* Responsive tweaks: reduce labels on very small screens */
+  @media (max-width: 420px) {
+    .task-label { display: none; }
+    .inicio { font-size: 16px; line-height: 20px; }
+    .clock { min-width: 90px; font-size: 14px; height: 36px; }
   }
 
   .menu-item {

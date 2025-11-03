@@ -1,6 +1,6 @@
 export const aboutTitle = 'Welcome';
-export const aboutWidth = 760;
-export const aboutHeight = 520;
+export const aboutWidth = 860;
+export const aboutHeight = 600;
 
 export const aboutText = `Andrés Quiroga — Data Analyst & Junior Developer
 

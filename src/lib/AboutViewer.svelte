@@ -25,8 +25,31 @@
       return `<a href="${url}" target="_blank" rel="noopener noreferrer">${match}</a>`;
     });
   }
+
+  // Render paragraph as HTML. If paragraph is a known section title, wrap it
+  // in a title element for bold styling; otherwise run through linkify.
+  function renderParagraphHTML(p) {
+    if (!p) return '';
+    const titles = [
+      'About me',
+      'Tech stack',
+      'Selected projects',
+      'Experience (brief)',
+      'Links',
+      'Contact',
+      'Note'
+    ];
+    const trimmed = p.trim();
+    // case-insensitive compare
+    if (titles.some(t => t.toLowerCase() === trimmed.toLowerCase())) {
+      // escape trimmed and wrap
+      const escaped = trimmed.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return `<div class="about-title">${escaped}</div>`;
+    }
+    return linkify(p);
+  }
   // small tech list - you can expand this later or generate from content
-  const tech = ['Python', 'SQL', 'Power BI', 'Pandas', 'Svelte', 'JavaScript'];
+  const tech = ['Python', 'SQL', 'Power BI', 'Pandas', 'Svelte', 'JavaScript', 'Java', 'HTML/CSS', 'RStudio'];
 
   // map tech name -> colors (background, text, border)
   function chipStyle(name) {
@@ -35,10 +58,13 @@
     const map = {
       python: { bg: '#FFD43B', text: '#000', border: '#D1A700' }, // yellow
       sql: { bg: '#CC3B3B', text: '#fff', border: '#9e2c2c' }, // red
-      'power bi': { bg: '#F2C811', text: '#000', border: '#b38a08' },
+      'power bi': { bg: '#FFB400', text: '#000', border: '#b37a00' }, // adjusted to be distinct from python
       pandas: { bg: '#1f4b99', text: '#fff', border: '#15386d' },
       svelte: { bg: '#FF3E00', text: '#fff', border: '#b02b00' },
-      javascript: { bg: '#F7DF1E', text: '#000', border: '#d6c717' }
+      javascript: { bg: '#F7DF1E', text: '#000', border: '#d6c717' },
+      java: { bg: '#5382a1', text: '#fff', border: '#3f6176' },
+      'html/css': { bg: '#e44d26', text: '#fff', border: '#b03a1f' },
+      rstudio: { bg: '#276DC3', text: '#fff', border: '#1f4f90' }
     };
     const c = map[key] || { bg: '#e0e0e0', text: '#000', border: '#808080' };
     return `background:${c.bg};color:${c.text};border:1px solid ${c.border};`;
@@ -60,7 +86,7 @@
   <div class="about-right">
     {#if paragraphs.length}
       {#each paragraphs as p}
-        <p>{@html linkify(p)}</p>
+  <p>{@html renderParagraphHTML(p)}</p>
       {/each}
     {:else}
       <p>No hay información disponible.</p>
@@ -74,23 +100,27 @@
   .about-root {
     position: relative;
     padding: 8px;
-    /* inherit the page/window font so it matches other boxes */
     color: #000;
   }
-  /* float the left column so text wraps around and flows under when left column ends */
+
+  /* left column floats so text can flow beside/under it */
   .about-left {
     float: left;
-    width: 140px; /* reduced width so text area is larger */
+    width: 140px;
     margin-right: 12px;
     display: block;
   }
+
   .avatar {
     width: 72px;
     height: 72px;
     object-fit: cover;
     border: 2px solid #000000;
     background: #fff;
+    display: block;
+    margin: 0 auto;
   }
+
   .tech-row {
     margin-top: 8px;
     display: flex;
@@ -98,25 +128,40 @@
     gap: 6px;
     justify-content: center;
   }
+
   .chip {
-    background: #e0e0e0;
-    border: 1px solid #808080;
     padding: 2px 6px;
     font-size: 12px;
     border-radius: 3px;
     box-shadow: 1px 1px 0 rgba(255,255,255,0.6) inset;
   }
+
   .about-right {
-    overflow: auto;
+    /* allow text to wrap under the floated left column */
+    overflow: visible;
     padding-right: 6px;
-    /* larger text so About feels more prominent */
-    font-size: 18px;
-    line-height: 1.45;
+    font-size: 20px;
+    line-height: 1.5;
     color: #111;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
   }
+
   .about-right p {
     margin: 0 0 10px 0;
     white-space: pre-wrap;
+  }
+
+  .about-title {
+    font-weight: 700;
+    font-size: 1.05em;
+    margin: 8px 0 6px 0;
+    color: #000;
+    /* underline delineation to make titles stand out */
+    text-decoration: underline;
+    text-decoration-color: rgba(0,0,0,0.9);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
   }
 
   .image-box {
@@ -128,6 +173,7 @@
     justify-content: center;
     align-items: center;
   }
+
   .image-box img {
     width: 120px;
     max-width: 100%;
@@ -148,7 +194,7 @@
     }
     .about-right {
       margin-top: 8px;
-      font-size: 15px;
+      font-size: 18px;
     }
     .image-box img { width: 160px; }
   }
