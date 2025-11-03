@@ -1,15 +1,56 @@
 <script>
-  import { onMount, onDestroy } from 'svelte';
+  import { onMount, onDestroy, createEventDispatcher } from 'svelte';
   
   // tasks: Array<{ id: number, label: string, icon?: string }>
   export let tasks = [];
+  export let activeWindowId = null;
 
   let clock = '';
   let timer;
   let startPressed = false;
+  let startMenuOpen = false;
+  let menuEl;
+  let buttonEl;
+
+  const dispatch = createEventDispatcher();
+
+  function handleTaskClick(taskId) {
+    dispatch('taskclick', { id: taskId });
+  }
+
+  // Menú Start estilo Windows 98
+  const startMenuItems = [
+    { id: 'programs', label: 'Programs', icon: '📁' },
+    { id: 'documents', label: 'Documents', icon: '📄' },
+    { id: 'settings', label: 'Settings', icon: '⚙️' },
+    { id: 'find', label: 'Find', icon: '🔍' },
+    { id: 'help', label: 'Help', icon: '❓' },
+    { id: 'run', label: 'Run...', icon: '▶️' },
+    { id: 'separator', separator: true },
+    { id: 'shutdown', label: 'Shut Down...', icon: '🔌' }
+  ];
 
   function toggleStart() {
-    startPressed = !startPressed;
+    startMenuOpen = !startMenuOpen;
+    startPressed = startMenuOpen;
+  }
+
+  function selectMenuItem(item) {
+    if (item.separator) return;
+    startMenuOpen = false;
+    startPressed = false;
+    dispatch('menuselect', item);
+    // Por ahora solo loguear, después conectaremos acciones reales
+    console.log('Selected:', item.label);
+  }
+
+  function handleClickOutside(e) {
+    if (startMenuOpen && menuEl && buttonEl) {
+      if (!menuEl.contains(e.target) && !buttonEl.contains(e.target)) {
+        startMenuOpen = false;
+        startPressed = false;
+      }
+    }
   }
 
   function updateClock() {
@@ -25,6 +66,10 @@
   onMount(() => {
     updateClock();
     timer = setInterval(updateClock, 1000);
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
   });
 
   onDestroy(() => {
@@ -34,7 +79,7 @@
 
 <div class="taskbar">
   <div class="start">
-    <button class="inicio-wrap" class:pressed={startPressed} on:click={toggleStart}>
+    <button bind:this={buttonEl} class="inicio-wrap" class:pressed={startPressed} on:click={toggleStart}>
       <!-- Icono del botón de inicio -->
       <svg class="inicio-icon" width="20" height="20" viewBox="0 0 16 16" aria-hidden="true">
         <rect x="1" y="1" width="14" height="14" fill="#c0c0c0" stroke="#000" stroke-width="0.5" />
@@ -45,12 +90,42 @@
       </svg>
       <span class="inicio">Start</span>
     </button>
+
+    <!-- Menú Start -->
+    {#if startMenuOpen}
+      <div bind:this={menuEl} class="start-menu">
+        {#each startMenuItems as item}
+          {#if item.separator}
+            <div class="menu-separator"></div>
+          {:else}
+            <button 
+              class="menu-item" 
+              on:click={() => selectMenuItem(item)}
+              on:keydown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  selectMenuItem(item);
+                }
+              }}
+            >
+              <span class="menu-icon">{item.icon}</span>
+              <span class="menu-label">{item.label}</span>
+            </button>
+          {/if}
+        {/each}
+      </div>
+    {/if}
   </div>
   <!-- Barra separadora -->
   <div class="separator"></div>
   <div class="tasks">
     {#each tasks as t}
-      <button class="task" title={t.label}>
+      <button 
+        class="task" 
+        class:active={t.id === activeWindowId}
+        title={t.label}
+        on:click={() => handleTaskClick(t.id)}
+      >
         {#if t.icon}
           <img class="task-icon" src={t.icon} alt="" aria-hidden="true" />
         {/if}
@@ -195,11 +270,11 @@
     -webkit-text-stroke: 0.2px rgba(0,0,0,0.06);
 
     border-top: 2px solid #a1a1a1; /* gray top */
-    border-left: 3px solid #a1a1a1; /* gray left */
-    border-right: 3px solid #ffffff; /* white right */
-    border-bottom: 3px solid #ffffff; /* white bottom */
-  /* Allow easy override via --clock-bg; fallback to window frame gray */
-  background: var(--clock-bg, var(--window-frame, #c0c0c0)); /* sunken window color */
+    border-left: 2px solid #a1a1a1; /* gray left */
+    border-right: 2px solid #ffffff; /* white right */
+    border-bottom: 2px solid #ffffff; /* white bottom */
+    /* Allow easy override via --clock-bg; fallback to window frame gray */
+    background: var(--clock-bg, var(--window-frame, #c0c0c0)); /* sunken window color */
 
     cursor: default;
   }
@@ -208,5 +283,57 @@
     width: 16px;
     height: 16px;
     flex-shrink: 0;
+  }
+
+  /* Menú Start estilo Windows 98 */
+  .start-menu {
+    position: fixed;
+    bottom: 60px;
+    left: 6px;
+    width: 220px;
+    background: var(--window-frame, #c0c0c0);
+    border-top: 2px solid #ffffff;
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #363636;
+    border-bottom: 2px solid #363636;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    z-index: 10000;
+    padding: 4px 0;
+  }
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 8px 12px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: 'MS Sans Serif', Tahoma, Verdana, Arial, sans-serif;
+    font-size: 16px;
+    text-align: left;
+    outline: none;
+  }
+
+  .menu-item:hover {
+    background: #000080;
+    color: #ffffff;
+  }
+
+  .menu-icon {
+    font-size: 18px;
+    width: 20px;
+    flex-shrink: 0;
+  }
+
+  .menu-label {
+    flex: 1;
+  }
+
+  .menu-separator {
+    height: 2px;
+    margin: 4px 8px;
+    background: linear-gradient(to bottom, #808080, #ffffff);
   }
 </style>

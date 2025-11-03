@@ -27,32 +27,8 @@ body {
 	overflow: hidden;
 }
 
-.taskbar .clock {
-	/* Use the same system font stack as the desktop window for a classic Win98 look */
-	font-family: 'MS Sans Serif', Tahoma, Verdana, Arial, sans-serif;
-	font-variant-numeric: tabular-nums;
-	font-size: 26px;
-	line-height: 1;
-	padding: 6px 10px;
-	height: 40px;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-}
-/* Clock visual moved to Taskbar.svelte to avoid global overrides */
-.taskbar .clock {
-	transform: none;
-	/* Intentionally no background/border here: component controls it */
-	box-shadow: none;
-	cursor: default; /* not interactive */
-}
-
-/* Give the taskbar itself a slightly lighter top edge to appear raised */
-.taskbar {
-	background: linear-gradient(#efefef, #dcdcdc);
-	border-top: 2px solid rgba(255,255,255,0.9);
-}
-/* Clock block above replaced to increase size and center content */
+/* All taskbar and clock styles moved to Taskbar.svelte component */
+/* No global overrides to avoid conflicts */
 
 /* ensure desktop area doesn't go under the taskbar */
 .desktop {

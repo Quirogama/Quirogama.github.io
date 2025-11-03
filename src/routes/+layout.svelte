@@ -37,9 +37,38 @@
 
 	let tasks = $derived(
 		windows
-			.filter((w) => !w.minimized && !w.hiddenInTaskbar)
+			.filter((w) => !w.hiddenInTaskbar)
 			.map((w) => ({ id: w.id, label: w.appLabel ?? w.title, icon: w.icon }))
 	);
+
+	let activeWindowId = $derived(
+		windows.reduce((maxW, w) => (!w.minimized && w.z > (maxW?.z ?? 0) ? w : maxW), null)?.id ?? null
+	);
+
+	function handleTaskClick(event) {
+		const { id } = event.detail;
+		const window = windows.find(w => w.id === id);
+		if (!window) return;
+
+		if (window.minimized) {
+			// Restaurar y traer al frente
+			const newZ = Math.max(...windows.map(w => w.z ?? 0)) + 1;
+			windows = windows.map(w => 
+				w.id === id ? { ...w, minimized: false, z: newZ } : w
+			);
+		} else if (id === activeWindowId) {
+			// Si ya está activa, minimizar
+			windows = windows.map(w => 
+				w.id === id ? { ...w, minimized: true } : w
+			);
+		} else {
+			// Si está visible pero no activa, traer al frente
+			const newZ = Math.max(...windows.map(w => w.z ?? 0)) + 1;
+			windows = windows.map(w => 
+				w.id === id ? { ...w, z: newZ } : w
+			);
+		}
+	}
 </script>
 
 <svelte:head>
@@ -48,7 +77,7 @@
 
 <div class="shell-root">
 	<Desktop bind:windows />
-	<Taskbar {tasks} />
+	<Taskbar {tasks} {activeWindowId} on:taskclick={handleTaskClick} />
 </div>
 
 <!-- Panel desplegable (caja) con toda la info relevante, estilo Win98 -->

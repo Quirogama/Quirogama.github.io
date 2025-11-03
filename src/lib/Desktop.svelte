@@ -161,20 +161,27 @@
 	{/each}
 
 	{#each windows as w (w.id)}
-		<Window
-			title={w.title}
-			width={w.width}
-			height={w.height}
-			left={w.left ?? 40}
-			top={w.top ?? 40}
-			z={w.z}
-			onclose={() => {
-				windows = windows.filter(win => win.id !== w.id);
-			}}
-			onfocus={() => bringToFront(w.id)}
-		>
-			<div style="padding:8px">{w.content}</div>
-		</Window>
+		{#if !w.minimized}
+			<Window
+				title={w.title}
+				width={w.width}
+				height={w.height}
+				left={w.left ?? 40}
+				top={w.top ?? 40}
+				z={w.z}
+				onclose={() => {
+					windows = windows.filter(win => win.id !== w.id);
+				}}
+				onminimize={() => {
+					windows = windows.map(win => 
+						win.id === w.id ? { ...win, minimized: true } : win
+					);
+				}}
+				onfocus={() => bringToFront(w.id)}
+			>
+				<div style="padding:8px">{w.content}</div>
+			</Window>
+		{/if}
 	{/each}
 </div>
 
