@@ -1,6 +1,6 @@
-export const aboutTitle = 'Welcome - Andrés Quiroga';
-export const aboutWidth = 650;
-export const aboutHeight = 420;
+export const aboutTitle = 'Welcome';
+export const aboutWidth = 760;
+export const aboutHeight = 520;
 
 export const aboutText = `Andrés Quiroga — Data Analyst & Junior Developer
 
@@ -30,7 +30,7 @@ Links
 
 Contact
 • Email: (add your email here)
-• LinkedIn: (coming soon)
+• LinkedIn: https://www.linkedin.com/in/quirogama/
 
 Note
 Scroll inside this window to read the full content.`;

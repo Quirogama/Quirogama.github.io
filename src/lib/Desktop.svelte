@@ -3,6 +3,7 @@
 	import DesktopIcon from './DesktopIcon.svelte';
 	import PDFViewer from './PDFViewer.svelte';
 	import ProjectsViewer from './ProjectsViewer.svelte';
+	import AboutViewer from './AboutViewer.svelte';
 	import { aboutText, aboutTitle, aboutWidth, aboutHeight } from '$lib/content.js';
 	import { onMount } from 'svelte';
     
@@ -15,6 +16,7 @@
 			id: 'about',
 			icon: '/icons/sobremi.png',
 			label: 'About Me',
+			componentType: 'about',
 			content: aboutText,
 			x: 16,
 			y: 16
@@ -90,8 +92,8 @@
 		}
 	]);
 
-	const ICON_W = 110; // icon slot width
-	const ICON_H = 110; // vertical spacing
+	const ICON_W = 96; // icon slot width (reduced)
+	const ICON_H = 96; // vertical spacing (reduced)
 	const MARGIN_X = 16;
 	const MARGIN_Y = 16;
 
@@ -141,6 +143,42 @@
 		if (typeof window !== 'undefined') {
 			window.addEventListener('resize', handler);
 		}
+
+		// Auto-open the About window on first load so the change is visible in preview
+		// Use a small timeout so the UI has time to mount
+		const aboutIcon = icons.find(i => i.id === 'about');
+		if (aboutIcon && windows.length === 0) {
+			setTimeout(() => {
+				// guard in case user already opened windows quickly
+				if (windows.length === 0) {
+					openIcon(aboutIcon);
+					// also create a second 'About' window on the left to serve as the additional box
+					// only add it if windows is still small (avoid duplicates)
+					setTimeout(() => {
+						if (windows.length <= 1) {
+							zCounter = zCounter + 1;
+							const leftWin = {
+								id: Math.floor(Math.random() * 100000),
+								title: aboutTitle + ' (Left)',
+								width: Math.min(420, aboutWidth - 100),
+								height: Math.max(300, aboutHeight - 40),
+								left: 40,
+								top: 100,
+								z: zCounter,
+								content: aboutText,
+								minimized: false,
+								appLabel: 'About',
+								icon: aboutIcon.icon,
+								componentType: 'about',
+								componentProps: null
+							};
+							windows = [...windows, leftWin];
+						}
+					}, 80);
+				}
+			}, 150);
+		}
+
 		return () => {
 			if (typeof window !== 'undefined') {
 				window.removeEventListener('resize', handler);
@@ -229,6 +267,8 @@
 					<PDFViewer src={w.componentProps.src} />
 				{:else if w.componentType === 'projects' && w.componentProps?.projects}
 					<ProjectsViewer projects={w.componentProps.projects} />
+				{:else if w.componentType === 'about'}
+					<AboutViewer content={w.content} />
 				{:else if w.content}
 					<div style="padding:8px">{w.content}</div>
 				{:else}

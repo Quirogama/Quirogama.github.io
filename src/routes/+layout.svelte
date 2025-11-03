@@ -33,7 +33,10 @@
 			hiddenInTaskbar: true,
 			get left() { return centerLeft; },
 			get top() { return centerTop; },
-			content: aboutText
+			content: aboutText,
+			// Open with the new AboutViewer component (so links and layout apply)
+			componentType: 'about',
+			componentProps: { content: aboutText }
 		}
 	]);
 
