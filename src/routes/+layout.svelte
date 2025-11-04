@@ -133,6 +133,14 @@
 				appLabel: 'Projects',
 				icon: '/icons/proyectos.png'
 			},
+			paint: {
+				title: 'Paint',
+				componentType: 'paint',
+				width: 700,
+				height: 410,
+				appLabel: 'Paint',
+				icon: '/icons/paint.png'
+			},
 			github: { 
 				title: 'GitHub', 
 				content: 'GitHub — @Quirogama\n\nExplore my repos: data analysis, Python automation, web apps, and notebooks.\nLink: github.com/Quirogama',

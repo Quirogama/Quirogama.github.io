@@ -72,6 +72,8 @@
 </script>
 
 <div class="about-root">
+  <!-- ensure .about-title selector is recognized by the compiler (used via {@html}) -->
+  <div class="about-title" style="display:none" aria-hidden="true"></div>
   <div class="about-left">
     <div class="image-box">
       <img src="/icons/sobremi.png" alt="avatar" class="avatar" />
@@ -140,7 +142,7 @@
     /* allow text to wrap under the floated left column */
     overflow: visible;
     padding-right: 6px;
-    font-size: 20px;
+    font-size: 22px;
     line-height: 1.5;
     color: #111;
     text-rendering: optimizeLegibility;
@@ -152,7 +154,7 @@
     white-space: pre-wrap;
   }
 
-  .about-title {
+  :global(.about-title) {
     font-weight: 700;
     font-size: 1.05em;
     margin: 8px 0 6px 0;

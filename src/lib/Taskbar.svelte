@@ -21,6 +21,7 @@
   // Menú Start con las aplicaciones reales del portfolio
   const startMenuItems = [
     { id: 'about', label: 'About Me', icon: '/icons/sobremi.png', isImage: true },
+    { id: 'paint', label: 'Paint', icon: '/icons/paint.png', isImage: true },
     { id: 'cv', label: 'Resume', icon: '/icons/cv.png', isImage: true },
     { id: 'projects', label: 'Projects', icon: '/icons/proyectos.png', isImage: true },
     { id: 'github', label: 'GitHub', icon: '/icons/github.png', isImage: true },
@@ -157,15 +158,16 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 56px; /* fixed height to avoid percentage scaling */
-    min-height: 56px;
-    max-height: 56px;
+    height: 50px; /* ajustado a 50px como pediste */
+    min-height: 50px;
+    max-height: 50px;
     display:flex;
     align-items:center;
     padding:4px 6px;
     gap:8px;
     background: var(--window-frame, #c0c0c0);
-    box-shadow: inset 0 1px 0 #fff;
+    /* aumentar el resaltado blanco superior a 2px para mayor definición */
+    box-shadow: inset 0 2px 0 #fff;
     z-index: 1000;
     box-sizing: border-box;
     overflow: hidden; /* prevent children from expanding the bar */
@@ -175,12 +177,13 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    height: 44px;
-    padding: 0 10px;
-    border-top: 2px solid #ffffff;
-    border-left: 2px solid #ffffff;
-    border-right: 2px solid #363636;
-    border-bottom: 2px solid #363636;
+    height: 38px; /* un poco más alto */
+    padding: 0 10px; /* más espacio horizontal */
+    /* reducir el borde exterior a 1px para quitar 1px blanco/negro alrededor */
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #363636;
+    border-bottom: 1px solid #363636;
     background: var(--window-frame, #c0c0c0);
     cursor: pointer;
     font-family: 'MS Sans Serif', Tahoma, Verdana, Arial, sans-serif;
@@ -192,11 +195,11 @@
   }
   .inicio-wrap.pressed {
     /* Bordes invertidos para efecto presionado */
-    border-top: 2px solid #363636;
-    border-left: 2px solid #363636;
-    border-right: 2px solid #ffffff;
-    border-bottom: 2px solid #ffffff;
-    padding: 7px 9px 5px 11px; /* Desplazar contenido ligeramente */
+    border-top: 1px solid #363636;
+    border-left: 1px solid #363636;
+    border-right: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+    padding: 4px 8px 3px 9px; /* Ajustado para la nueva altura/padding */
   }
   .inicio-icon {
     width: 20px;
@@ -206,10 +209,10 @@
   .inicio { /* Botón de inicio */
     font-weight: bold;
     font-family: 'MS Sans Serif', Tahoma, Verdana, Arial, sans-serif;
-    font-size: 18px;
-    line-height: 44px; /* center vertically inside fixed height */
+    font-size: 17px; /* un poquito más grande */
+    line-height: 38px; /* centrar verticalmente con la nueva altura */
     display: inline-block;
-    height: 44px;
+    height: 38px;
     box-sizing: border-box;
     overflow: hidden;
   }
@@ -217,7 +220,7 @@
   /* Barra separadora */
   .separator {
     width: 2px;
-    height: 80%;
+    height: 78%;
     background: linear-gradient(to right, #808080, #ffffff);
     margin: 0 4px;
     flex-shrink: 0;
@@ -228,9 +231,9 @@
     display:flex; 
     align-items:center; 
     gap:6px; 
-    padding: 6px 10px;
-    height: 40px;
-    line-height: 40px;
+    padding: 4px 8px;
+    height: 32px;
+    line-height: 32px;
     white-space:nowrap; 
     text-overflow:ellipsis; 
     overflow:hidden; 
@@ -241,7 +244,7 @@
     background: var(--window-frame, #c0c0c0);
     cursor: pointer;
     font-family: 'MS Sans Serif', Tahoma, Verdana, Arial, sans-serif;
-    font-size: 14px;
+    font-size: 14px; /* aumentar un poco el texto de los botones */
     flex: 0 0 auto;
     box-sizing: border-box;
   }
@@ -255,30 +258,31 @@
     border-left: 2px solid #363636;
     border-right: 2px solid #ffffff;
     border-bottom: 2px solid #ffffff;
-    padding: 7px 9px 5px 11px;
+    padding: 5px 7px 4px 9px;
   }
   .task-icon { width:16px; height:16px; image-rendering: pixelated; flex-shrink: 0; }
   .task-label { max-width: 12ch; overflow:hidden; text-overflow: ellipsis; display: inline-block; vertical-align: middle; }
   /* allow horizontal scrolling without scrollbar styling interfering */
   .tasks::-webkit-scrollbar { height: 6px; }
   .tasks::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 3px; }
-  .tray { padding-right: 4px; display:flex; align-items:center }
+  .tray { padding-right: 2px; display:flex; align-items:center }
 
   /* Reloj */
   .clock {
     /* Texto */
     font-family: 'MS Sans Serif', Tahoma, Verdana, Arial, sans-serif;
     font-weight: 500;
-  font-size: 16px;
+    font-size: 19px; /* un poquito más grande */
     color: #000;
 
     /* Caja del reloj */
     display: flex;
     align-items: center;
-  gap: 6px;
-  padding: 0 6px;
-  min-width: 96px;
-  height: 44px;
+    justify-content: center; /* centrar icono + texto horizontalmente */
+    gap: 10px; /* separar más el icono del número */
+    padding: 0 6px;
+    min-width: 110px; /* un poco más ancho para dar espacio horizontal */
+    height: 36px;
 
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: auto;

@@ -4,6 +4,7 @@
 	import PDFViewer from './PDFViewer.svelte';
 	import ProjectsViewer from './ProjectsViewer.svelte';
 	import AboutViewer from './AboutViewer.svelte';
+	import PaintViewer from './PaintViewer.svelte';
 	import { aboutText, aboutTitle, aboutWidth, aboutHeight } from '$lib/content.js';
 	import { onMount } from 'svelte';
     
@@ -61,10 +62,18 @@
 						tech: 'Python, scikit-learn, Pandas, Matplotlib',
 						image: null
 					}
-				]
-			},
+					]
+				},
 			x: 16,
 			y: 236
+		},
+		{
+			id: 'paint',
+			icon: '/icons/paint.png',
+			label: 'Paint',
+			componentType: 'paint',
+			x: 16,
+			y: 456
 		},
 		{ 
 			id: 'github', 
@@ -201,9 +210,11 @@
 		const isAbout = icon.id === 'about';
 		const isPDF = icon.componentType === 'pdf';
 		const isProjects = icon.componentType === 'projects';
+        const isPaint = icon.componentType === 'paint';
 		const title = isAbout ? aboutTitle : icon.label;
-		const width = isAbout ? aboutWidth : (isPDF ? 700 : (isProjects ? 650 : 520));
-		const height = isAbout ? aboutHeight : (isPDF ? 600 : (isProjects ? 500 : 360));
+	// adjust Paint default to be a bit larger for comfortable drawing
+	const width = isAbout ? aboutWidth : (isPDF ? 700 : (isProjects ? 650 : (isPaint ? 700 : 520)));
+	const height = isAbout ? aboutHeight : (isPDF ? 600 : (isProjects ? 500 : (isPaint ? 410 : 360)));
 		
 		// Calculate position: slightly offset from previous windows
 		const offset = windows.length * 30;
@@ -269,6 +280,8 @@
 					<ProjectsViewer projects={w.componentProps.projects} />
 				{:else if w.componentType === 'about'}
 					<AboutViewer content={w.content} />
+				{:else if w.componentType === 'paint'}
+					<PaintViewer />
 				{:else if w.content}
 					<div style="padding:8px">{w.content}</div>
 				{:else}
