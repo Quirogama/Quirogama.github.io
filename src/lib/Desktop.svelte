@@ -113,9 +113,9 @@
 	function updateLayoutMode() {
 		if (typeof window === 'undefined') return;
 		const screenHeight = window.innerHeight;
-		// If screen is short (< 600px), use row-major (left-to-right, then down)
+		// If screen is short (< 598px), use row-major (left-to-right, then down)
 		// Otherwise use column-major (top-to-bottom, then right)
-		if (screenHeight < 600) {
+		if (screenHeight < 598) {
 			layoutMode = 'row';
 			maxPerLine = Math.floor((window.innerWidth - MARGIN_X * 2) / (ICON_W + 8)) || 3;
 		} else {

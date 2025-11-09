@@ -117,6 +117,55 @@
     if (tool === 'fill') {
       bucketFill(Math.round(p.x), Math.round(p.y));
     }
+    // focus the canvas so keyboard shortcuts work only when the canvas is active
+    try { canvasEl && canvasEl.focus && canvasEl.focus(); } catch (err) {}
+  }
+
+  function keydownHandler(e) {
+    // Only act when the canvas is focused (it will be when the user clicked it)
+    // ignore when modifiers are held to avoid interfering with browser shortcuts
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    const k = e.key.toLowerCase();
+    if (k === 'p') {
+      tool = 'pencil';
+      e.preventDefault();
+    } else if (k === 'l') {
+      tool = 'line';
+      e.preventDefault();
+    } else if (k === 'r') {
+      tool = 'rect';
+      e.preventDefault();
+    } else if (k === 'f') {
+      tool = 'fill';
+      e.preventDefault();
+    } else if (k === 'e') {
+      tool = 'eraser';
+      e.preventDefault();
+    } else if (k === 's') {
+      // save
+      savePNG();
+      e.preventDefault();
+    } else if (k === 'c') {
+      // clear
+      clearCanvas();
+      e.preventDefault();
+    } else if (k === 'escape') {
+      // cancel preview/shape
+      if (snapshot) {
+        try { ctx.putImageData(snapshot, 0, 0); } catch (err) {}
+        snapshot = null;
+      }
+      drawing = false;
+      e.preventDefault();
+    } else if (e.key === 'ArrowLeft') {
+      // step brush size down
+      size = Math.max(1, size - 1);
+      e.preventDefault();
+    } else if (e.key === 'ArrowRight') {
+      // step brush size up
+      size = Math.min(64, size + 1);
+      e.preventDefault();
+    }
   }
 
   function pointerMove(e) {
@@ -330,10 +379,12 @@
       <div class="canvas-wrap">
         <canvas
           bind:this={canvasEl}
-            on:pointerdown={(e) => { beginPreview(e); pointerDown(e); }}
+          tabindex="0"
+          on:keydown={keydownHandler}
+          on:pointerdown={(e) => { beginPreview(e); pointerDown(e); }}
           on:pointermove={pointerMove}
           on:pointerup={pointerUp}
-            on:pointerleave={pointerLeave}
+          on:pointerleave={pointerLeave}
           on:pointerenter={pointerEnter}
         ></canvas>
       </div>
