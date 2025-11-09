@@ -273,6 +273,12 @@
 					);
 				}}
 				onfocus={() => bringToFront(w.id)}
+				onresize={({ width, height, left, top }) => {
+					windows = windows.map(win => win.id === w.id ? { ...win, width, height, left, top } : win);
+				}}
+				onmove={({ width, height, left, top }) => {
+					windows = windows.map(win => win.id === w.id ? { ...win, width, height, left, top } : win);
+				}}
 			>
 				{#if w.componentType === 'pdf' && w.componentProps?.src}
 					<PDFViewer src={w.componentProps.src} />
