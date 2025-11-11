@@ -107,21 +107,17 @@
 	const MARGIN_Y = 16;
 
 	// Determine layout direction based on screen height
+	// Keep layoutMode as 'column' (top-to-bottom) at all viewport heights
 	let layoutMode = $state('column'); // 'column' or 'row'
 	let maxPerLine = $state(4);
 
 	function updateLayoutMode() {
 		if (typeof window === 'undefined') return;
 		const screenHeight = window.innerHeight;
-		// If screen is short (< 598px), use row-major (left-to-right, then down)
-		// Otherwise use column-major (top-to-bottom, then right)
-		if (screenHeight < 598) {
-			layoutMode = 'row';
-			maxPerLine = Math.floor((window.innerWidth - MARGIN_X * 2) / (ICON_W + 8)) || 3;
-		} else {
-			layoutMode = 'column';
-			maxPerLine = Math.floor((screenHeight - 100) / ICON_H) || 4;
-		}
+		// Always use column-major (top-to-bottom), even on short viewports.
+		// Calculate how many icons fit vertically; ensure at least 1 per column.
+		layoutMode = 'column';
+		maxPerLine = Math.max(1, Math.floor((screenHeight - 100) / ICON_H));
 		repositionIcons();
 	}
 
