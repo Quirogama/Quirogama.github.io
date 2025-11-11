@@ -199,7 +199,9 @@
     border-left: 1px solid #363636;
     border-right: 1px solid #ffffff;
     border-bottom: 1px solid #ffffff;
-    padding: 4px 8px 3px 9px; /* Ajustado para la nueva altura/padding */
+    /* Keep padding the same to avoid width jumps; use a translate for visual press */
+    padding: 0 10px;
+    transform: translateY(1px);
   }
   .inicio-icon {
     width: 20px;
@@ -210,11 +212,13 @@
     font-weight: bold;
     font-family: 'MS Sans Serif', Tahoma, Verdana, Arial, sans-serif;
     font-size: 17px; /* un poquito más grande */
-    line-height: 38px; /* centrar verticalmente con la nueva altura */
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     height: 38px;
     box-sizing: border-box;
     overflow: hidden;
+    min-width: 48px; /* ensure button keeps a sensible size on narrow screens */
+    justify-content: center;
   }
   
   /* Barra separadora */
@@ -281,8 +285,10 @@
     justify-content: center; /* centrar icono + texto horizontalmente */
     gap: 10px; /* separar más el icono del número */
     padding: 0 6px;
-    min-width: 110px; /* un poco más ancho para dar espacio horizontal */
-    height: 36px;
+  min-width: 110px; /* un poco más ancho para dar espacio horizontal */
+  height: 36px;
+  display:inline-flex;
+  align-items:center;
 
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: auto;
@@ -325,8 +331,11 @@
   /* Responsive tweaks: reduce labels on very small screens */
   @media (max-width: 420px) {
     .task-label { display: none; }
-    .inicio { font-size: 16px; line-height: 20px; }
+    /* Keep heights consistent to avoid layout jumps. Reduce font sizes but preserve box sizes. */
+    .inicio { font-size: 14px; }
+  .inicio-wrap .inicio-icon { width: 18px; height: 18px; }
     .clock { min-width: 90px; font-size: 14px; height: 36px; }
+    .inicio-wrap { padding: 0 8px; }
   }
 
   .menu-item {
