@@ -5,6 +5,10 @@
 	import ProjectsViewer from './ProjectsViewer.svelte';
 	import AboutViewer from './AboutViewer.svelte';
 	import PaintViewer from './PaintViewer.svelte';
+	import NotesViewer from './NotesViewer.svelte';
+	import Calculator from './Calculator.svelte';
+	import GalleryViewer from './GalleryViewer.svelte';
+	import MiniBrowser from './MiniBrowser.svelte';
 	import { aboutText, aboutTitle, aboutWidth, aboutHeight } from '$lib/content.js';
 	import { onMount } from 'svelte';
     
@@ -97,6 +101,39 @@
 			label: 'Contact',
 			content: 'Contact\n\nLocation: [Your city/country]\nEmail: email@example.com\nGitHub: @Quirogama\n\nI can help with: actionable analysis, automation, dashboards, and web development.',
 			x: 134,
+			y: 126
+		}
+		,
+		{
+			id: 'notes',
+			icon: '/icons/solitaire.png',
+			label: 'Notes',
+			componentType: 'notes',
+			x: 134,
+			y: 236
+		},
+		{
+			id: 'calc',
+			icon: '/icons/cv.png',
+			label: 'Calculator',
+			componentType: 'calc',
+			x: 134,
+			y: 346
+		},
+		{
+			id: 'gallery',
+			icon: '/icons/solitaire.png',
+			label: 'Gallery',
+			componentType: 'gallery',
+			x: 252,
+			y: 16
+		},
+		{
+			id: 'browser',
+			icon: '/icons/github.png',
+			label: 'Mini Browser',
+			componentType: 'browser',
+			x: 252,
 			y: 126
 		}
 	]);
@@ -209,8 +246,9 @@
         const isPaint = icon.componentType === 'paint';
 		const title = isAbout ? aboutTitle : icon.label;
 	// adjust Paint default to be a bit larger for comfortable drawing
-	const width = isAbout ? aboutWidth : (isPDF ? 700 : (isProjects ? 650 : (isPaint ? 700 : 520)));
-	const height = isAbout ? aboutHeight : (isPDF ? 600 : (isProjects ? 500 : (isPaint ? 410 : 360)));
+	// default sizes, make calculator narrower to avoid wide horizontal layout
+	const width = isAbout ? aboutWidth : (isPDF ? 700 : (isProjects ? 650 : (isPaint ? 700 : (icon.componentType === 'calc' ? 360 : 520))));
+	const height = isAbout ? aboutHeight : (isPDF ? 600 : (isProjects ? 500 : (isPaint ? 410 : (icon.componentType === 'calc' ? 390 : 360))));
 		
 		// Calculate position: slightly offset from previous windows
 		const offset = windows.length * 30;
@@ -284,6 +322,14 @@
 					<AboutViewer content={w.content} />
 				{:else if w.componentType === 'paint'}
 					<PaintViewer />
+				{:else if w.componentType === 'notes'}
+					<NotesViewer />
+				{:else if w.componentType === 'calc'}
+					<Calculator />
+				{:else if w.componentType === 'gallery'}
+					<GalleryViewer />
+				{:else if w.componentType === 'browser'}
+					<MiniBrowser />
 				{:else if w.content}
 					<div style="padding:8px">{w.content}</div>
 				{:else}

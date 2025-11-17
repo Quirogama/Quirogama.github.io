@@ -427,8 +427,9 @@
   .brush-range { width:120px; }
   .wide { padding:6px 8px; background:#e9e9e9; border:2px outset #fff; cursor:pointer; }
 
-  .palette-row { display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
-  .swatch { width:36px; height:18px; border:1px solid #333; padding:0; margin:0; cursor:pointer; box-sizing:border-box; }
+  .palette-row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  /* larger square swatches and prevent them from shrinking */
+  .swatch { width:28px; height:28px; border:1px solid #333; padding:0; margin:0; cursor:pointer; box-sizing:border-box; flex: 0 0 auto; }
   .swatch.selected { outline: 2px solid #000; box-shadow: 0 0 0 2px #fff inset; }
   /* ensure no extra space under the palette (clamped to 0px) */
   .bottom-spacer { height: 0px; }
