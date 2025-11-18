@@ -9,6 +9,8 @@
 	import Calculator from './Calculator.svelte';
 	import GalleryViewer from './GalleryViewer.svelte';
 	import MiniBrowser from './MiniBrowser.svelte';
+	import MinesweeperViewer from './MinesweeperViewer.svelte';
+	import TetrisViewer from './TetrisViewer.svelte';
 	import { aboutText, aboutTitle, aboutWidth, aboutHeight } from '$lib/content.js';
 	import { onMount } from 'svelte';
     
@@ -106,7 +108,7 @@
 		,
 		{
 			id: 'notes',
-			icon: '/icons/solitaire.png',
+			icon: '/icons/notepad.png',
 			label: 'Notes',
 			componentType: 'notes',
 			x: 134,
@@ -122,7 +124,7 @@
 		},
 		{
 			id: 'gallery',
-			icon: '/icons/solitaire.png',
+			icon: '/icons/gallery.png',
 			label: 'Gallery',
 			componentType: 'gallery',
 			x: 252,
@@ -130,11 +132,28 @@
 		},
 		{
 			id: 'browser',
-			icon: '/icons/github.png',
+			icon: '/icons/browser.png',
 			label: 'Mini Browser',
 			componentType: 'browser',
 			x: 252,
 			y: 126
+		}
+		,
+		{
+			id: 'tetris',
+			icon: '/icons/tetris.png',
+			label: 'Tetris',
+			componentType: 'tetris',
+			x: 252,
+			y: 236
+		},
+		{
+			id: 'minesweeper',
+			icon: '/icons/minesweeper.png',
+			label: 'Minesweeper',
+			componentType: 'minesweeper',
+			x: 252,
+			y: 346
 		}
 	]);
 
@@ -330,6 +349,10 @@
 					<GalleryViewer />
 				{:else if w.componentType === 'browser'}
 					<MiniBrowser />
+				{:else if w.componentType === 'tetris'}
+					<TetrisViewer />
+				{:else if w.componentType === 'minesweeper'}
+					<MinesweeperViewer />
 				{:else if w.content}
 					<div style="padding:8px">{w.content}</div>
 				{:else}

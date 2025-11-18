@@ -79,14 +79,8 @@
 <div class="taskbar">
   <div class="start">
     <button bind:this={buttonEl} class="inicio-wrap" class:pressed={startPressed} on:click={toggleStart}>
-      <!-- Icono del botón de inicio -->
-      <svg class="inicio-icon" width="20" height="20" viewBox="0 0 16 16" aria-hidden="true">
-        <rect x="1" y="1" width="14" height="14" fill="#c0c0c0" stroke="#000" stroke-width="0.5" />
-        <rect x="3" y="3" width="4" height="4" fill="#008080" />
-        <rect x="9" y="3" width="4" height="4" fill="#ff0000" />
-        <rect x="3" y="9" width="4" height="4" fill="#ffff00" />
-        <rect x="9" y="9" width="4" height="4" fill="#0000ff" />
-      </svg>
+      <!-- Icono del botón de inicio (usando imagen windows.png) -->
+      <img class="inicio-icon" src="/icons/windows.png" alt="Start" />
       <span class="inicio">Start</span>
     </button>
 
@@ -139,13 +133,8 @@
   <div class="tray">
     <!-- clock is display-only -->
     <span class="clock" aria-hidden="false">
-      <!-- Icono del reloj -->
-      <svg class="clock-icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-        <circle cx="8" cy="8" r="6.5" fill="none" stroke="#000" stroke-width="0.8" />
-        <line x1="8" y1="8" x2="8" y2="4.5" stroke="#000" stroke-width="1" />
-        <line x1="8" y1="8" x2="10.5" y2="8" stroke="#000" stroke-width="0.8" />
-        <circle cx="8" cy="8" r="0.8" fill="#000" />
-      </svg>
+      <!-- Icono del reloj (usando image clock.png) -->
+      <img class="clock-icon" src="/icons/clock.png" alt="" aria-hidden="true" />
       {clock}
     </span>
     <!-- right-side "inicio" removed as requested -->
@@ -204,14 +193,14 @@
     transform: translateY(1px);
   }
   .inicio-icon {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     flex-shrink: 0;
   }
   .inicio { /* Botón de inicio */
     font-weight: bold;
     font-family: 'MS Sans Serif', Tahoma, Verdana, Arial, sans-serif;
-    font-size: 17px; /* un poquito más grande */
+    font-size: 19px; /* increased 2px */
     display: inline-flex;
     align-items: center;
     height: 38px;
