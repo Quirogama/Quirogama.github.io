@@ -6,6 +6,7 @@
 	import ProjectsViewer from '$lib/ProjectsViewer.svelte';
 	import { aboutTitle, aboutText, aboutWidth, aboutHeight } from '$lib/content.js';
 	import { onMount } from 'svelte';
+	import '../global.css';
 
 	let { children } = $props();
 

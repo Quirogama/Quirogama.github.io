@@ -83,6 +83,16 @@ Combino habilidades técnicas con pensamiento analítico para:- npm (o yarn, pnp
 
 ## 🏃‍♂️ Ejecutar Localmente
 
+### Requisitos Previos
+
+Antes de comenzar, asegúrate de tener instalado:
+
+- **Node.js** (versión 18 o superior): [Descargar aquí](https://nodejs.org/)
+  - Recomendamos la versión LTS (Long Term Support)
+  - npm se instala automáticamente con Node.js
+
+### Instalación
+
 ```bash
 # Clonar el repositorio
 git clone https://github.com/Quirogama/Quirogama.github.io.git
