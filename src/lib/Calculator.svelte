@@ -1,20 +1,23 @@
 <script>
-  let display = '0';
+  let display = '0'; // Pantalla de la calculadora
 
+  // Agrega un número o símbolo a la pantalla
   function press(v) {
     if (display === '0' && v !== '.') display = String(v);
     else display = display + String(v);
   }
 
+  // Limpia la pantalla
   function clear() { display = '0'; }
 
+  // Elimina el último carácter
   function back() { display = display.length > 1 ? display.slice(0, -1) : '0'; }
 
+  // Calcula y muestra el resultado
   function evalExpr() {
     try {
-      // very small sandbox: allow only numbers and operators
+      // Valida que solo haya números y operadores permitidos
       if (!/^[0-9+\-*/. ()]+$/.test(display)) return;
-      // eslint-disable-next-line no-eval
       const val = eval(display);
       display = String(Number.isFinite(val) ? val : '0');
     } catch (e) {
@@ -26,34 +29,34 @@
 
 <div class="calc-root">
   <div class="grid">
-    <!-- Display occupies the top row and spans all 4 columns -->
+    <!-- Pantalla que ocupa toda la fila superior -->
     <div class="display" style="grid-column:1 / -1;">{display}</div>
 
-    <!-- Row 1: 7 8 9 / -->
+    <!-- Fila 1: 7 8 9 / -->
     <button class="num" on:click={() => press('7')}>7</button>
     <button class="num" on:click={() => press('8')}>8</button>
     <button class="num" on:click={() => press('9')}>9</button>
     <button on:click={() => press('/')}>/</button>
 
-    <!-- Row 2: 4 5 6 * -->
+    <!-- Fila 2: 4 5 6 * -->
     <button class="num" on:click={() => press('4')}>4</button>
     <button class="num" on:click={() => press('5')}>5</button>
     <button class="num" on:click={() => press('6')}>6</button>
     <button on:click={() => press('*')}>*</button>
 
-    <!-- Row 3: 1 2 3 - -->
+    <!-- Fila 3: 1 2 3 - -->
     <button class="num" on:click={() => press('1')}>1</button>
     <button class="num" on:click={() => press('2')}>2</button>
     <button class="num" on:click={() => press('3')}>3</button>
     <button on:click={() => press('-')}>-</button>
 
-    <!-- Row 4: C 0 . + -->
+    <!-- Fila 4: C 0 . + -->
     <button on:click={clear}>C</button>
     <button class="num" on:click={() => press('0')}>0</button>
     <button on:click={() => press('.')}>.</button>
     <button on:click={() => press('+')}>+</button>
 
-    <!-- Row 5: Back spans 3 columns, = on the right -->
+    <!-- Fila 5: Back ocupa 3 columnas, = a la derecha -->
     <button class="back" style="grid-column: 1 / span 3;" on:click={back}>Back</button>
     <button class="equals" on:click={evalExpr}>=</button>
   </div>

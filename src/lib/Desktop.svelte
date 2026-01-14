@@ -12,12 +12,12 @@
 	import MinesweeperViewer from './MinesweeperViewer.svelte';
 	import TetrisViewer from './TetrisViewer.svelte';
 	import { aboutText, aboutTitle, aboutWidth, aboutHeight } from '$lib/content.js';
+	import { projects, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y } from '$lib/windowsConfig.js';
 	import { onMount } from 'svelte';
     
 	let { windows = $bindable([]) } = $props();
 
-	// example icons for the portfolio desktop
-	// icons without positions will be laid out adaptively
+	// Lista de iconos del escritorio con su información: id, imagen, etiqueta y componente
 	let icons = $state([
 		{
 			id: 'about',
@@ -42,34 +42,7 @@
 			icon: '/icons/proyectos.png',
 			label: 'Projects',
 			componentType: 'projects',
-			componentProps: { 
-				projects: [
-					{
-						title: 'Analytics Dashboard',
-						description: 'Interactive Power BI dashboard that reduced analysis time by ~40%. Real-time metrics tracking with automated data refresh.',
-						tech: 'Power BI, SQL, DAX',
-						image: null
-					},
-					{
-						title: 'ETL Automation Pipeline',
-						description: 'Python-based ETL system processing 10,000+ records daily. Automated data cleaning, transformation, and loading to database.',
-						tech: 'Python, Pandas, SQL, Apache Airflow',
-						image: null
-					},
-					{
-						title: 'Windows 98 Portfolio',
-						description: 'This retro-styled interactive portfolio website. Features draggable windows, taskbar, and classic Windows 98 UI elements.',
-						tech: 'Svelte, SvelteKit, JavaScript, CSS',
-						image: null
-					},
-					{
-						title: 'Predictive Analysis Model',
-						description: 'Machine learning prototype for forecasting trends. Uses regression and classification algorithms with scikit-learn.',
-						tech: 'Python, scikit-learn, Pandas, Matplotlib',
-						image: null
-					}
-					]
-				},
+			componentProps: { projects },
 			x: 16,
 			y: 236
 		},
@@ -157,47 +130,40 @@
 		}
 	]);
 
-	const ICON_W = 96; // icon slot width (reduced)
-	const ICON_H = 96; // vertical spacing (reduced)
-	const MARGIN_X = 16;
-	const MARGIN_Y = 16;
+	// Constantes para el layout de los iconos en el escritorio
+	const ICON_W = 96; // ancho del slot del icono
+	const ICON_H = 96; // alto del slot del icono
+	const MARGIN_X = 16; // margen izquierdo
+	const MARGIN_Y = 16; // margen superior
 
-	// Determine layout direction based on screen height
-	// Keep layoutMode as 'column' (top-to-bottom) at all viewport heights
-	let layoutMode = $state('column'); // 'column' or 'row'
-	let maxPerLine = $state(4);
+	// Modo de layout: 'column' para vertical (de arriba a abajo)
+	let layoutMode = $state('column');
+	let maxPerLine = $state(4); // máximo de iconos por línea
 
+	// Recalcula el layout basado en la altura de la pantalla
 	function updateLayoutMode() {
 		if (typeof window === 'undefined') return;
 		const screenHeight = window.innerHeight;
-		// Always use column-major (top-to-bottom), even on short viewports.
-		// Calculate how many icons fit vertically; ensure at least 1 per column.
+		// Calcula cuántos iconos caben verticalmente
 		layoutMode = 'column';
 		maxPerLine = Math.max(1, Math.floor((screenHeight - 100) / ICON_H));
 		repositionIcons();
 	}
 
+	// Reposiciona todos los iconos según el layout actual
 	function repositionIcons() {
 		icons = icons.map((ic, i) => {
 			let x, y;
-			if (layoutMode === 'row') {
-				// Row-major: left to right, then down
-				const row = Math.floor(i / maxPerLine);
-				const col = i % maxPerLine;
-				x = MARGIN_X + col * (ICON_W + 8);
-				y = MARGIN_Y + row * ICON_H;
-			} else {
-				// Column-major: top to bottom, then right
-				const col = Math.floor(i / maxPerLine);
-				const row = i % maxPerLine;
-				x = MARGIN_X + col * (ICON_W + 8);
-				y = MARGIN_Y + row * ICON_H;
-			}
+			// Distribuye los iconos de arriba a abajo, de izquierda a derecha
+			const col = Math.floor(i / maxPerLine);
+			const row = i % maxPerLine;
+			x = MARGIN_X + col * (ICON_W + 8);
+			y = MARGIN_Y + row * ICON_H;
 			return { ...ic, x, y };
 		});
 	}
 
-	// Initial layout + resize listener (once on mount)
+	// Al cargar, inicializa el layout y abre la ventana de "Sobre mí" automáticamente
 	onMount(() => {
 		updateLayoutMode();
 		const handler = () => updateLayoutMode();
@@ -205,16 +171,13 @@
 			window.addEventListener('resize', handler);
 		}
 
-		// Auto-open the About window on first load so the change is visible in preview
-		// Use a small timeout so the UI has time to mount
+		// Abre automáticamente la ventana "About Me" cuando carga el sitio por primera vez
 		const aboutIcon = icons.find(i => i.id === 'about');
 		if (aboutIcon && windows.length === 0) {
 			setTimeout(() => {
-				// guard in case user already opened windows quickly
 				if (windows.length === 0) {
 					openIcon(aboutIcon);
-					// also create a second 'About' window on the left to serve as the additional box
-					// only add it if windows is still small (avoid duplicates)
+					// Abre una segunda ventana "About" a la izquierda
 					setTimeout(() => {
 						if (windows.length <= 1) {
 							zCounter = zCounter + 1;
@@ -247,8 +210,10 @@
 		};
 	});
 
-	// bring a window to front by id
+	// Contador para controlar el orden de profundidad (z-index) de las ventanas
 	let zCounter = $state(Math.max(0, ...windows.map(w => w.z ?? 0)) || 1);
+	
+	// Trae una ventana al frente incrementando su z-index
 	function bringToFront(id) {
 		zCounter = zCounter + 1;
 		windows = windows.map(w => w.id === id ? { ...w, z: zCounter } : w);
@@ -256,23 +221,22 @@
 
 	let selectedIconId = $state(null);
 
+	// Abre un ícono del escritorio y crea una nueva ventana
 	function openIcon(icon) {
-		// Create a new window entry and push (larger default size)
 		const id = Math.floor(Math.random() * 100000);
 		const isAbout = icon.id === 'about';
-		const isPDF = icon.componentType === 'pdf';
-		const isProjects = icon.componentType === 'projects';
-        const isPaint = icon.componentType === 'paint';
 		const title = isAbout ? aboutTitle : icon.label;
-	// adjust Paint default to be a bit larger for comfortable drawing
-	// default sizes, make calculator narrower to avoid wide horizontal layout
-	const width = isAbout ? aboutWidth : (isPDF ? 700 : (isProjects ? 650 : (isPaint ? 700 : (icon.componentType === 'calc' ? 360 : 520))));
-	const height = isAbout ? aboutHeight : (isPDF ? 600 : (isProjects ? 500 : (isPaint ? 410 : (icon.componentType === 'calc' ? 390 : 360))));
 		
-		// Calculate position: slightly offset from previous windows
-		const offset = windows.length * 30;
-		const left = 100 + offset;
-		const top = 100 + offset;
+		// Define tamaños específicos según el tipo de aplicación usando constantes
+		const componentType = icon.componentType;
+		const sizes = WINDOW_SIZES[componentType] || WINDOW_SIZES.default;
+		const width = isAbout ? aboutWidth : sizes.width;
+		const height = isAbout ? aboutHeight : sizes.height;
+		
+		// Posiciona la nueva ventana con un pequeño offset respecto a la anterior
+		const offset = windows.length * WINDOW_OFFSET;
+		const left = WINDOW_INITIAL_X + offset;
+		const top = WINDOW_INITIAL_Y + offset;
 		
 		zCounter = zCounter + 1;
 		const newWindow = { 
@@ -296,6 +260,7 @@
 </script>
 
 <div class="desktop">
+	<!-- Renderiza todos los iconos del escritorio -->
 	{#each icons as ic}
 		<DesktopIcon 
 			icon={ic.icon} 
@@ -308,6 +273,7 @@
 		/>
 	{/each}
 
+	<!-- Renderiza todas las ventanas abiertas -->
 	{#each windows as w (w.id)}
 		{#if !w.minimized}
 			<Window
@@ -333,6 +299,7 @@
 					windows = windows.map(win => win.id === w.id ? { ...win, width, height, left, top } : win);
 				}}
 			>
+				<!-- Renderiza el componente correspondiente según el tipo de ventana -->
 				{#if w.componentType === 'pdf' && w.componentProps?.src}
 					<PDFViewer src={w.componentProps.src} />
 				{:else if w.componentType === 'projects' && w.componentProps?.projects}
@@ -364,7 +331,7 @@
 </div>
 
 <style>
-	/* Let the desktop fill the available space inside .shell-root (which already accounts for the taskbar) */
+	/* El escritorio ocupa todo el espacio disponible y maneja el overflow de ventanas */
 	.desktop {
 		position: relative;
 		width: 100%;

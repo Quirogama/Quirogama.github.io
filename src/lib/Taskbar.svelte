@@ -1,7 +1,7 @@
 <script>
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
   
-  // tasks: Array<{ id: number, label: string, icon?: string }>
+  // Props: lista de tareas (ventanas abiertas) y la ventana activa
   export let tasks = [];
   export let activeWindowId = null;
 
@@ -14,11 +14,12 @@
 
   const dispatch = createEventDispatcher();
 
+  // Maneja el click en una tarea para activarla
   function handleTaskClick(taskId) {
     dispatch('taskclick', { id: taskId });
   }
 
-  // Menú Start con las aplicaciones reales del portfolio
+  // Lista de elementos del menú Start con las aplicaciones disponibles
   const startMenuItems = [
     { id: 'about', label: 'About Me', icon: '/icons/sobremi.png', isImage: true },
     { id: 'paint', label: 'Paint', icon: '/icons/paint.png', isImage: true },
@@ -31,11 +32,13 @@
     { id: 'shutdown', label: 'Shut Down...', icon: '🔌' }
   ];
 
+  // Alterna la visibilidad del menú Start
   function toggleStart() {
     startMenuOpen = !startMenuOpen;
     startPressed = startMenuOpen;
   }
 
+  // Selecciona un elemento del menú y cierra el menú
   function selectMenuItem(item) {
     if (item.separator) return;
     startMenuOpen = false;
@@ -43,6 +46,7 @@
     dispatch('menuselect', item);
   }
 
+  // Cierra el menú si el usuario hace click fuera de él
   function handleClickOutside(e) {
     if (startMenuOpen && menuEl && buttonEl) {
       if (!menuEl.contains(e.target) && !buttonEl.contains(e.target)) {
@@ -52,6 +56,7 @@
     }
   }
 
+  // Actualiza la hora en el reloj
   function updateClock() {
     const d = new Date();
     let hours = d.getHours();
@@ -62,6 +67,7 @@
     clock = `${hours}:${minutes} ${ampm}`;
   }
 
+  // Al montar: inicializa el reloj, lo actualiza cada segundo, y monitorea clicks externos
   onMount(() => {
     updateClock();
     timer = setInterval(updateClock, 1000);
@@ -71,20 +77,22 @@
     };
   });
 
+  // Al desmontar: limpia el intervalo del reloj
   onDestroy(() => {
     clearInterval(timer);
   });
 </script>
 
 <div class="taskbar">
+  <!-- Botón de inicio y menú Start -->
   <div class="start">
     <button bind:this={buttonEl} class="inicio-wrap" class:pressed={startPressed} on:click={toggleStart}>
-      <!-- Icono del botón de inicio (usando imagen windows.png) -->
+      <!-- Icono del botón de inicio -->
       <img class="inicio-icon" src="/icons/windows.png" alt="Start" />
       <span class="inicio">Start</span>
     </button>
 
-    <!-- Menú Start -->
+    <!-- Menú Start con las aplicaciones disponibles -->
     {#if startMenuOpen}
       <div bind:this={menuEl} class="start-menu">
         {#each startMenuItems as item}
@@ -113,8 +121,10 @@
       </div>
     {/if}
   </div>
-  <!-- Barra separadora -->
+  <!-- Barra separadora entre menú Start y tareas -->
   <div class="separator"></div>
+  
+  <!-- Lista de tareas (ventanas abiertas) -->
   <div class="tasks">
     {#each tasks as t}
       <button 
@@ -130,14 +140,14 @@
       </button>
     {/each}
   </div>
+  
+  <!-- Bandeja del sistema con el reloj -->
   <div class="tray">
-    <!-- clock is display-only -->
     <span class="clock" aria-hidden="false">
-      <!-- Icono del reloj (usando image clock.png) -->
+      <!-- Icono del reloj -->
       <img class="clock-icon" src="/icons/clock.png" alt="" aria-hidden="true" />
       {clock}
     </span>
-    <!-- right-side "inicio" removed as requested -->
   </div>
 </div>
 
@@ -183,12 +193,11 @@
     background: #d4d4d4;
   }
   .inicio-wrap.pressed {
-    /* Bordes invertidos para efecto presionado */
+    /* Bordes invertidos para dar efecto de presionado */
     border-top: 1px solid #363636;
     border-left: 1px solid #363636;
     border-right: 1px solid #ffffff;
     border-bottom: 1px solid #ffffff;
-    /* Keep padding the same to avoid width jumps; use a translate for visual press */
     padding: 0 10px;
     transform: translateY(1px);
   }
@@ -197,16 +206,17 @@
     height: 22px;
     flex-shrink: 0;
   }
-  .inicio { /* Botón de inicio */
+  .inicio {
+    /* Texto del botón de inicio */
     font-weight: bold;
     font-family: 'MS Sans Serif', Tahoma, Verdana, Arial, sans-serif;
-    font-size: 19px; /* increased 2px */
+    font-size: 19px;
     display: inline-flex;
     align-items: center;
     height: 38px;
     box-sizing: border-box;
     overflow: hidden;
-    min-width: 48px; /* ensure button keeps a sensible size on narrow screens */
+    min-width: 48px;
     justify-content: center;
   }
   
@@ -246,26 +256,36 @@
   }
   .task:active,
   .task.active {
-    /* Estado presionado/activo */
+    /* Estado cuando la tarea está activa o presionada */
     border-top: 2px solid #363636;
     border-left: 2px solid #363636;
     border-right: 2px solid #ffffff;
     border-bottom: 2px solid #ffffff;
     padding: 5px 7px 4px 9px;
   }
-  .task-icon { width:16px; height:16px; image-rendering: pixelated; flex-shrink: 0; }
-  .task-label { max-width: 12ch; overflow:hidden; text-overflow: ellipsis; display: inline-block; vertical-align: middle; }
-  /* allow horizontal scrolling without scrollbar styling interfering */
+  .task-icon { 
+    width:16px; 
+    height:16px; 
+    image-rendering: pixelated; 
+    flex-shrink: 0; 
+  }
+  .task-label { 
+    max-width: 12ch; 
+    overflow:hidden; 
+    text-overflow: ellipsis; 
+    display: inline-block; 
+    vertical-align: middle; 
+  }
+  /* Permite scroll horizontal sin interferar con los estilos */
   .tasks::-webkit-scrollbar { height: 6px; }
   .tasks::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 3px; }
   .tray { padding-right: 2px; display:flex; align-items:center }
 
-  /* Reloj */
+  /* Estilos del reloj en la bandeja del sistema */
   .clock {
-    /* Texto */
     font-family: 'MS Sans Serif', Tahoma, Verdana, Arial, sans-serif;
     font-weight: 500;
-    font-size: 19px; /* un poquito más grande */
+    font-size: 19px;
     color: #000;
 
     /* Caja del reloj */
@@ -285,12 +305,12 @@
     font-variant-numeric: tabular-nums;
     -webkit-text-stroke: 0.2px rgba(0,0,0,0.06);
 
-    border-top: 2px solid #a1a1a1; /* gray top */
-    border-left: 2px solid #a1a1a1; /* gray left */
-    border-right: 2px solid #ffffff; /* white right */
-    border-bottom: 2px solid #ffffff; /* white bottom */
-    /* Allow easy override via --clock-bg; fallback to window frame gray */
-    background: var(--clock-bg, var(--window-frame, #c0c0c0)); /* sunken window color */
+    border-top: 2px solid #a1a1a1; /* borde gris superior */
+    border-left: 2px solid #a1a1a1; /* borde gris izquierdo */
+    border-right: 2px solid #ffffff; /* borde blanco derecho */
+    border-bottom: 2px solid #ffffff; /* borde blanco inferior */
+    /* Permite personalizar el fondo del reloj */
+    background: var(--clock-bg, var(--window-frame, #c0c0c0));
 
     cursor: default;
   }
@@ -301,7 +321,7 @@
     flex-shrink: 0;
   }
 
-  /* Menú Start estilo Windows 98 */
+  /* Estilos del menú Start tipo Windows 98 */
   .start-menu {
     position: fixed;
     bottom: 60px;
@@ -317,7 +337,7 @@
     padding: 4px 0;
   }
 
-  /* Responsive tweaks: reduce labels on very small screens */
+  /* Ajustes responsivos: reduce etiquetas en pantallas muy pequeñas */
   @media (max-width: 420px) {
     .task-label { display: none; }
     /* Keep heights consistent to avoid layout jumps. Reduce font sizes but preserve box sizes. */

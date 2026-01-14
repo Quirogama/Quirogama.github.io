@@ -20,17 +20,17 @@
 	let origLeft = $state(0);
 	let origTop = $state(0);
 
-	// resizing state
+	// Estado para el redimensionamiento de la ventana
 	let resizing = $state(false);
-	let resizeDir = $state(null); // 'n','s','e','w','ne','nw','se','sw'
+	let resizeDir = $state(null); // Dirección: n, s, e, w, ne, nw, se, sw
 	let rStartX = $state(0);
 	let rStartY = $state(0);
 	let rStartW = $state(0);
 	let rStartH = $state(0);
 	let rOrigLeft = $state(0);
 	let rOrigTop = $state(0);
-	const MIN_W = 200;
-	const MIN_H = 120;
+	const MIN_W = 200; // ancho mínimo de la ventana
+	const MIN_H = 120; // alto mínimo de la ventana
 
 	function close() {
 		onclose();
@@ -40,19 +40,19 @@
 		onminimize();
 	}
 
+	// Maneja el inicio del arrastre o redimensionamiento de la ventana
 	function onPointerDown(e) {
-		// only start drag on title bar presses
+		// Inicia arrastre si se presiona la barra de título
 		if (e.target.closest('.title-bar')) {
 			dragging = true;
 			startX = e.clientX;
 			startY = e.clientY;
 			origLeft = left;
 			origTop = top;
-			// capture pointer so we keep getting events
 			e.target.setPointerCapture?.(e.pointerId);
 			onfocus();
 		}
-		// start resize when pointer down on a resize-handle
+		// Inicia redimensionamiento si se presiona una manija de resize
 		const handle = e.target.closest('.resize-handle');
 		if (handle) {
 			resizing = true;
@@ -68,29 +68,33 @@
 		}
 	}
 
+	// Maneja el movimiento del puntero para arrastre o redimensionamiento
 	function onPointerMove(e) {
 		if (resizing) {
-			// compute deltas
+			// Calcula la diferencia de píxeles desde donde comenzó el redimensionamiento
 			const dx = e.clientX - rStartX;
 			const dy = e.clientY - rStartY;
 			let newW = rStartW;
 			let newH = rStartH;
 			let newL = rOrigLeft;
 			let newT = rOrigTop;
+			// Redimensiona desde la derecha
 			if (resizeDir.includes('e')) {
 				newW = Math.max(MIN_W, Math.min(window.innerWidth - 16, rStartW + dx));
 			}
+			// Redimensiona desde abajo
 			if (resizeDir.includes('s')) {
 				newH = Math.max(MIN_H, Math.min(window.innerHeight - 80, rStartH + dy));
 			}
+			// Redimensiona desde la izquierda
 			if (resizeDir.includes('w')) {
 				newW = Math.max(MIN_W, Math.min(window.innerWidth - 16, rStartW - dx));
 				newL = Math.max(8, rOrigLeft + dx);
-				// if newW smaller than MIN_W, clamp left accordingly
 				if (rStartW - dx < MIN_W) {
 					newL = rOrigLeft + (rStartW - MIN_W);
 				}
 			}
+			// Redimensiona desde arriba
 			if (resizeDir.includes('n')) {
 				newH = Math.max(MIN_H, Math.min(window.innerHeight - 80, rStartH - dy));
 				newT = Math.max(8, rOrigTop + dy);
@@ -105,25 +109,27 @@
 			return;
 		}
 		if (!dragging) return;
+		// Calcula la diferencia de píxeles desde donde comenzó el arrastre
 		const dx = e.clientX - startX;
 		const dy = e.clientY - startY;
 		left = Math.max(8, origLeft + dx);
 		top = Math.max(8, origTop + dy);
 	}
 
+	// Maneja el final del arrastre o redimensionamiento
 	function onPointerUp(e) {
 		if (resizing) {
 			resizing = false;
 			resizeDir = null;
 			e.target.releasePointerCapture?.(e.pointerId);
-			// persist size/position to parent
+			// Notifica al padre los nuevos tamaño y posición
 			onresize({ width, height, left, top });
 			return;
 		}
 		if (!dragging) return;
 		dragging = false;
 		e.target.releasePointerCapture?.(e.pointerId);
-		// persist position to parent
+		// Notifica al padre la nueva posición
 		onmove({ width, height, left, top });
 	}
 </script>
@@ -144,10 +150,10 @@
 		}
 	}}
 >
-		<!-- resize handles: 8 handles for edges and corners -->
-		<div class="resize-handle handle-n" data-dir="n" onpointerdown={onPointerDown} aria-hidden="true"></div>
-		<div class="resize-handle handle-e" data-dir="e" onpointerdown={onPointerDown} aria-hidden="true"></div>
-		<div class="resize-handle handle-s" data-dir="s" onpointerdown={onPointerDown} aria-hidden="true"></div>
+	<!-- Manijas de redimensionamiento en los 8 lados y esquinas -->
+	<div class="resize-handle handle-n" data-dir="n" onpointerdown={onPointerDown} aria-hidden="true"></div>
+	<div class="resize-handle handle-e" data-dir="e" onpointerdown={onPointerDown} aria-hidden="true"></div>
+	<div class="resize-handle handle-s" data-dir="s" onpointerdown={onPointerDown} aria-hidden="true"></div>
 		<div class="resize-handle handle-w" data-dir="w" onpointerdown={onPointerDown} aria-hidden="true"></div>
 		<div class="resize-handle handle-ne" data-dir="ne" onpointerdown={onPointerDown} aria-hidden="true"></div>
 		<div class="resize-handle handle-nw" data-dir="nw" onpointerdown={onPointerDown} aria-hidden="true"></div>
