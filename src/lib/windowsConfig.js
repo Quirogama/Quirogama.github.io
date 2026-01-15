@@ -71,13 +71,13 @@ export const projects = [
 	}
 ];
 
-// Tamaños por defecto de ventanas según tipo (evita números mágicos)
+// Tamaños por defecto de cada ventana 
 export const WINDOW_SIZES = {
-	about: { width: 1000, height: 580 },
+	about: { width: 850, height: 580 },
 	pdf: { width: 700, height: 600 },
 	projects: { width: 750, height: 550 },
 	paint: { width: 700, height: 410 },
-	calc: { width: 360, height: 390 },
+	calc: { width: 260, height: 390 },
 	default: { width: 520, height: 360 }
 };
 

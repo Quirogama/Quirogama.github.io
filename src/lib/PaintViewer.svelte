@@ -2,40 +2,34 @@
   import { onMount } from 'svelte';
   let canvasEl;
   let ctx;
-  // Tamaño del canvas
-  export let width = 600;
-  export let height = 240;
+  export let width = 550;
+  export let height = 350;
 
-  // Variables de estado
-  let isOutside = false; // Si el puntero está fuera del canvas
-  let tool = 'pencil'; // Herramienta seleccionada
-  let color = '#000000'; // Color actual
-  let bg = '#ffffff'; // Color de fondo
-  let size = 4; // Tamaño del pincel
+  let tool = 'pencil';
+  let color1 = '#000000';
+  let color2 = '#FFFFFF';
+  let size = 1;
 
-  // Paleta de colores clásica de MS Paint
   const palette = [
-    '#000000', '#808080', '#C0C0C0', '#FFFFFF', // negros/blancos
-    '#800000', '#FF0000', '#FFA500', '#FFFF00', // rojos/naranja/amarillo
-    '#008000', '#00FF00', '#00FFFF', '#0000FF', // verdes/cianes/azules
-    '#800080', '#A52A2A' // púrpura/marrón
+    '#000000', '#808080', '#800000', '#808000', '#008000', '#008080', '#000080', '#800080',
+    '#808040', '#004040', '#0080FF', '#004080', '#8000FF', '#804000',
+    '#FFFFFF', '#C0C0C0', '#FF0000', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#FF00FF',
+    '#FFFF80', '#00FF80', '#80FFFF', '#8080FF', '#FF0080', '#FF8040'
   ];
 
-  let drawing = false; // Si se está dibujando actualmente
-  let start = { x: 0, y: 0 }; // Punto de inicio del trazo
-  let last = { x: 0, y: 0 }; // Último punto del trazo
-  let wasDrawingOnLeave = false; // Si estaba dibujando cuando el puntero salió
+  let drawing = false;
+  let start = { x: 0, y: 0 };
+  let last = { x: 0, y: 0 };
+  let snapshot = null;
+  let wasDrawingOnLeave = false;
 
-  // Inicializa el canvas y el contexto 2D
   onMount(() => {
     ctx = canvasEl.getContext('2d');
     resizeCanvas();
-    // Rellena el fondo
-    ctx.fillStyle = bg;
+    ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(0, 0, canvasEl.width, canvasEl.height);
   });
 
-  // Redimensiona el canvas considerando la densidad de píxeles del dispositivo
   function resizeCanvas() {
     const dpr = window.devicePixelRatio || 1;
     canvasEl.width = width * dpr;
@@ -46,7 +40,6 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  // Convierte coordenadas del evento a coordenadas del canvas
   function toLocal(e) {
     const rect = canvasEl.getBoundingClientRect();
     const xClient = e.clientX - rect.left;
@@ -58,67 +51,25 @@
     return { x: xClient * scaleX, y: yClient * scaleY };
   }
 
-  // Inicia el dibujo cuando se presiona el puntero
   function pointerDown(e) {
     const p = toLocal(e);
     drawing = true;
     start = { ...p };
     last = { ...p };
-    if (tool === 'pencil' || tool === 'eraser') {
+    if (tool === 'pencil' || tool === 'brush' || tool === 'eraser') {
       ctx.beginPath();
       ctx.moveTo(p.x, p.y);
     }
     if (tool === 'fill') {
       bucketFill(Math.round(p.x), Math.round(p.y));
     }
-    try { canvasEl && canvasEl.focus && canvasEl.focus(); } catch (err) {}
-  }
-
-  // Maneja los atajos de teclado
-  function keydownHandler(e) {
-    if (e.ctrlKey || e.metaKey || e.altKey) return;
-    const k = e.key.toLowerCase();
-    if (k === 'p') {
-      tool = 'pencil';
-      e.preventDefault();
-    } else if (k === 'l') {
-      tool = 'line';
-      e.preventDefault();
-    } else if (k === 'r') {
-      tool = 'rect';
-      e.preventDefault();
-    } else if (k === 'f') {
-      tool = 'fill';
-      e.preventDefault();
-    } else if (k === 'e') {
-      tool = 'eraser';
-      e.preventDefault();
-    } else if (k === 's') {
-      savePNG();
-      e.preventDefault();
-    } else if (k === 'c') {
-      clearCanvas();
-      e.preventDefault();
-    } else if (k === 'escape') {
-      // Cancela la previsualización
-      if (snapshot) {
-        try { ctx.putImageData(snapshot, 0, 0); } catch (err) {}
-        snapshot = null;
-      }
+    if (tool === 'picker') {
+      pickColor(Math.round(p.x), Math.round(p.y));
       drawing = false;
-      e.preventDefault();
-    } else if (e.key === 'ArrowLeft') {
-      size = Math.max(1, size - 1);
-      e.preventDefault();
-    } else if (e.key === 'ArrowRight') {
-      size = Math.min(64, size + 1);
-      e.preventDefault();
     }
   }
 
-  // Dibuja mientras se mueve el puntero
   function pointerMove(e) {
-    try { canvasEl.releasePointerCapture && canvasEl.releasePointerCapture(e.pointerId); } catch (err) {}
     if (e && typeof e.buttons !== 'undefined' && e.buttons === 0) {
       if (drawing) {
         drawing = false;
@@ -129,50 +80,83 @@
     if (!drawing) return;
     const p = toLocal(e);
     if (tool === 'pencil') {
-      ctx.strokeStyle = color;
+      ctx.strokeStyle = color1;
       ctx.lineWidth = size;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.lineTo(p.x, p.y);
+      ctx.stroke();
+      last = p;
+    } else if (tool === 'brush') {
+      ctx.strokeStyle = color1;
+      ctx.lineWidth = size * 3;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
       ctx.lineTo(p.x, p.y);
       ctx.stroke();
       last = p;
     } else if (tool === 'eraser') {
-      ctx.strokeStyle = bg;
-      ctx.lineWidth = size * 2;
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = size * 4;
+      ctx.lineCap = 'square';
       ctx.lineTo(p.x, p.y);
       ctx.stroke();
       last = p;
     } else {
-      // Muestra previsualización para líneas y rectángulos
       redrawPreview(p);
     }
   }
 
-  let snapshot = null; // Almacena la imagen para previsualizaciones
-
-  // Finaliza el dibujo cuando se suelta el puntero
   function pointerUp(e) {
     if (!drawing) return;
     drawing = false;
     const p = toLocal(e);
     if (tool === 'line') {
-      ctx.strokeStyle = color;
+      ctx.strokeStyle = color1;
       ctx.lineWidth = size;
+      ctx.lineCap = 'round';
       ctx.beginPath();
       ctx.moveTo(start.x, start.y);
       ctx.lineTo(p.x, p.y);
       ctx.stroke();
     } else if (tool === 'rect') {
-      ctx.strokeStyle = color;
+      ctx.strokeStyle = color1;
       ctx.lineWidth = size;
       const x = Math.min(start.x, p.x);
       const y = Math.min(start.y, p.y);
       const w = Math.abs(p.x - start.x);
       const h = Math.abs(p.y - start.y);
       ctx.strokeRect(x, y, w, h);
+    } else if (tool === 'ellipse') {
+      ctx.strokeStyle = color1;
+      ctx.lineWidth = size;
+      const x = Math.min(start.x, p.x);
+      const y = Math.min(start.y, p.y);
+      const w = Math.abs(p.x - start.x);
+      const h = Math.abs(p.y - start.y);
+      ctx.beginPath();
+      ctx.ellipse(x + w/2, y + h/2, w/2, h/2, 0, 0, 2 * Math.PI);
+      ctx.stroke();
+    } else if (tool === 'rectFilled') {
+      ctx.fillStyle = color1;
+      const x = Math.min(start.x, p.x);
+      const y = Math.min(start.y, p.y);
+      const w = Math.abs(p.x - start.x);
+      const h = Math.abs(p.y - start.y);
+      ctx.fillRect(x, y, w, h);
+    } else if (tool === 'ellipseFilled') {
+      ctx.fillStyle = color1;
+      const x = Math.min(start.x, p.x);
+      const y = Math.min(start.y, p.y);
+      const w = Math.abs(p.x - start.x);
+      const h = Math.abs(p.y - start.y);
+      ctx.beginPath();
+      ctx.ellipse(x + w/2, y + h/2, w/2, h/2, 0, 0, 2 * Math.PI);
+      ctx.fill();
     }
     snapshot = null;
   }
 
-  // Maneja cuando el puntero sale del canvas
   function pointerLeave(e) {
     if (drawing && e && typeof e.buttons !== 'undefined' && e.buttons !== 0) {
       wasDrawingOnLeave = true;
@@ -181,17 +165,13 @@
     }
     drawing = false;
     snapshot = null;
-    try { ctx.closePath(); ctx.beginPath(); } catch (err) {}
   }
 
-  // Maneja cuando el puntero entra al canvas nuevamente
   function pointerEnter(e) {
     if (wasDrawingOnLeave && e && typeof e.buttons !== 'undefined' && e.buttons !== 0) {
       const p = toLocal(e);
-      try {
-        ctx.beginPath();
-        ctx.moveTo(p.x, p.y);
-      } catch (err) {}
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y);
       drawing = true;
       wasDrawingOnLeave = false;
       start = { ...p };
@@ -201,17 +181,18 @@
     if (drawing) drawing = false;
     wasDrawingOnLeave = false;
     snapshot = null;
-    try { ctx.closePath(); ctx.beginPath(); } catch (err) {}
     start = { x: 0, y: 0 };
     last = { x: 0, y: 0 };
   }
 
-  // Redibuja la previsualización de líneas y rectángulos
   function redrawPreview(p) {
     if (!snapshot) return;
     ctx.putImageData(snapshot, 0, 0);
-    ctx.strokeStyle = color;
+    ctx.strokeStyle = color1;
+    ctx.fillStyle = color1;
     ctx.lineWidth = size;
+    ctx.lineCap = 'round';
+    
     if (tool === 'line') {
       ctx.beginPath();
       ctx.moveTo(start.x, start.y);
@@ -223,23 +204,42 @@
       const w = Math.abs(p.x - start.x);
       const h = Math.abs(p.y - start.y);
       ctx.strokeRect(x, y, w, h);
+    } else if (tool === 'ellipse') {
+      const x = Math.min(start.x, p.x);
+      const y = Math.min(start.y, p.y);
+      const w = Math.abs(p.x - start.x);
+      const h = Math.abs(p.y - start.y);
+      ctx.beginPath();
+      ctx.ellipse(x + w/2, y + h/2, w/2, h/2, 0, 0, 2 * Math.PI);
+      ctx.stroke();
+    } else if (tool === 'rectFilled') {
+      const x = Math.min(start.x, p.x);
+      const y = Math.min(start.y, p.y);
+      const w = Math.abs(p.x - start.x);
+      const h = Math.abs(p.y - start.y);
+      ctx.fillRect(x, y, w, h);
+    } else if (tool === 'ellipseFilled') {
+      const x = Math.min(start.x, p.x);
+      const y = Math.min(start.y, p.y);
+      const w = Math.abs(p.x - start.x);
+      const h = Math.abs(p.y - start.y);
+      ctx.beginPath();
+      ctx.ellipse(x + w/2, y + h/2, w/2, h/2, 0, 0, 2 * Math.PI);
+      ctx.fill();
     }
   }
 
-  // Guarda el snapshot para previsualizaciones
-  function beginPreview(e) {
-    if (tool === 'line' || tool === 'rect') {
+  function beginPreview() {
+    if (tool === 'line' || tool === 'rect' || tool === 'ellipse' || tool === 'rectFilled' || tool === 'ellipseFilled') {
       snapshot = ctx.getImageData(0, 0, canvasEl.width, canvasEl.height);
     }
   }
 
-  // Limpia todo el canvas
   function clearCanvas() {
-    ctx.fillStyle = bg;
+    ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(0, 0, canvasEl.width, canvasEl.height);
   }
 
-  // Descarga el canvas como imagen PNG
   function savePNG() {
     const link = document.createElement('a');
     link.download = 'paint.png';
@@ -247,7 +247,15 @@
     link.click();
   }
 
-  // Rellena con un color similar (flood fill basado en stack)
+  function pickColor(x, y) {
+    const img = ctx.getImageData(x, y, 1, 1);
+    const d = img.data;
+    const r = d[0].toString(16).padStart(2, '0');
+    const g = d[1].toString(16).padStart(2, '0');
+    const b = d[2].toString(16).padStart(2, '0');
+    color1 = `#${r}${g}${b}`;
+  }
+
   function bucketFill(x, y) {
     const img = ctx.getImageData(0, 0, canvasEl.width, canvasEl.height);
     const w = img.width;
@@ -258,7 +266,7 @@
     const targetG = d[targetOffset + 1];
     const targetB = d[targetOffset + 2];
     const targetA = d[targetOffset + 3];
-    const fillColor = hexToRgba(color);
+    const fillColor = hexToRgba(color1);
     if (targetR === fillColor[0] && targetG === fillColor[1] && targetB === fillColor[2] && targetA === fillColor[3]) return;
 
     const stack = [[x, y]];
@@ -280,7 +288,6 @@
     ctx.putImageData(img, 0, 0);
   }
 
-  // Convierte color hexadecimal a RGB
   function hexToRgba(hex) {
     const c = hex.replace('#', '');
     const bigint = parseInt(c.length === 3 ? c.split('').map(ch => ch + ch).join('') : c, 16);
@@ -289,83 +296,287 @@
     const b = bigint & 255;
     return [r, g, b, 255];
   }
-
 </script>
 
 <div class="paint-root">
-  <div class="container">
-    <!-- Área principal: herramientas a la izquierda y canvas a la derecha -->
-    <div class="top">
-      <div class="tools-column" role="group" aria-label="Tools">
-        <!-- Botones de herramientas -->
-        <button class:active={tool==='pencil'} on:click={() => tool='pencil'} title="Pencil">Pencil</button>
-        <button class:active={tool==='line'} on:mousedown={beginPreview} on:click={() => tool='line'} title="Line">Line</button>
-        <button class:active={tool==='rect'} on:mousedown={beginPreview} on:click={() => tool='rect'} title="Rectangle">Rectangle</button>
-        <button class:active={tool==='fill'} on:click={() => tool='fill'} title="Fill">Fill</button>
-        <button class:active={tool==='eraser'} on:click={() => tool='eraser'} title="Eraser">Eraser</button>
-
-        <div class="tools-column-controls">
-          <label class="brush-label" for="brushSize">Brush size</label>
-          <input id="brushSize" class="brush-range" type="range" min="1" max="32" bind:value={size} aria-label="Brush size" />
-          <button class="wide" on:click={clearCanvas} title="Clear">Clear</button>
-          <button class="wide" on:click={savePNG} title="Save">Save</button>
-        </div>
+  <div class="paint-container">
+    <!-- Toolbox a la izquierda con iconos tipo Windows 98 -->
+    <div class="toolbox">
+      <div class="tool-grid">
+        <button class="tool-btn" class:active={tool==='pencil'} on:click={() => tool='pencil'} title="Lápiz (P)">✏️</button>
+        <button class="tool-btn" class:active={tool==='brush'} on:click={() => tool='brush'} title="Pincel (B)">🖌️</button>
+        <button class="tool-btn" class:active={tool==='fill'} on:click={() => tool='fill'} title="Relleno (F)">🪣</button>
+        <button class="tool-btn" class:active={tool==='picker'} on:click={() => tool='picker'} title="Selector color (I)">💧</button>
+        <button class="tool-btn" class:active={tool==='eraser'} on:click={() => tool='eraser'} title="Borrador (E)">🧹</button>
+        <button class="tool-btn" class:active={tool==='line'} on:mousedown={beginPreview} on:click={() => tool='line'} title="Línea (L)">/</button>
+        <button class="tool-btn" class:active={tool==='rect'} on:mousedown={beginPreview} on:click={() => tool='rect'} title="Rectángulo (R)">▭</button>
+        <button class="tool-btn" class:active={tool==='ellipse'} on:mousedown={beginPreview} on:click={() => tool='ellipse'} title="Elipse (O)">○</button>
+        <button class="tool-btn" class:active={tool==='rectFilled'} on:mousedown={beginPreview} on:click={() => tool='rectFilled'} title="Rectángulo relleno">▬</button>
+        <button class="tool-btn" class:active={tool==='ellipseFilled'} on:mousedown={beginPreview} on:click={() => tool='ellipseFilled'} title="Elipse rellena">●</button>
       </div>
-
-      <!-- Canvas para dibujar -->
-      <div class="canvas-wrap">
-        <canvas
-          bind:this={canvasEl}
-          tabindex="0"
-          on:keydown={keydownHandler}
-          on:pointerdown={(e) => { beginPreview(e); pointerDown(e); }}
-          on:pointermove={pointerMove}
-          on:pointerup={pointerUp}
-          on:pointerleave={pointerLeave}
-          on:pointerenter={pointerEnter}
-        ></canvas>
+      
+      <!-- Selector de tamaño -->
+      <div class="size-selector">
+        <label class="size-label">Tamaño:</label>
+        <div class="size-options">
+          <button class="size-btn" class:active={size===1} on:click={() => size=1}>·</button>
+          <button class="size-btn" class:active={size===2} on:click={() => size=2}>•</button>
+          <button class="size-btn" class:active={size===3} on:click={() => size=3}>●</button>
+          <button class="size-btn" class:active={size===5} on:click={() => size=5}>⬤</button>
+        </div>
       </div>
     </div>
 
-    <!-- Barra inferior con paleta de colores -->
-    <div class="bottom-bar" role="toolbar" aria-label="Tools and colors">
-      <div class="palette-row" role="list" aria-label="Color palette">
-        {#each palette as c}
-          <button class="swatch" class:selected={color === c} style="background:{c};" on:click={() => color = c} aria-label={c}></button>
+    <!-- Área del canvas -->
+    <div class="canvas-area">
+      <canvas
+        bind:this={canvasEl}
+        on:pointerdown={(e) => { beginPreview(e); pointerDown(e); }}
+        on:pointermove={pointerMove}
+        on:pointerup={pointerUp}
+        on:pointerleave={pointerLeave}
+        on:pointerenter={pointerEnter}
+      ></canvas>
+    </div>
+  </div>
+
+  <!-- Barra inferior con selector de colores y paleta -->
+  <div class="bottom-panel">
+    <div class="color-box">
+      <div class="color-display">
+        <div class="color-primary" style="background:{color1}" title="Color 1"></div>
+        <div class="color-secondary" style="background:{color2}" title="Color 2"></div>
+      </div>
+    </div>
+    
+    <div class="palette">
+      {#each palette.slice(0, 14) as c}
+        <button class="color-swatch" class:selected={color1 === c} style="background:{c};" on:click={() => color1 = c} title={c}></button>
+      {/each}
+      <div class="palette-row2">
+        {#each palette.slice(14) as c}
+          <button class="color-swatch" class:selected={color1 === c} style="background:{c};" on:click={() => color1 = c} title={c}></button>
         {/each}
       </div>
     </div>
-    <!-- Espaciador inferior -->
-    <div class="bottom-spacer" aria-hidden="true"></div>
+
+    <div class="actions">
+      <button class="action-btn" on:click={clearCanvas} title="Limpiar (C)">Limpiar</button>
+      <button class="action-btn" on:click={savePNG} title="Guardar (S)">Guardar</button>
+    </div>
   </div>
 </div>
 
 <style>
-  .paint-root { font-family: 'MS Sans Serif', Tahoma, Verdana, Arial, sans-serif; }
+  .paint-root {
+    font-family: 'MS Sans Serif', 'Tahoma', sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #c0c0c0;
+  }
 
-  /* Layout: canvas arriba, barra inferior con herramientas y paleta */
-  .container { display:flex; flex-direction:column; gap:8px; }
+  .paint-container {
+    display: flex;
+    flex: 1;
+    gap: 2px;
+    padding: 2px;
+    overflow: hidden;
+  }
 
-  .canvas-wrap { flex:1; padding:6px; background: #e4e4e4; display:flex; justify-content:center; align-items:center; overflow:auto; }
-  canvas { background: #fff; border: 2px solid #000; image-rendering: pixelated; cursor: crosshair; max-width:100%; height:auto; display:block; }
+  /* Toolbox estilo Windows 98 */
+  .toolbox {
+    width: 52px;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #dfdfdf #808080 #808080 #dfdfdf;
+    padding: 3px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
 
-  .top { display:flex; gap:8px; align-items:flex-start; }
-  /* Columna de herramientas a la izquierda */
-  .tools-column { width:115px; display:flex; flex-direction:column; gap:6px; }
-  .tools-column button { background: #e9e9e9; border:2px outset #fff; padding:4px 6px; font-size:12px; cursor:pointer; text-align:left; }
-  .tools-column button.active { border: 2px inset #000; }
-  .tools-column-controls { display:flex; flex-direction:column; gap:6px; margin-top:6px; }
-  .tools-column .brush-range { width:100%; }
-  .tools-column .wide { width:100%; padding:5px 6px; }
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+  }
 
-  .bottom-bar { display:flex; align-items:center; gap:10px; padding:6px; background:#cfcfcf; border-top:2px solid #fff; flex-wrap:wrap; }
-  .brush-label { font-size:12px; margin-right:6px; }
-  .brush-range { width:120px; }
-  .wide { padding:6px 8px; background:#e9e9e9; border:2px outset #fff; cursor:pointer; }
+  .tool-btn {
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: 1px solid;
+    border-color: #dfdfdf #000000 #000000 #dfdfdf;
+    background: #c0c0c0;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  .tool-btn:hover {
+    border-color: #ffffff #808080 #808080 #ffffff;
+  }
+
+  .tool-btn.active {
+    border-color: #000000 #dfdfdf #dfdfdf #000000;
+    background: #ffffff;
+  }
+
+  .size-selector {
+    border-top: 1px solid #808080;
+    padding-top: 6px;
+  }
+
+  .size-label {
+    font-size: 9px;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .size-options {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .size-btn {
+    width: 100%;
+    height: 18px;
+    padding: 0;
+    border: 1px solid;
+    border-color: #dfdfdf #000000 #000000 #dfdfdf;
+    background: #c0c0c0;
+    cursor: pointer;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .size-btn.active {
+    border-color: #000000 #dfdfdf #dfdfdf #000000;
+    background: #ffffff;
+  }
+
+  /* Canvas area */
+  .canvas-area {
+    flex: 1;
+    background: #ffffff;
+    border: 2px solid;
+    border-color: #808080 #dfdfdf #dfdfdf #808080;
+    overflow: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  canvas {
+    background: #ffffff;
+    display: block;
+    cursor: crosshair;
+    image-rendering: pixelated;
+  }
+
+  /* Panel inferior */
+  .bottom-panel {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px;
+    background: #c0c0c0;
+    border-top: 2px solid;
+    border-color: #dfdfdf #808080 #808080 #dfdfdf;
+    min-height: 42px;
+  }
+
+  .color-box {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #000;
+    background: #c0c0c0;
+    position: relative;
+  }
+
+  .color-display {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .color-primary {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 2px;
+    left: 2px;
+    border: 1px solid #000;
+  }
+
+  .color-secondary {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    bottom: 2px;
+    right: 2px;
+    border: 1px solid #000;
+  }
 
   /* Paleta de colores */
-  .palette-row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-  .swatch { width:28px; height:28px; border:1px solid #333; padding:0; margin:0; cursor:pointer; box-sizing:border-box; flex: 0 0 auto; }
-  .swatch.selected { outline: 2px solid #000; box-shadow: 0 0 0 2px #fff inset; }
-  .bottom-spacer { height: 0px; }
+  .palette {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    max-width: 420px;
+  }
+
+  .color-swatch {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #808080;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+
+  .color-swatch:hover {
+    border: 1px solid #000;
+  }
+
+  .color-swatch.selected {
+    outline: 1px solid #fff;
+    outline-offset: -2px;
+  }
+
+  .palette-row2 {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  /* Botones de acción */
+  .actions {
+    display: flex;
+    gap: 4px;
+  }
+
+  .action-btn {
+    padding: 4px 12px;
+    border: 2px solid;
+    border-color: #ffffff #000000 #000000 #ffffff;
+    background: #c0c0c0;
+    cursor: pointer;
+    font-size: 11px;
+    font-family: 'MS Sans Serif', 'Tahoma', sans-serif;
+  }
+
+  .action-btn:active {
+    border-color: #000000 #ffffff #ffffff #000000;
+  }
 </style>
