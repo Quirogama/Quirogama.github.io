@@ -11,7 +11,7 @@
 	import MiniBrowser from './MiniBrowser.svelte';
 	import MinesweeperViewer from './MinesweeperViewer.svelte';
 	import TetrisViewer from './TetrisViewer.svelte';
-	import { aboutText, aboutTitle, aboutWidth, aboutHeight } from '$lib/content.js';
+	import { aboutText, aboutTitle } from '$lib/content.js';
 	import { projects, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y } from '$lib/windowsConfig.js';
 	import { onMount } from 'svelte';
     
@@ -22,7 +22,7 @@
 		{
 			id: 'about',
 			icon: '/icons/sobremi.png',
-			label: 'About Me',
+			label: 'Sobre Mí',
 			componentType: 'about',
 			content: aboutText,
 			x: 16,
@@ -31,7 +31,7 @@
 		{ 
 			id: 'cv', 
 			icon: '/icons/cv.png', 
-			label: 'Resume',
+			label: 'Currículum',
 			componentType: 'pdf',
 			componentProps: { src: '/cv.pdf' },
 			x: 16,
@@ -40,7 +40,7 @@
 		{
 			id: 'projects',
 			icon: '/icons/proyectos.png',
-			label: 'Projects',
+			label: 'Proyectos',
 			componentType: 'projects',
 			componentProps: { projects },
 			x: 16,
@@ -73,7 +73,7 @@
 		{
 			id: 'contact',
 			icon: '/icons/contacto.png',
-			label: 'Contact',
+			label: 'Contacto',
 			content: 'Contact\n\nLocation: [Your city/country]\nEmail: email@example.com\nGitHub: @Quirogama\n\nI can help with: actionable analysis, automation, dashboards, and web development.',
 			x: 134,
 			y: 126
@@ -82,7 +82,7 @@
 		{
 			id: 'notes',
 			icon: '/icons/notepad.png',
-			label: 'Notes',
+			label: 'Notas',
 			componentType: 'notes',
 			x: 134,
 			y: 236
@@ -90,7 +90,7 @@
 		{
 			id: 'calc',
 			icon: '/icons/cv.png',
-			label: 'Calculator',
+			label: 'Calculadora',
 			componentType: 'calc',
 			x: 134,
 			y: 346
@@ -98,7 +98,7 @@
 		{
 			id: 'gallery',
 			icon: '/icons/gallery.png',
-			label: 'Gallery',
+			label: 'Galería',
 			componentType: 'gallery',
 			x: 252,
 			y: 16
@@ -106,7 +106,7 @@
 		{
 			id: 'browser',
 			icon: '/icons/browser.png',
-			label: 'Mini Browser',
+			label: 'Navegador',
 			componentType: 'browser',
 			x: 252,
 			y: 126
@@ -123,7 +123,7 @@
 		{
 			id: 'minesweeper',
 			icon: '/icons/minesweeper.png',
-			label: 'Minesweeper',
+			label: 'Buscaminas',
 			componentType: 'minesweeper',
 			x: 252,
 			y: 346
@@ -184,8 +184,8 @@
 							const leftWin = {
 								id: Math.floor(Math.random() * 100000),
 								title: aboutTitle + ' (Left)',
-								width: Math.min(420, aboutWidth - 100),
-								height: Math.max(300, aboutHeight - 40),
+							width: Math.min(420, WINDOW_SIZES.about.width - 100),
+							height: Math.max(300, WINDOW_SIZES.about.height - 40),
 								left: 40,
 								top: 100,
 								z: zCounter,
@@ -242,8 +242,8 @@
 		// Define tamaños específicos según el tipo de aplicación usando constantes
 		const componentType = icon.componentType;
 		const sizes = WINDOW_SIZES[componentType] || WINDOW_SIZES.default;
-		const width = isAbout ? aboutWidth : sizes.width;
-		const height = isAbout ? aboutHeight : sizes.height;
+		const width = sizes.width;
+		const height = sizes.height;
 		
 		// Posiciona la nueva ventana con un pequeño offset respecto a la anterior
 		const offset = windows.length * WINDOW_OFFSET;

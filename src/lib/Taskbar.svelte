@@ -21,13 +21,13 @@
 
   // Lista de elementos del menú Start con las aplicaciones disponibles
   const startMenuItems = [
-    { id: 'about', label: 'About Me', icon: '/icons/sobremi.png', isImage: true },
+    { id: 'about', label: 'Sobre Mí', icon: '/icons/sobremi.png', isImage: true },
     { id: 'paint', label: 'Paint', icon: '/icons/paint.png', isImage: true },
-    { id: 'cv', label: 'Resume', icon: '/icons/cv.png', isImage: true },
-    { id: 'projects', label: 'Projects', icon: '/icons/proyectos.png', isImage: true },
+    { id: 'cv', label: 'Currículum', icon: '/icons/cv.png', isImage: true },
+    { id: 'projects', label: 'Proyectos', icon: '/icons/proyectos.png', isImage: true },
     { id: 'github', label: 'GitHub', icon: '/icons/github.png', isImage: true },
     { id: 'linkedin', label: 'LinkedIn', icon: '/icons/linkedin.png', isImage: true },
-    { id: 'contact', label: 'Contact', icon: '/icons/contacto.png', isImage: true },
+    { id: 'contact', label: 'Contacto', icon: '/icons/contacto.png', isImage: true },
     { id: 'separator', separator: true },
     { id: 'shutdown', label: 'Shut Down...', icon: '🔌' }
   ];

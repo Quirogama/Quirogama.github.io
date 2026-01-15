@@ -9,7 +9,7 @@
     paragraphs[0] = paragraphs[0].replace(/^Andr[eé]s Quiroga\s*[—-]?\s*/i, '');
   }
 
-  // safer linkifier: single-pass regex that matches either http(s)://... or www....
+  // safer linkifier: single-pass regex that matches either http(s)://... or www.... or mailto:
   // This avoids double-wrapping URLs (which produced malformed nested anchors during prerender).
   function linkify(text) {
     if (!text) return '';
@@ -19,9 +19,9 @@
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
 
-    return escaped.replace(/(https?:\/\/[^\s]+)|(www\.[^\s]+)/g, (match, p1, p2) => {
-      const url = p1 || ('http://' + p2);
-      // match is taken from escaped string so it's safe to inject
+    // Convertir URLs y mailto en links
+    return escaped.replace(/(https?:\/\/[^\s]+)|(mailto:[^\s]+)|(www\.[^\s]+)/g, (match, p1, p2, p3) => {
+      const url = p1 || p2 || ('http://' + p3);
       return `<a href="${url}" target="_blank" rel="noopener noreferrer">${match}</a>`;
     });
   }
@@ -31,13 +31,11 @@
   function renderParagraphHTML(p) {
     if (!p) return '';
     const titles = [
-      'About me',
-      'Tech stack',
-      'Selected projects',
-      'Experience (brief)',
-      'Links',
-      'Contact',
-      'Note'
+      'Sobre mí',
+      'Qué hago',
+      'Proyectos destacados',
+      'Más sobre mí',
+      '¿Contacto?'
     ];
     const trimmed = p.trim();
     // case-insensitive compare
@@ -76,7 +74,7 @@
   <div class="about-title" style="display:none" aria-hidden="true"></div>
   <div class="about-left">
     <div class="image-box">
-      <img src="/icons/sobremi.png" alt="avatar" class="avatar" />
+      <img src="/icons/andres1.jpeg" alt="avatar" class="avatar" />
     </div>
     <div class="tech-row">
       {#each tech as t}
@@ -108,14 +106,14 @@
   /* left column floats so text can flow beside/under it */
   .about-left {
     float: left;
-    width: 140px;
+    width: 250px;
     margin-right: 12px;
     display: block;
   }
 
   .avatar {
-    width: 72px;
-    height: 72px;
+    width: 220px;
+    height: 220px;
     object-fit: cover;
     border: 2px solid #000000;
     background: #fff;
@@ -142,28 +140,32 @@
     /* allow text to wrap under the floated left column */
     overflow: visible;
     padding-right: 6px;
-    font-size: 22px;
-    line-height: 1.5;
+    font-size: 17px;
+    line-height: 1.8;
     color: #111;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
   }
 
   .about-right p {
-    margin: 0 0 10px 0;
+    margin: 0 0 16px 0;
     white-space: pre-wrap;
   }
 
+  /* Resaltar números y porcentajes en negrita y color */
+  .about-right p:global(:has(+ p)) {
+    font-weight: 400;
+  }
+
   :global(.about-title) {
-    font-weight: 700;
-    font-size: 1.05em;
-    margin: 8px 0 6px 0;
-    color: #000;
-    /* underline delineation to make titles stand out */
-    text-decoration: underline;
-    text-decoration-color: rgba(0,0,0,0.9);
-    text-decoration-thickness: 2px;
-    text-underline-offset: 4px;
+    font-weight: 900;
+    font-size: 18px;
+    margin: 16px 0 10px 0;
+    color: #fff;
+    background: linear-gradient(90deg, #000080 0%, #0066cc 100%);
+    padding: 6px 12px;
+    border: 2px outset #dfdfdf;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
   }
 
   .image-box {
@@ -174,10 +176,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 230px;
   }
 
   .image-box img {
-    width: 120px;
+    width: 220px;
     max-width: 100%;
     height: auto;
     display: block;
@@ -198,6 +201,6 @@
       margin-top: 8px;
       font-size: 18px;
     }
-    .image-box img { width: 160px; }
+    .image-box img { width: 220px; }
   }
 </style>

@@ -50,7 +50,7 @@ export const projects = [
 
 // Tamaños por defecto de ventanas según tipo (evita números mágicos)
 export const WINDOW_SIZES = {
-	about: { width: 860, height: 600 },
+	about: { width: 1000, height: 580 },
 	pdf: { width: 700, height: 600 },
 	projects: { width: 750, height: 550 },
 	paint: { width: 700, height: 410 },

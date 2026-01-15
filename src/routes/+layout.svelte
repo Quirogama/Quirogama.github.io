@@ -4,7 +4,7 @@
 	import Taskbar from '$lib/Taskbar.svelte';
 	import PDFViewer from '$lib/PDFViewer.svelte';
 	import ProjectsViewer from '$lib/ProjectsViewer.svelte';
-	import { aboutTitle, aboutText, aboutWidth, aboutHeight } from '$lib/content.js';
+	import { aboutTitle, aboutText } from '$lib/content.js';
 	import { projects, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y } from '$lib/windowsConfig.js';
 	import { onMount } from 'svelte';
 	import '../global.css';
@@ -17,8 +17,8 @@
 
 	// Al montar: centra la ventana "Sobre mí" en la pantalla
 	onMount(() => {
-		centerLeft = Math.max(50, (window.innerWidth - aboutWidth) / 2);
-		centerTop = Math.max(50, (window.innerHeight - aboutHeight - 100) / 2); // -100 para la taskbar
+		centerLeft = Math.max(50, (window.innerWidth - WINDOW_SIZES.about.width) / 2);
+		centerTop = Math.max(50, (window.innerHeight - WINDOW_SIZES.about.height - 100) / 2); // -100 para la taskbar
 	});
 
 	// Estado global de ventanas: contiene la ventana "Sobre mí" abierta por defecto
@@ -26,10 +26,10 @@
 		{
 			id: 1,
 			title: aboutTitle,
-			width: aboutWidth,
-			height: aboutHeight,
+			width: WINDOW_SIZES.about.width,
+			height: WINDOW_SIZES.about.height,
 			z: 2,
-			appLabel: 'About Me',
+			appLabel: 'Sobre Mí',
 			icon: '/icons/sobremi.png',
 			hiddenInTaskbar: true,
 			get left() { return centerLeft; },
@@ -87,27 +87,27 @@
 			about: { 
 				title: aboutTitle, 
 				content: aboutText,
-				width: aboutWidth,
-				height: aboutHeight,
-				appLabel: 'About Me',
+			width: WINDOW_SIZES.about.width,
+			height: WINDOW_SIZES.about.height,
+				appLabel: 'Sobre Mí',
 				icon: '/icons/sobremi.png'
 			},
 			cv: { 
-				title: 'Resume - Andrés Quiroga', 
+				title: 'Currículum - Andrés Quiroga', 
 				componentType: 'pdf',
 				componentProps: { src: '/cv.pdf' },
 				width: WINDOW_SIZES.pdf.width,
 				height: WINDOW_SIZES.pdf.height,
-				appLabel: 'Resume',
+				appLabel: 'Currículum',
 				icon: '/icons/cv.png'
 			},
 			projects: { 
-				title: 'My Projects - Portfolio', 
+				title: 'Mis Proyectos - Portafolio', 
 				componentType: 'projects',
 				componentProps: { projects },
 				width: WINDOW_SIZES.projects.width,
 				height: WINDOW_SIZES.projects.height,
-				appLabel: 'Projects',
+				appLabel: 'Proyectos',
 				icon: '/icons/proyectos.png'
 			},
 			paint: {
