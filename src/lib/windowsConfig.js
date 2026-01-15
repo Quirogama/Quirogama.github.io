@@ -76,7 +76,7 @@ export const WINDOW_SIZES = {
 	about: { width: 850, height: 580 },
 	pdf: { width: 700, height: 600 },
 	projects: { width: 750, height: 550 },
-	paint: { width: 700, height: 410 },
+	paint: { width: 640, height: 410 },
 	calc: { width: 260, height: 390 },
 	default: { width: 520, height: 360 }
 };

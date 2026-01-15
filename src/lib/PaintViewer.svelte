@@ -2,8 +2,8 @@
   import { onMount } from 'svelte';
   let canvasEl;
   let ctx;
-  export let width = 550;
-  export let height = 350;
+  export let width = 535;
+  export let height = 290;
 
   let tool = 'pencil';
   let color1 = '#000000';
@@ -44,10 +44,9 @@
     const rect = canvasEl.getBoundingClientRect();
     const xClient = e.clientX - rect.left;
     const yClient = e.clientY - rect.top;
-    const styledW = parseFloat(canvasEl.style.width) || width;
-    const styledH = parseFloat(canvasEl.style.height) || height;
-    const scaleX = styledW / rect.width;
-    const scaleY = styledH / rect.height;
+    const dpr = window.devicePixelRatio || 1;
+    const scaleX = (canvasEl.width / dpr) / rect.width;
+    const scaleY = (canvasEl.height / dpr) / rect.height;
     return { x: xClient * scaleX, y: yClient * scaleY };
   }
 
@@ -386,7 +385,7 @@
 
   /* Toolbox estilo Windows 98 */
   .toolbox {
-    width: 52px;
+    width: 62px;
     background: #c0c0c0;
     border: 2px solid;
     border-color: #dfdfdf #808080 #808080 #dfdfdf;
@@ -403,18 +402,23 @@
   }
 
   .tool-btn {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
+    aspect-ratio: 1 / 1;
     padding: 0;
     border: 1px solid;
     border-color: #dfdfdf #000000 #000000 #dfdfdf;
     background: #c0c0c0;
     cursor: pointer;
     font-size: 14px;
-    display: flex;
+    font-family: 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', 'MS Sans Serif', 'Tahoma', sans-serif;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
+    min-width: 0;
+    min-height: 0;
+    line-height: 1;
   }
 
   .tool-btn:hover {
@@ -472,7 +476,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
-    padding: 0;
+    padding: 4px;
   }
 
   canvas {
@@ -480,6 +484,9 @@
     display: block;
     cursor: crosshair;
     image-rendering: pixelated;
+    width: auto;
+    height: auto;
+    flex: 0 0 auto;
   }
 
   /* Panel inferior */
@@ -531,33 +538,43 @@
     flex: 1;
     display: flex;
     flex-wrap: wrap;
-    gap: 0;
+    gap: 2px;
     max-width: 420px;
   }
 
   .color-swatch {
-    width: 16px;
-    height: 16px;
-    border: 1px solid #808080;
+    width: 18px;
+    height: 18px;
+    aspect-ratio: 1 / 1;
+    border: 2px solid;
+    border-color: #dfdfdf #808080 #808080 #dfdfdf;
     padding: 0;
     margin: 0;
     cursor: pointer;
     box-sizing: border-box;
+    border-radius: 0;
+    min-width: 0;
+    min-height: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
   }
 
   .color-swatch:hover {
-    border: 1px solid #000;
+    border-color: #ffffff #000000 #000000 #ffffff;
   }
 
   .color-swatch.selected {
-    outline: 1px solid #fff;
-    outline-offset: -2px;
+    border-color: #000000 #dfdfdf #dfdfdf #000000;
+    box-shadow: inset 1px 1px #808080;
   }
 
   .palette-row2 {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
+    gap: 2px;
   }
 
   /* Botones de acción */
