@@ -133,24 +133,6 @@ export const APPS = {
 		showInStartMenu: true,
 		desktopPosition: { x: 16, y: 456 }
 	},
-	github: {
-		id: 'github',
-		label: 'GitHub',
-		icon: '/icons/github.png',
-		showInDesktop: true,
-		showInStartMenu: false,
-		desktopPosition: { x: 16, y: 346 },
-		externalUrl: 'https://github.com/Quirogama'
-	},
-	linkedin: {
-		id: 'linkedin',
-		label: 'LinkedIn',
-		icon: '/icons/linkedin.png',
-		showInDesktop: true,
-		showInStartMenu: false,
-		desktopPosition: { x: 134, y: 16 },
-		externalUrl: 'https://www.linkedin.com/in/quirogama/'
-	},
 	contact: {
 		id: 'contact',
 		label: 'Contacto',
@@ -158,15 +140,6 @@ export const APPS = {
 		showInDesktop: true,
 		showInStartMenu: true,
 		desktopPosition: { x: 134, y: 126 }
-	},
-	notes: {
-		id: 'notes',
-		label: 'Notas',
-		icon: '/icons/notepad.png',
-		componentType: 'notes',
-		showInDesktop: true,
-		showInStartMenu: false,
-		desktopPosition: { x: 134, y: 236 }
 	},
 	calc: {
 		id: 'calc',
@@ -186,15 +159,6 @@ export const APPS = {
 		showInStartMenu: false,
 		desktopPosition: { x: 252, y: 16 }
 	},
-	browser: {
-		id: 'browser',
-		label: 'Navegador',
-		icon: '/icons/browser.png',
-		componentType: 'browser',
-		showInDesktop: true,
-		showInStartMenu: false,
-		desktopPosition: { x: 252, y: 126 }
-	},
 	tetris: {
 		id: 'tetris',
 		label: 'Tetris',
@@ -212,5 +176,23 @@ export const APPS = {
 		showInDesktop: true,
 		showInStartMenu: false,
 		desktopPosition: { x: 252, y: 346 }
+	},
+	github: {
+		id: 'github',
+		label: 'GitHub',
+		icon: '/icons/github.png',
+		showInDesktop: true,
+		showInStartMenu: false,
+		desktopPosition: { x: 16, y: 346 },
+		externalUrl: 'https://github.com/Quirogama'
+	},
+	linkedin: {
+		id: 'linkedin',
+		label: 'LinkedIn',
+		icon: '/icons/linkedin.png',
+		showInDesktop: true,
+		showInStartMenu: false,
+		desktopPosition: { x: 134, y: 16 },
+		externalUrl: 'https://www.linkedin.com/in/quirogama/'
 	}
 };

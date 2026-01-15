@@ -5,10 +5,8 @@
 	import ProjectsViewer from './ProjectsViewer.svelte';
 	import AboutViewer from './AboutViewer.svelte';
 	import PaintViewer from './PaintViewer.svelte';
-	import NotesViewer from './NotesViewer.svelte';
 	import Calculator from './Calculator.svelte';
 	import GalleryViewer from './GalleryViewer.svelte';
-	import MiniBrowser from './MiniBrowser.svelte';
 	import MinesweeperViewer from './MinesweeperViewer.svelte';
 	import TetrisViewer from './TetrisViewer.svelte';
 	import { aboutText, aboutTitle, projects, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y, APPS } from '$lib/windowsConfig.js';
@@ -201,14 +199,10 @@
 					<AboutViewer content={w.content} />
 				{:else if w.componentType === 'paint'}
 					<PaintViewer />
-				{:else if w.componentType === 'notes'}
-					<NotesViewer />
-				{:else if w.componentType === 'calc'}
-					<Calculator />
-				{:else if w.componentType === 'gallery'}
-					<GalleryViewer />
-				{:else if w.componentType === 'browser'}
-					<MiniBrowser />
+			{:else if w.componentType === 'calc'}
+				<Calculator />
+			{:else if w.componentType === 'gallery'}
+				<GalleryViewer />
 				{:else if w.componentType === 'tetris'}
 					<TetrisViewer />
 				{:else if w.componentType === 'minesweeper'}
