@@ -223,6 +223,18 @@
 
 	// Abre un ícono del escritorio y crea una nueva ventana
 	function openIcon(icon) {
+		// Si es el ícono de GitHub, abre la URL directamente en una nueva pestaña
+		if (icon.id === 'github') {
+			window.open('https://github.com/Quirogama', '_blank');
+			return;
+		}
+		
+		// Si es el ícono de LinkedIn, abre la URL directamente en una nueva pestaña
+		if (icon.id === 'linkedin') {
+			window.open('https://www.linkedin.com/in/quirogama/', '_blank');
+			return;
+		}
+		
 		const id = Math.floor(Math.random() * 100000);
 		const isAbout = icon.id === 'about';
 		const title = isAbout ? aboutTitle : icon.label;
