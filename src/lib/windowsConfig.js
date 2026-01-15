@@ -1,4 +1,34 @@
-// Configuración centralizada de proyectos (evita duplicación)
+// Configuración centralizada del portafolio (evita duplicación)
+
+// Información del About
+export const aboutTitle = 'Andrés Quiroga - Analista de Datos & Desarrollador Junior';
+
+export const aboutText = `Andrés Quiroga — Analista de Datos & Desarrollador Junior
+
+Sobre mí
+Convierto datos en decisiones. 6 meses automatizando flujos, construyendo dashboards y desarrollando soluciones web.
+
+Qué hago
+📊 Análisis: Python, SQL, Power BI
+⚙️ Automatización: ETL pipelines, scripts de limpieza
+🖥️ Desarrollo: Svelte, JavaScript, web interactiva
+
+Proyectos destacados
+📈 Dashboard BI → Reduje análisis 60%
+🔄 Pipeline ETL → 10k registros diarios automatizados
+💻 Portfolio Win98 → Este sitio que estás viendo
+
+Más sobre mí
+🎓 Ingeniería de Sistemas | Pontificia Universidad Javeriana (2022-2026)
+🎮 Gaming & Diseño | Pensamiento visual y resolución creativa
+📚 Autodidacta | En constante aprendizaje
+
+¿Contacto?
+📧 mailto:quirogama@javeriana.edu.co
+🔗 https://github.com/Quirogama
+💼 https://linkedin.com/in/quirogama`;
+
+// Proyectos (casos de estudio)
 export const projects = [
 	{
 		title: 'Analytics Dashboard',
@@ -7,9 +37,7 @@ export const projects = [
 		impact: 'Reducción del 60% en tiempo de análisis. Reportes generados automáticamente. Decisiones más rápidas basadas en datos en tiempo real.',
 		stack: ['Power BI', 'SQL', 'DAX', 'ETL'],
 		image: null, // Placeholder: agregar screenshot del dashboard
-		links: [
-			{ label: 'Dashboard', url: '#' }
-		]
+		links: []
 	},
 	{
 		title: 'ETL Automation Pipeline',
@@ -18,9 +46,7 @@ export const projects = [
 		impact: 'Procesa 10,000+ registros diarios sin intervención. Reducción del 80% en errores de datos. Mejora en tiempo de disponibilidad de datos.',
 		stack: ['Python', 'Pandas', 'SQL', 'Apache Airflow', 'PostgreSQL'],
 		image: null, // Placeholder: agregar screenshot del pipeline corriendo
-		links: [
-			{ label: 'GitHub Repo', url: '#' }
-		]
+		links: []
 	},
 	{
 		title: 'Windows 98 Portfolio',
@@ -41,10 +67,7 @@ export const projects = [
 		impact: 'Precisión del 78% en predicciones. Identificación de 3 patrones clave no visibles en análisis manual.',
 		stack: ['Python', 'scikit-learn', 'Pandas', 'Matplotlib', 'NumPy'],
 		image: null, // Placeholder: agregar screenshot del notebook o gráficos
-		links: [
-			{ label: 'GitHub Repo', url: '#' },
-			{ label: 'Notebook', url: '#' }
-		]
+		links: []
 	}
 ];
 
@@ -59,6 +82,135 @@ export const WINDOW_SIZES = {
 };
 
 // Constantes de posicionamiento de ventanas
+// Constantes de posicionamiento de ventanas
 export const WINDOW_OFFSET = 30; // Offset para cada nueva ventana
 export const WINDOW_INITIAL_X = 100;
 export const WINDOW_INITIAL_Y = 100;
+
+// Helper para gestionar z-index sin duplicación de lógica
+export function getNextZIndex(windows) {
+	return Math.max(...windows.map(w => w.z ?? 0), 0) + 1;
+}
+
+// Metadatos centralizados de todas las aplicaciones (única fuente de verdad)
+// NO se usa aún en Desktop/Taskbar/+layout, es preparación para Fase 3
+export const APPS = {
+	about: {
+		id: 'about',
+		label: 'Sobre Mí',
+		icon: '/icons/sobremi.png',
+		componentType: 'about',
+		showInDesktop: true,
+		showInStartMenu: true,
+		desktopPosition: { x: 16, y: 16 }
+	},
+	cv: {
+		id: 'cv',
+		label: 'Currículum',
+		icon: '/icons/cv.png',
+		componentType: 'pdf',
+		showInDesktop: true,
+		showInStartMenu: true,
+		desktopPosition: { x: 16, y: 126 },
+		componentProps: { src: '/cv.pdf' }
+	},
+	projects: {
+		id: 'projects',
+		label: 'Proyectos',
+		icon: '/icons/proyectos.png',
+		componentType: 'projects',
+		showInDesktop: true,
+		showInStartMenu: true,
+		desktopPosition: { x: 16, y: 236 },
+		componentProps: { projects }
+	},
+	paint: {
+		id: 'paint',
+		label: 'Paint',
+		icon: '/icons/paint.png',
+		componentType: 'paint',
+		showInDesktop: true,
+		showInStartMenu: true,
+		desktopPosition: { x: 16, y: 456 }
+	},
+	github: {
+		id: 'github',
+		label: 'GitHub',
+		icon: '/icons/github.png',
+		showInDesktop: true,
+		showInStartMenu: false,
+		desktopPosition: { x: 16, y: 346 },
+		externalUrl: 'https://github.com/Quirogama'
+	},
+	linkedin: {
+		id: 'linkedin',
+		label: 'LinkedIn',
+		icon: '/icons/linkedin.png',
+		showInDesktop: true,
+		showInStartMenu: false,
+		desktopPosition: { x: 134, y: 16 },
+		externalUrl: 'https://www.linkedin.com/in/quirogama/'
+	},
+	contact: {
+		id: 'contact',
+		label: 'Contacto',
+		icon: '/icons/contacto.png',
+		showInDesktop: true,
+		showInStartMenu: true,
+		desktopPosition: { x: 134, y: 126 }
+	},
+	notes: {
+		id: 'notes',
+		label: 'Notas',
+		icon: '/icons/notepad.png',
+		componentType: 'notes',
+		showInDesktop: true,
+		showInStartMenu: false,
+		desktopPosition: { x: 134, y: 236 }
+	},
+	calc: {
+		id: 'calc',
+		label: 'Calculadora',
+		icon: '/icons/calc.png',
+		componentType: 'calc',
+		showInDesktop: true,
+		showInStartMenu: false,
+		desktopPosition: { x: 134, y: 346 }
+	},
+	gallery: {
+		id: 'gallery',
+		label: 'Galería',
+		icon: '/icons/gallery.png',
+		componentType: 'gallery',
+		showInDesktop: true,
+		showInStartMenu: false,
+		desktopPosition: { x: 252, y: 16 }
+	},
+	browser: {
+		id: 'browser',
+		label: 'Navegador',
+		icon: '/icons/browser.png',
+		componentType: 'browser',
+		showInDesktop: true,
+		showInStartMenu: false,
+		desktopPosition: { x: 252, y: 126 }
+	},
+	tetris: {
+		id: 'tetris',
+		label: 'Tetris',
+		icon: '/icons/tetris.png',
+		componentType: 'tetris',
+		showInDesktop: true,
+		showInStartMenu: false,
+		desktopPosition: { x: 252, y: 236 }
+	},
+	minesweeper: {
+		id: 'minesweeper',
+		label: 'Buscaminas',
+		icon: '/icons/minesweeper.png',
+		componentType: 'minesweeper',
+		showInDesktop: true,
+		showInStartMenu: false,
+		desktopPosition: { x: 252, y: 346 }
+	}
+};

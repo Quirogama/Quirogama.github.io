@@ -4,8 +4,7 @@
 	import Taskbar from '$lib/Taskbar.svelte';
 	import PDFViewer from '$lib/PDFViewer.svelte';
 	import ProjectsViewer from '$lib/ProjectsViewer.svelte';
-	import { aboutTitle, aboutText } from '$lib/content.js';
-	import { projects, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y } from '$lib/windowsConfig.js';
+	import { aboutTitle, aboutText, projects, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y, APPS } from '$lib/windowsConfig.js';
 	import { onMount } from 'svelte';
 	import '../global.css';
 
@@ -78,79 +77,35 @@
 		}
 	}
 
-	// Maneja la selección de elementos del menú Start
-	function handleMenuSelect(event) {
-		const { id } = event.detail;
-		
-		// Mapeo de IDs del menú a datos de ventanas
-		const contentMap = {
-			about: { 
-				title: aboutTitle, 
-				content: aboutText,
-			width: WINDOW_SIZES.about.width,
-			height: WINDOW_SIZES.about.height,
-				appLabel: 'Sobre Mí',
-				icon: '/icons/sobremi.png'
-			},
-			cv: { 
-				title: 'Currículum - Andrés Quiroga', 
-				componentType: 'pdf',
-				componentProps: { src: '/cv.pdf' },
-				width: WINDOW_SIZES.pdf.width,
-				height: WINDOW_SIZES.pdf.height,
-				appLabel: 'Currículum',
-				icon: '/icons/cv.png'
-			},
-			projects: { 
-				title: 'Mis Proyectos - Portafolio', 
-				componentType: 'projects',
-				componentProps: { projects },
-				width: WINDOW_SIZES.projects.width,
-				height: WINDOW_SIZES.projects.height,
-				appLabel: 'Proyectos',
-				icon: '/icons/proyectos.png'
-			},
-			paint: {
-				title: 'Paint',
-				componentType: 'paint',
-				width: WINDOW_SIZES.paint.width,
-				height: WINDOW_SIZES.paint.height,
-				appLabel: 'Paint',
-				icon: '/icons/paint.png'
-			},
-			github: { 
-				title: 'GitHub', 
-				content: 'GitHub — @Quirogama\n\nExplore my repos: data analysis, Python automation, web apps, and notebooks.\nLink: github.com/Quirogama',
-				width: WINDOW_SIZES.default.width,
-				height: WINDOW_SIZES.default.height,
-				appLabel: 'GitHub',
-				icon: '/icons/github.png'
-			},
-			linkedin: { 
-				title: 'LinkedIn', 
-				content: 'LinkedIn\n\nProfessional profile: Quirogama (Data Analyst & Junior Dev).\nOpen to roles in Data Analysis, BI, Web Development, or Junior Data Science.\nLink: (coming soon)',
-				width: WINDOW_SIZES.default.width,
-				height: WINDOW_SIZES.default.height,
-				appLabel: 'LinkedIn',
-				icon: '/icons/linkedin.png'
-			},
-			contact: { 
-				title: 'Contact', 
-				content: 'Contact\n\nLocation: [Your city/country]\nEmail: email@example.com\nGitHub: @Quirogama\n\nI can help with: actionable analysis, automation, dashboards, and web development.',
-				width: WINDOW_SIZES.default.width,
-				height: WINDOW_SIZES.default.height,
-				appLabel: 'Contact',
-				icon: '/icons/contacto.png'
-			}
-		};
-
-		const windowData = contentMap[id];
-		if (!windowData) {
-			console.log('No action for:', id);
+	// Crea ventana desde APPS (única fuente de verdad)
+	function createWindowFromApp(appId) {
+		const app = APPS[appId];
+		if (!app) {
+			console.log('App no encontrada:', appId);
 			return;
 		}
 
-		// Crea una nueva ventana con los datos del menú seleccionado
+		// Obtener tamaño
+		const sizes = WINDOW_SIZES[app.componentType] || WINDOW_SIZES.default;
+
+		// Construir título según la app
+		let title = app.label;
+		if (appId === 'about') title = aboutTitle;
+		else if (appId === 'cv') title = 'Currículum - Andrés Quiroga';
+		else if (appId === 'projects') title = 'Mis Proyectos - Portafolio';
+		else if (appId === 'contact') title = 'Contacto - Andrés Quiroga';
+
+		// Construir contenido según la app
+		let content = null;
+		if (appId === 'about') content = aboutText;
+		else if (appId === 'contact') content = 'Contacto\n\n📧 Email: quirogama@javeriana.edu.co\n🔗 GitHub: github.com/Quirogama\n💼 LinkedIn: linkedin.com/in/quirogama\n📍 Bogotá, Colombia\n\nEspecializado en análisis de datos, automatización y desarrollo web. Disponible para proyectos de Data Analysis, BI, Web Development o Data Science.';
+
+		// Construir componentProps
+		let componentProps = { ...app.componentProps };
+		if (appId === 'projects') componentProps = { projects };
+		if (appId === 'about') componentProps = { content: aboutText };
+
+		// Crear nueva ventana
 		const newId = Date.now();
 		const offset = windows.length * WINDOW_OFFSET;
 		const newZ = Math.max(...windows.map(w => w.z ?? 0), 0) + 1;
@@ -159,20 +114,26 @@
 			...windows,
 			{
 				id: newId,
-				title: windowData.title,
-				content: windowData.content,
-				width: windowData.width,
-				height: windowData.height,
+				title,
+				content,
+				width: sizes.width,
+				height: sizes.height,
 				left: WINDOW_INITIAL_X + offset,
 				top: WINDOW_INITIAL_Y + offset,
 				z: newZ,
-				appLabel: windowData.appLabel,
-				icon: windowData.icon,
+				appLabel: app.label,
+				icon: app.icon,
 				minimized: false,
-				componentType: windowData.componentType,
-				componentProps: windowData.componentProps
+				componentType: app.componentType,
+				componentProps
 			}
 		];
+	}
+
+	// Maneja la selección de elementos del menú Start
+	function handleMenuSelect(event) {
+		const { id } = event.detail;
+		createWindowFromApp(id);
 	}
 </script>
 

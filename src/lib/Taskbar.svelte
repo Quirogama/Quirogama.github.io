@@ -1,5 +1,6 @@
 <script>
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
+  import { APPS } from '$lib/windowsConfig.js';
   
   // Props: lista de tareas (ventanas abiertas) y la ventana activa
   export let tasks = [];
@@ -19,15 +20,16 @@
     dispatch('taskclick', { id: taskId });
   }
 
-  // Lista de elementos del menú Start con las aplicaciones disponibles
+  // Genera menú Start desde APPS (única fuente de verdad)
   const startMenuItems = [
-    { id: 'about', label: 'Sobre Mí', icon: '/icons/sobremi.png', isImage: true },
-    { id: 'paint', label: 'Paint', icon: '/icons/paint.png', isImage: true },
-    { id: 'cv', label: 'Currículum', icon: '/icons/cv.png', isImage: true },
-    { id: 'projects', label: 'Proyectos', icon: '/icons/proyectos.png', isImage: true },
-    { id: 'github', label: 'GitHub', icon: '/icons/github.png', isImage: true },
-    { id: 'linkedin', label: 'LinkedIn', icon: '/icons/linkedin.png', isImage: true },
-    { id: 'contact', label: 'Contacto', icon: '/icons/contacto.png', isImage: true },
+    ...Object.values(APPS)
+      .filter(app => app.showInStartMenu)
+      .map(app => ({
+        id: app.id,
+        label: app.label,
+        icon: app.icon,
+        isImage: true
+      })),
     { id: 'separator', separator: true },
     { id: 'shutdown', label: 'Shut Down...', icon: '🔌' }
   ];

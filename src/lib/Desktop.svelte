@@ -11,124 +11,28 @@
 	import MiniBrowser from './MiniBrowser.svelte';
 	import MinesweeperViewer from './MinesweeperViewer.svelte';
 	import TetrisViewer from './TetrisViewer.svelte';
-	import { aboutText, aboutTitle } from '$lib/content.js';
-	import { projects, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y } from '$lib/windowsConfig.js';
+	import { aboutText, aboutTitle, projects, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y, APPS } from '$lib/windowsConfig.js';
 	import { onMount } from 'svelte';
     
 	let { windows = $bindable([]) } = $props();
 
-	// Lista de iconos del escritorio con su información: id, imagen, etiqueta y componente
-	let icons = $state([
-		{
-			id: 'about',
-			icon: '/icons/sobremi.png',
-			label: 'Sobre Mí',
-			componentType: 'about',
-			content: aboutText,
-			x: 16,
-			y: 16
-		},
-		{ 
-			id: 'cv', 
-			icon: '/icons/cv.png', 
-			label: 'Currículum',
-			componentType: 'pdf',
-			componentProps: { src: '/cv.pdf' },
-			x: 16,
-			y: 126
-		},
-		{
-			id: 'projects',
-			icon: '/icons/proyectos.png',
-			label: 'Proyectos',
-			componentType: 'projects',
-			componentProps: { projects },
-			x: 16,
-			y: 236
-		},
-		{
-			id: 'paint',
-			icon: '/icons/paint.png',
-			label: 'Paint',
-			componentType: 'paint',
-			x: 16,
-			y: 456
-		},
-		{ 
-			id: 'github', 
-			icon: '/icons/github.png', 
-			label: 'GitHub', 
-			content: 'GitHub — @Quirogama\n\nExplore my repos: data analysis, Python automation, web apps, and notebooks.\nLink: github.com/Quirogama',
-			x: 16,
-			y: 346
-		},
-		{
-			id: 'linkedin',
-			icon: '/icons/linkedin.png',
-			label: 'LinkedIn',
-			content: 'LinkedIn\n\nProfessional profile: Quirogama (Data Analyst & Junior Dev).\nOpen to roles in Data Analysis, BI, Web Development, or Junior Data Science.\nLink: (coming soon)',
-			x: 134,
-			y: 16
-		},
-		{
-			id: 'contact',
-			icon: '/icons/contacto.png',
-			label: 'Contacto',
-			content: 'Contact\n\nLocation: [Your city/country]\nEmail: email@example.com\nGitHub: @Quirogama\n\nI can help with: actionable analysis, automation, dashboards, and web development.',
-			x: 134,
-			y: 126
-		}
-		,
-		{
-			id: 'notes',
-			icon: '/icons/notepad.png',
-			label: 'Notas',
-			componentType: 'notes',
-			x: 134,
-			y: 236
-		},
-		{
-			id: 'calc',
-			icon: '/icons/cv.png',
-			label: 'Calculadora',
-			componentType: 'calc',
-			x: 134,
-			y: 346
-		},
-		{
-			id: 'gallery',
-			icon: '/icons/gallery.png',
-			label: 'Galería',
-			componentType: 'gallery',
-			x: 252,
-			y: 16
-		},
-		{
-			id: 'browser',
-			icon: '/icons/browser.png',
-			label: 'Navegador',
-			componentType: 'browser',
-			x: 252,
-			y: 126
-		}
-		,
-		{
-			id: 'tetris',
-			icon: '/icons/tetris.png',
-			label: 'Tetris',
-			componentType: 'tetris',
-			x: 252,
-			y: 236
-		},
-		{
-			id: 'minesweeper',
-			icon: '/icons/minesweeper.png',
-			label: 'Buscaminas',
-			componentType: 'minesweeper',
-			x: 252,
-			y: 346
-		}
-	]);
+	// Genera iconos del escritorio desde APPS (única fuente de verdad)
+	let icons = $state(
+		Object.values(APPS)
+			.filter(app => app.showInDesktop)
+			.map(app => ({
+				id: app.id,
+				icon: app.icon,
+				label: app.label,
+				componentType: app.componentType,
+				componentProps: app.componentProps,
+				externalUrl: app.externalUrl,
+				x: app.desktopPosition.x,
+				y: app.desktopPosition.y,
+				// Props específicas para about/contact
+				content: app.id === 'about' ? aboutText : (app.id === 'contact' ? 'Contacto\n\n📧 Email: quirogama@javeriana.edu.co\n🔗 GitHub: github.com/Quirogama\n💼 LinkedIn: linkedin.com/in/quirogama\n📍 Bogotá, Colombia\n\nEspecializado en análisis de datos, automatización y desarrollo web. Disponible para proyectos de Data Analysis, BI, Web Development o Data Science.' : null)
+			}))
+	);
 
 	// Constantes para el layout de los iconos en el escritorio
 	const ICON_W = 96; // ancho del slot del icono
@@ -177,28 +81,6 @@
 			setTimeout(() => {
 				if (windows.length === 0) {
 					openIcon(aboutIcon);
-					// Abre una segunda ventana "About" a la izquierda
-					setTimeout(() => {
-						if (windows.length <= 1) {
-							zCounter = zCounter + 1;
-							const leftWin = {
-								id: Math.floor(Math.random() * 100000),
-								title: aboutTitle + ' (Left)',
-							width: Math.min(420, WINDOW_SIZES.about.width - 100),
-							height: Math.max(300, WINDOW_SIZES.about.height - 40),
-								left: 40,
-								top: 100,
-								z: zCounter,
-								content: aboutText,
-								minimized: false,
-								appLabel: 'About',
-								icon: aboutIcon.icon,
-								componentType: 'about',
-								componentProps: null
-							};
-							windows = [...windows, leftWin];
-						}
-					}, 80);
 				}
 			}, 150);
 		}
@@ -236,8 +118,7 @@
 		}
 		
 		const id = Math.floor(Math.random() * 100000);
-		const isAbout = icon.id === 'about';
-		const title = isAbout ? aboutTitle : icon.label;
+		const title = icon.id === 'about' ? aboutTitle : icon.label;
 		
 		// Define tamaños específicos según el tipo de aplicación usando constantes
 		const componentType = icon.componentType;
@@ -259,7 +140,7 @@
 			left, 
 			top, 
 			z: zCounter, 
-			content: icon.content || null, 
+			content: icon.id === 'about' ? aboutText : (icon.content || null), 
 			minimized: false, 
 			appLabel: icon.label, 
 			icon: icon.icon,
