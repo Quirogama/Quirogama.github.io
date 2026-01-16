@@ -4,7 +4,7 @@
   // Configuración del juego
   const GRID_SIZE = 14;
   const CELL_SIZE = 26;
-  const INITIAL_SPEED = 120; // paso base
+  const INITIAL_SPEED = 140; // velocidad base
   const SPEED_INCREMENT = 5;
   const MIN_SPEED = 70;
 
@@ -12,8 +12,9 @@
   let snake = $state([{ x: 7, y: 7 }, { x: 6, y: 7 }, { x: 5, y: 7 }]);
   let direction = $state({ x: 1, y: 0 });
   let nextDirection = $state({ x: 1, y: 0 });
-  let food = $state({ x: 15, y: 10 });
+  let food = $state({ x: 10, y: 7 });
   let score = $state(0);
+  let highScore = $state(0);
   let gameOver = $state(false);
   let gameStarted = $state(false);
   let speed = $state(INITIAL_SPEED);
@@ -43,7 +44,7 @@
     food = generateFood();
     score = 0;
     gameOver = false;
-    gameStarted = true;
+    gameStarted = false;
     isPaused = false;
     speed = INITIAL_SPEED;
     inputQueue = [];
@@ -51,7 +52,6 @@
     lastTime = 0;
 
     if (rafId) cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(loop);
   }
 
   function togglePause() {
@@ -100,12 +100,46 @@
 
   function endGame() {
     gameOver = true;
+    if (score > highScore) {
+      highScore = score;
+    }
     if (rafId) cancelAnimationFrame(rafId);
   }
 
   function handleKeyDown(e) {
-    if (!gameStarted && e.key.startsWith('Arrow')) {
+    if (gameOver && e.key === 'Enter') {
       startGame();
+      return;
+    }
+
+    if (!gameStarted && (e.key.startsWith('Arrow') || e.key === 'Enter')) {
+      // Establece la dirección inicial según el input
+      switch (e.key) {
+        case 'ArrowUp':
+          direction = { x: 0, y: -1 };
+          nextDirection = { x: 0, y: -1 };
+          break;
+        case 'ArrowDown':
+          direction = { x: 0, y: 1 };
+          nextDirection = { x: 0, y: 1 };
+          break;
+        case 'ArrowLeft':
+          direction = { x: -1, y: 0 };
+          nextDirection = { x: -1, y: 0 };
+          break;
+        case 'ArrowRight':
+          direction = { x: 1, y: 0 };
+          nextDirection = { x: 1, y: 0 };
+          break;
+        case 'Enter':
+          // Enter inicia con la dirección por defecto (derecha)
+          direction = { x: 1, y: 0 };
+          nextDirection = { x: 1, y: 0 };
+          break;
+      }
+      gameStarted = true;
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(loop);
       return;
     }
 
@@ -201,22 +235,6 @@
 </script>
 
 <div class="snake-container">
-  <div class="info-panel">
-    <div class="score">Score: {score}</div>
-    <div class="status">
-      {#if !gameStarted}
-        <button class="start-btn" onclick={startGame}>Start Game</button>
-      {:else if gameOver}
-        <div class="game-over">
-          <span class="game-over-text">Game Over!</span>
-          <button class="start-btn" onclick={startGame}>Reiniciar</button>
-        </div>
-      {:else if isPaused}
-        <span class="paused-text">PAUSA</span>
-      {/if}
-    </div>
-  </div>
-
   <div class="game-board-wrapper">
     <div class="game-board" style="width: {GRID_SIZE * CELL_SIZE}px; height: {GRID_SIZE * CELL_SIZE}px;">
       {#each Array(GRID_SIZE) as _, row}
@@ -241,7 +259,34 @@
           style="transform: translate({segment.x * CELL_SIZE}px, {segment.y * CELL_SIZE}px); width: {CELL_SIZE}px; height: {CELL_SIZE}px;"
         ></div>
       {/each}
+
+      {#if gameOver}
+        <div class="game-over-overlay">
+          <div class="game-over-box">
+            <div class="game-over-title">GAME OVER</div>
+            <div class="score-line">Score: {score}</div>
+            <div class="highscore-line">High Score: {highScore}</div>
+          </div>
+        </div>
+      {/if}
     </div>
+  </div>
+
+  <div class="score-row">
+    <span class="score-display">{score}</span>
+  </div>
+
+  <div class="status-bar">
+    {#if !gameStarted}
+      <button class="start-btn" onclick={startGame}>Start Game</button>
+    {:else if gameOver}
+      <div class="game-over">
+        <span class="game-over-text">Game Over!</span>
+        <button class="start-btn" onclick={startGame}>Reiniciar</button>
+      </div>
+    {:else if isPaused}
+      <span class="paused-text">PAUSA</span>
+    {/if}
   </div>
 </div>
 
@@ -256,33 +301,40 @@
     user-select: none;
   }
 
-  .info-panel {
-    width: 100%;
+  .status-bar {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: 8px 12px;
-    background: #fff;
-    border: 2px inset;
+    gap: 8px;
   }
 
-  .score {
+  .score-row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .score-display {
     font-size: 18px;
     font-weight: bold;
     font-family: 'Courier New', monospace;
     color: #000;
-  }
-
-  .status {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    padding: 4px 8px;
+    display: inline-block;
+    line-height: 1;
+    border: 2px solid;
+    border-color: #808080 #fff #fff #808080;
+    background: var(--win98-face, #c0c0c0);
   }
 
   .game-over {
     display: flex;
     align-items: center;
     gap: 12px;
+    padding: 6px 12px;
+    background: var(--win98-face, #c0c0c0);
+    border: 2px solid;
+    border-color: #fff #808080 #808080 #fff;
   }
 
   .game-over-text {
@@ -294,13 +346,26 @@
   .paused-text {
     font-size: 16px;
     font-weight: bold;
-    color: #00c;
+    color: #c00;
+    padding: 6px 12px;
+    background: var(--win98-face, #c0c0c0);
+    border: 2px solid;
+    border-color: #fff #808080 #808080 #fff;
   }
 
   .start-btn {
     padding: 4px 12px;
     font-size: 13px;
     font-weight: bold;
+    background: var(--win98-face, #c0c0c0);
+    border: 2px solid;
+    border-color: #fff #000 #000 #fff;
+    cursor: pointer;
+  }
+
+  .start-btn:active {
+    border-color: #000 #fff #fff #000;
+    padding: 5px 11px 3px 13px;
   }
 
   .game-board-wrapper {
@@ -346,6 +411,47 @@
     border: 2px solid #005000;
   }
 
+
+  .game-over-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+  }
+
+  .game-over-box {
+    background: var(--win98-face, #c0c0c0);
+    border: 3px solid;
+    border-color: #fff #000 #000 #fff;
+    padding: 20px 32px;
+    text-align: center;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+  }
+
+  .game-over-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #c00;
+    margin-bottom: 16px;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+  }
+
+  .score-line, .highscore-line {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000;
+    margin: 8px 0;
+  }
+
+  .highscore-line {
+    color: #006000;
+  }
   .food {
     position: absolute;
     background: #ff0000;

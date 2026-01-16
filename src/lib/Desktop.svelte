@@ -105,6 +105,11 @@
 
 	// Abre un ícono del escritorio y crea una nueva ventana
 	function openIcon(icon) {
+		// Quita el foco del elemento activo para prevenir múltiples aperturas
+		if (document.activeElement) {
+			document.activeElement.blur();
+		}
+		
 		// Si es el ícono de GitHub, abre la URL directamente en una nueva pestaña
 		if (icon.id === 'github') {
 			window.open('https://github.com/Quirogama', '_blank');
