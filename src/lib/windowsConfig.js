@@ -3,30 +3,31 @@
 // Información del About
 export const aboutTitle = 'Andrés Quiroga - Analista de Datos & Desarrollador Junior';
 
-export const aboutText = `Andrés Quiroga — Analista de Datos & Desarrollador Junior
+export const aboutText = `Hola, bienvenido a mi portafolio estilo Windows 98!
 
-Sobre mí
-Convierto datos en decisiones. 6 meses automatizando flujos, construyendo dashboards y desarrollando soluciones web.
+¿Quién soy?
 
-Qué hago
-📊 Análisis: Python, SQL, Power BI
-⚙️ Automatización: ETL pipelines, scripts de limpieza
-🖥️ Desarrollo: Svelte, JavaScript, web interactiva
+Desarrollador fullstack de Colombia con experiencia en automatización de datos y análisis. 4 meses en Pontificia Universidad Javeriana trabajando en ETL, dashboards y soluciones web. Resuelvo problemas complejos combinando frontend interactivo con lógica de datos robusta.
 
-Proyectos destacados
-📈 Dashboard BI → Reduje análisis 60%
-🔄 Pipeline ETL → 10k registros diarios automatizados
-💻 Portfolio Win98 → Este sitio que estás viendo
+Stack Técnico
+Frontend: Svelte | JavaScript | SvelteKit | HTML/CSS | Vite
+Backend/Data: Python | SQL | Pandas | NumPy | Apache Airflow
+Análisis: Power BI | DAX | Análisis exploratorio
+Bases de datos: PostgreSQL | SQL optimizado
 
-Más sobre mí
-🎓 Ingeniería de Sistemas | Pontificia Universidad Javeriana (2022-2026)
-🎮 Gaming & Diseño | Pensamiento visual y resolución creativa
-📚 Autodidacta | En constante aprendizaje
+Lo que he hecho
+→ Desarrollé dashboards BI que redujeron tiempo de análisis manual en 60%
+→ Automaticé pipeline ETL que procesa 10k+ registros diarios sin intervención
+→ Construí este portfolio interactivo (Svelte, componentes avanzados, gestión de estado)
+→ Implementé Paint, Calculadora, Tetris, Buscaminas — demostrando lógica de juegos y UI interactiva
 
-¿Contacto?
-📧 mailto:quirogama@javeriana.edu.co
-🔗 https://github.com/Quirogama
-💼 https://linkedin.com/in/quirogama`;
+Educación & Contexto
+🎓 Ingeniería de Sistemas — Pontificia Universidad Javeriana (2022-2026)
+💼 Experiencia como Analista de Datos — PUJ (4 meses, 2025)
+🔬 Intereses: Full-stack development, data-driven solutions, automatización, UX interactiva
+
+Me interesa
+Roles en Fullstack Development, Data Engineering, BI, o ETL donde pueda combinar frontend + backend. Abierto a full-time, proyectos o colaboraciones.`;
 
 // Proyectos (casos de estudio)
 export const projects = [
@@ -104,16 +105,6 @@ export const APPS = {
 		showInStartMenu: true,
 		desktopPosition: { x: 16, y: 16 }
 	},
-	cv: {
-		id: 'cv',
-		label: 'Currículum',
-		icon: '/icons/cv.png',
-		componentType: 'pdf',
-		showInDesktop: true,
-		showInStartMenu: true,
-		desktopPosition: { x: 16, y: 126 },
-		componentProps: { src: '/cv.pdf' }
-	},
 	projects: {
 		id: 'projects',
 		label: 'Proyectos',
@@ -176,6 +167,16 @@ export const APPS = {
 		showInDesktop: true,
 		showInStartMenu: false,
 		desktopPosition: { x: 252, y: 346 }
+	},
+	cv: {
+		id: 'cv',
+		label: 'Currículum',
+		icon: '/icons/cv.png',
+		componentType: 'pdf',
+		showInDesktop: true,
+		showInStartMenu: true,
+		desktopPosition: { x: 16, y: 126 },
+		componentProps: { src: '/cv.pdf' }
 	},
 	github: {
 		id: 'github',
