@@ -24,18 +24,21 @@
 			clickCount = 0;
 		}
 	}
+
+	// Teclado: abrir con 1 sola pulsación de ENTER/SPACE (más intuitivo)
+	function handleKeyDown(e) {
+		if (e.key === 'Enter' || e.key === ' ') {
+			e.preventDefault();
+			onopen();
+		}
+	}
 </script>
 
 <div
 	class="desktop-icon {selected ? 'selected' : ''}"
 	style="left:{x}px; top:{y}px"
 	onclick={handleClick}
-	onkeydown={(e) => {
-		if (e.key === 'Enter' || e.key === ' ') {
-			e.preventDefault();
-			handleClick();
-		}
-	}}
+	onkeydown={handleKeyDown}
 	role="button"
 	tabindex="0"
 	aria-label={label}

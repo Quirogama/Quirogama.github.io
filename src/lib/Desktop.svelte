@@ -185,6 +185,7 @@
 				left={w.left ?? 40}
 				top={w.top ?? 40}
 				z={w.z}
+				isActive={w.z === Math.max(...windows.map(win => win.z ?? 0))}
 				onclose={() => {
 					windows = windows.filter(win => win.id !== w.id);
 				}}

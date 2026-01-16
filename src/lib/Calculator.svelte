@@ -1,4 +1,6 @@
 <script>
+  import { onMount, onDestroy } from 'svelte';
+
   let display = '0'; // Pantalla de la calculadora
 
   // Agrega un número o símbolo a la pantalla
@@ -91,6 +93,44 @@
       display = 'Error';
     }
   }
+
+  // Soporte de teclado numérico y operadores
+  onMount(() => {
+    function handleKeyDown(e) {
+      // Números
+      if (e.key >= '0' && e.key <= '9') {
+        e.preventDefault();
+        press(e.key);
+      }
+      // Operadores
+      else if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') {
+        e.preventDefault();
+        press(e.key);
+      }
+      // Punto decimal
+      else if (e.key === '.') {
+        e.preventDefault();
+        press('.');
+      }
+      // Enter para calcular
+      else if (e.key === 'Enter' || e.key === '=') {
+        e.preventDefault();
+        evalExpr();
+      }
+      // Escape para limpiar
+      else if (e.key === 'Escape') {
+        e.preventDefault();
+        clear();
+      }
+      // Backspace para borrar
+      else if (e.key === 'Backspace') {
+        e.preventDefault();
+        back();
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  });
 </script>
 
 

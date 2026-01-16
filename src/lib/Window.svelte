@@ -1,4 +1,6 @@
 <script>
+	import { onMount, onDestroy } from 'svelte';
+
 	let {
 		title = 'Untitled',
 		width = 300,
@@ -6,6 +8,7 @@
 		z = 1,
 		left = $bindable(40),
 		top = $bindable(40),
+		isActive = false,
 		onclose = () => {},
 		onminimize = () => {},
 		onfocus = () => {},
@@ -39,6 +42,18 @@
 	function minimize() {
 		onminimize();
 	}
+
+	// Manejo de teclado: ESC para cerrar ventana activa
+	onMount(() => {
+		function handleKeyDown(e) {
+			if (e.key === 'Escape' && isActive) {
+				e.preventDefault();
+				close();
+			}
+		}
+		window.addEventListener('keydown', handleKeyDown);
+		return () => window.removeEventListener('keydown', handleKeyDown);
+	});
 
 	// Maneja el inicio del arrastre o redimensionamiento de la ventana
 	function onPointerDown(e) {

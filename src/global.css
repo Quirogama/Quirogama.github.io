@@ -97,6 +97,29 @@ button:focus {
   outline-offset: -4px;
 }
 
+/* Focus visible para navegación con teclado */
+button:focus-visible {
+  outline: 2px dotted var(--win98-gray-text);
+  outline-offset: -4px;
+}
+
+/* Focus en ventanas */
+.window:focus {
+  outline: 2px solid var(--win98-title-active);
+  outline-offset: -2px;
+}
+
+/* Focus en iconos del escritorio */
+.desktop-icon:focus {
+  outline: 2px dotted #ffffff;
+  outline-offset: 2px;
+}
+
+.desktop-icon:focus .label {
+  background: #000080;
+  color: #fff;
+}
+
 /* ============================================
    CAMPOS DE ENTRADA - Efecto hundido (inset)
    ============================================ */
