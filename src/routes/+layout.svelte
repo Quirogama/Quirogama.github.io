@@ -85,6 +85,15 @@
 			return;
 		}
 
+		// Si tiene downloadUrl, descarga el archivo directamente
+		if (app.downloadUrl) {
+			const link = document.createElement('a');
+			link.href = app.downloadUrl;
+			link.download = app.downloadFilename || 'download';
+			link.click();
+			return;
+		}
+
 		// Obtener tamaño
 		const sizes = WINDOW_SIZES[app.componentType] || WINDOW_SIZES.default;
 

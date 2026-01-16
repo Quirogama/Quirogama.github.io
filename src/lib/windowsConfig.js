@@ -172,11 +172,11 @@ export const APPS = {
 		id: 'cv',
 		label: 'Currículum',
 		icon: '/icons/cv.png',
-		componentType: 'pdf',
 		showInDesktop: true,
 		showInStartMenu: true,
 		desktopPosition: { x: 16, y: 126 },
-		componentProps: { src: '/cv.pdf' }
+		downloadUrl: '/cv.pdf',
+		downloadFilename: 'Andres_Quiroga_CV.pdf'
 	},
 	github: {
 		id: 'github',

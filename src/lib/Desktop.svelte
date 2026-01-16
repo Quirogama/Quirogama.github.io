@@ -25,6 +25,8 @@
 				componentType: app.componentType,
 				componentProps: app.componentProps,
 				externalUrl: app.externalUrl,
+				downloadUrl: app.downloadUrl,
+				downloadFilename: app.downloadFilename,
 				x: app.desktopPosition.x,
 				y: app.desktopPosition.y,
 				// Props específicas para about/contact
@@ -112,6 +114,15 @@
 		// Si es el ícono de LinkedIn, abre la URL directamente en una nueva pestaña
 		if (icon.id === 'linkedin') {
 			window.open('https://www.linkedin.com/in/quirogama/', '_blank');
+			return;
+		}
+		
+		// Si tiene downloadUrl, descarga el archivo directamente
+		if (icon.downloadUrl) {
+			const link = document.createElement('a');
+			link.href = icon.downloadUrl;
+			link.download = icon.downloadFilename || 'download';
+			link.click();
 			return;
 		}
 		

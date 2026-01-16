@@ -13,12 +13,79 @@
   // Elimina el último carácter
   function back() { display = display.length > 1 ? display.slice(0, -1) : '0'; }
 
+  // Parser matemático seguro sin eval()
+  function safeEval(expr) {
+    // Tokenizador: convierte la expresión en tokens
+    const tokens = expr.match(/(\d+\.?\d*|\+|\-|\*|\/|\(|\))/g);
+    if (!tokens) return NaN;
+
+    let index = 0;
+
+    // Parser recursivo con precedencia de operadores
+    function parseExpression() {
+      return parseAddSub();
+    }
+
+    function parseAddSub() {
+      let left = parseMulDiv();
+      while (index < tokens.length && (tokens[index] === '+' || tokens[index] === '-')) {
+        const op = tokens[index++];
+        const right = parseMulDiv();
+        left = op === '+' ? left + right : left - right;
+      }
+      return left;
+    }
+
+    function parseMulDiv() {
+      let left = parseFactor();
+      while (index < tokens.length && (tokens[index] === '*' || tokens[index] === '/')) {
+        const op = tokens[index++];
+        const right = parseFactor();
+        left = op === '*' ? left * right : left / right;
+      }
+      return left;
+    }
+
+    function parseFactor() {
+      const token = tokens[index];
+      
+      // Números
+      if (/^\d+\.?\d*$/.test(token)) {
+        index++;
+        return parseFloat(token);
+      }
+      
+      // Paréntesis
+      if (token === '(') {
+        index++; // consume '('
+        const result = parseExpression();
+        index++; // consume ')'
+        return result;
+      }
+      
+      // Operadores unarios (negativo)
+      if (token === '-') {
+        index++;
+        return -parseFactor();
+      }
+      
+      if (token === '+') {
+        index++;
+        return parseFactor();
+      }
+      
+      return NaN;
+    }
+
+    return parseExpression();
+  }
+
   // Calcula y muestra el resultado
   function evalExpr() {
     try {
       // Valida que solo haya números y operadores permitidos
       if (!/^[0-9+\-*/. ()]+$/.test(display)) return;
-      const val = eval(display);
+      const val = safeEval(display);
       display = String(Number.isFinite(val) ? val : '0');
     } catch (e) {
       display = 'Error';
