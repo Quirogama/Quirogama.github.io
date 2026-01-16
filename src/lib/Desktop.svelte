@@ -8,7 +8,7 @@
 	import Calculator from './Calculator.svelte';
 	import GalleryViewer from './GalleryViewer.svelte';
 	import MinesweeperViewer from './MinesweeperViewer.svelte';
-	import TetrisViewer from './TetrisViewer.svelte';
+	import SnakeViewer from './SnakeViewer.svelte';
 	import { aboutText, aboutTitle, projects, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y, APPS } from '$lib/windowsConfig.js';
 	import { onMount } from 'svelte';
     
@@ -215,8 +215,8 @@
 				<Calculator />
 			{:else if w.componentType === 'gallery'}
 				<GalleryViewer />
-				{:else if w.componentType === 'tetris'}
-					<TetrisViewer />
+				{:else if w.componentType === 'snake'}
+					<SnakeViewer />
 				{:else if w.componentType === 'minesweeper'}
 					<MinesweeperViewer />
 				{:else if w.content}

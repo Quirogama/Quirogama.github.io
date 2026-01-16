@@ -19,7 +19,7 @@ Lo que he hecho
 → Desarrollé dashboards BI que redujeron tiempo de análisis manual en 60%
 → Automaticé pipeline ETL que procesa 10k+ registros diarios sin intervención
 → Construí este portfolio interactivo (Svelte, componentes avanzados, gestión de estado)
-→ Implementé Paint, Calculadora, Tetris, Buscaminas — demostrando lógica de juegos y UI interactiva
+→ Implementé Paint, Calculadora, Snake, Buscaminas — demostrando lógica de juegos y UI interactiva
 
 Educación & Contexto
 🎓 Ingeniería de Sistemas — Pontificia Universidad Javeriana (2022-2026)
@@ -79,6 +79,7 @@ export const WINDOW_SIZES = {
 	projects: { width: 750, height: 550 },
 	paint: { width: 640, height: 410 },
 	calc: { width: 260, height: 390 },
+	snake: { width: 480, height: 620 },
 	default: { width: 520, height: 360 }
 };
 
@@ -150,11 +151,11 @@ export const APPS = {
 		showInStartMenu: false,
 		desktopPosition: { x: 252, y: 16 }
 	},
-	tetris: {
-		id: 'tetris',
-		label: 'Tetris',
-		icon: '/icons/tetris.png',
-		componentType: 'tetris',
+	snake: {
+		id: 'snake',
+		label: 'Snake',
+		icon: '/icons/snake.png',
+		componentType: 'snake',
 		showInDesktop: true,
 		showInStartMenu: false,
 		desktopPosition: { x: 252, y: 236 }
