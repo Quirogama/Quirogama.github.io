@@ -4,12 +4,13 @@
 	import PDFViewer from './PDFViewer.svelte';
 	import ProjectsViewer from './ProjectsViewer.svelte';
 	import AboutViewer from './AboutViewer.svelte';
+	import ExperienceViewer from './ExperienceViewer.svelte';
 	import PaintViewer from './PaintViewer.svelte';
 	import Calculator from './Calculator.svelte';
 	import GalleryViewer from './GalleryViewer.svelte';
 	import MinesweeperViewer from './MinesweeperViewer.svelte';
 	import SnakeViewer from './SnakeViewer.svelte';
-	import { aboutText, aboutTitle, projects, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y, APPS } from '$lib/windowsConfig.js';
+	import { aboutText, aboutTitle, projects, experiences, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y, APPS } from '$lib/windowsConfig.js';
 	import { onMount } from 'svelte';
     
 	let { windows = $bindable([]) } = $props();
@@ -212,6 +213,8 @@
 					<PDFViewer src={w.componentProps.src} />
 				{:else if w.componentType === 'projects' && w.componentProps?.projects}
 					<ProjectsViewer projects={w.componentProps.projects} />
+				{:else if w.componentType === 'experience'}
+					<ExperienceViewer {experiences} />
 				{:else if w.componentType === 'about'}
 					<AboutViewer content={w.content} />
 				{:else if w.componentType === 'paint'}

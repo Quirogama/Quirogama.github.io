@@ -3,17 +3,17 @@
 // Información del About
 export const aboutTitle = 'Andrés Quiroga - Analista de Datos & Desarrollador Junior';
 
-export const aboutText = `Hola, bienvenido a mi portafolio estilo Windows 98!
+export const aboutText = `_____________________________________________________
+
+Hola, bienvenido a mi portafolio estilo Windows 98!
+
+_____________________________________________________
 
 ¿Quién soy?
 
 Desarrollador fullstack de Colombia con experiencia en automatización de datos y análisis. 4 meses en Pontificia Universidad Javeriana trabajando en ETL, dashboards y soluciones web. Resuelvo problemas complejos combinando frontend interactivo con lógica de datos robusta.
 
-Stack Técnico
-Frontend: Svelte | JavaScript | SvelteKit | HTML/CSS | Vite
-Backend/Data: Python | SQL | Pandas | NumPy | Apache Airflow
-Análisis: Power BI | DAX | Análisis exploratorio
-Bases de datos: PostgreSQL | SQL optimizado
+_____________________________________________________
 
 Lo que he hecho
 → Desarrollé dashboards BI que redujeron tiempo de análisis manual en 60%
@@ -21,10 +21,14 @@ Lo que he hecho
 → Construí este portfolio interactivo (Svelte, componentes avanzados, gestión de estado)
 → Implementé Paint, Calculadora, Snake, Buscaminas — demostrando lógica de juegos y UI interactiva
 
+__________________________________________________________________________________
+
 Educación & Contexto
 🎓 Ingeniería de Sistemas — Pontificia Universidad Javeriana (2022-2026)
 💼 Experiencia como Analista de Datos — PUJ (4 meses, 2025)
 🔬 Intereses: Full-stack development, data-driven solutions, automatización, UX interactiva
+
+__________________________________________________________________________________
 
 Me interesa
 Roles en Fullstack Development, Data Engineering, BI, o ETL donde pueda combinar frontend + backend. Abierto a full-time, proyectos o colaboraciones.`;
@@ -72,11 +76,30 @@ export const projects = [
 	}
 ];
 
+// Experiencia laboral
+export const experiences = [
+	{
+		position: 'Analista de Datos',
+		company: 'Pontificia Universidad Javeriana - Departamento de Proyectos Sociales Universitarios',
+	dates: 'Agosto 2025 - Noviembre 2025 (4 meses)',
+		description: 'Análisis y limpieza de base de datos de practicantes. Creación de dashboard interactivo en Power BI para visualización histórica de participación de practicantes.',
+		achievements: [
+			'Redujo base de datos de 114 registros a 21 registros válidos (81.6% de datos limpios)',
+			'Creó dashboard interactivo en Power BI con análisis de practicantes desde 2008 hasta 2025',
+			'Implementó validaciones de datos y documentó procesos de limpieza',
+			'Presentó insights visuales a stakeholders del departamento'
+		],
+		technologies: ['Power BI', 'SQL', 'Excel', 'DAX', 'Análisis de Datos'],
+		image: '/icons/javeriana.png'
+	}
+];
+
 // Tamaños por defecto de cada ventana 
 export const WINDOW_SIZES = {
 	about: { width: 850, height: 580 },
 	pdf: { width: 700, height: 600 },
 	projects: { width: 750, height: 550 },
+	experience: { width: 900, height: 650 },
 	paint: { width: 640, height: 410 },
 	calc: { width: 260, height: 390 },
 	snake: { width: 480, height: 620 },
@@ -115,6 +138,15 @@ export const APPS = {
 		showInStartMenu: true,
 		desktopPosition: { x: 16, y: 236 },
 		componentProps: { projects }
+	},
+	experience: {
+		id: 'experience',
+		label: 'Experiencia',
+		icon: '/icons/experience.png',
+		componentType: 'experience',
+		showInDesktop: true,
+		showInStartMenu: true,
+		desktopPosition: { x: 16, y: 346 }
 	},
 	paint: {
 		id: 'paint',
