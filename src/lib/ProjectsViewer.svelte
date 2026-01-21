@@ -6,7 +6,8 @@
 		'Analytics Dashboard': '📊',
 		'ETL Automation Pipeline': '⚙️',
 		'Windows 98 Portfolio': '💻',
-		'Predictive Analysis Model': '🤖'
+		'Predictive Analysis Model': '🤖',
+		'PawCare - Sistema Veterinario': '🐾'
 	};
 </script>
 

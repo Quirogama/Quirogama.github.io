@@ -73,6 +73,18 @@ export const projects = [
 		stack: ['Python', 'scikit-learn', 'Pandas', 'Matplotlib', 'NumPy'],
 		image: null, // Placeholder: agregar screenshot del notebook o gráficos
 		links: []
+	},
+	{
+		title: 'PawCare - Sistema Veterinario',
+		problem: 'Necesidad de un sistema integral para gestionar clientes, mascotas, citas y servicios en una veterinaria con diferenciación entre roles de cliente y administrador.',
+		solution: 'Plataforma web completa con CRUDs para gestión de mascotas, clientes y citas. Dashboards de estadísticas para administradores. Sistema de autenticación diferenciado con login de cliente y administrador. Interfaz intuitiva basada en Bootstrap.',
+		impact: 'Centraliza la información de la veterinaria. Mejora la experiencia del cliente con acceso a su historial de mascotas. Facilita la administración con dashboards analíticos de citas y servicios.',
+		stack: ['Angular', 'Bootstrap', 'TypeScript', 'HTTP Client'],
+		image: '/icons/pawcare.png',
+		links: [
+			{ label: 'Backend (Spring Boot)', url: 'https://github.com/Quirogama/PAW-CARE-SPRINGBOOT' },
+			{ label: 'Frontend (Angular)', url: 'https://github.com/Quirogama/PAW-CARE-ANGULAR' }
+		]
 	}
 ];
 
