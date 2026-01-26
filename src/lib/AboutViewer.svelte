@@ -1,5 +1,5 @@
 <script>
-  export let content = '';
+  let { content = '' } = $props();
   // derive paragraphs from the content text
   let paragraphs = content ? content.split(/\n\n+/).map(p => p.trim()) : [];
 
@@ -204,3 +204,4 @@
     .image-box img { width: 220px; }
   }
 </style>
+

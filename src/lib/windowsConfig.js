@@ -1,5 +1,21 @@
 // Configuración centralizada del portafolio (evita duplicación)
 
+// Información de contacto y redes sociales
+export const CONTACT_EMAIL = 'quirogama@javeriana.edu.co';
+export const SOCIAL_LINKS = {
+	github: 'https://github.com/Quirogama',
+	linkedin: 'https://www.linkedin.com/in/quirogama/'
+};
+
+export const CONTACT_TEXT = `Contacto
+
+📧 Email: ${CONTACT_EMAIL}
+🔗 GitHub: ${SOCIAL_LINKS.github}
+💼 LinkedIn: ${SOCIAL_LINKS.linkedin}
+📍 Bogotá, Colombia
+
+Especializado en análisis de datos, automatización y desarrollo web. Disponible para proyectos de Data Analysis, BI, Web Development o Data Science.`;
+
 // Información del About
 export const aboutTitle = 'Andrés Quiroga - Analista de Datos & Desarrollador Junior';
 
@@ -41,7 +57,6 @@ export const projects = [
 		solution: 'Dashboard interactivo en Power BI con actualizaciones automáticas. Consultas SQL optimizadas y DAX para cálculos complejos.',
 		impact: 'Reducción del 60% en tiempo de análisis. Reportes generados automáticamente. Decisiones más rápidas basadas en datos en tiempo real.',
 		stack: ['Power BI', 'SQL', 'DAX', 'ETL'],
-		image: null, // Placeholder: agregar screenshot del dashboard
 		links: []
 	},
 	{
@@ -50,7 +65,6 @@ export const projects = [
 		solution: 'Pipeline ETL en Python con Apache Airflow. Automatización end-to-end: extracción, transformación, validación, carga.',
 		impact: 'Procesa 10,000+ registros diarios sin intervención. Reducción del 80% en errores de datos. Mejora en tiempo de disponibilidad de datos.',
 		stack: ['Python', 'Pandas', 'SQL', 'Apache Airflow', 'PostgreSQL'],
-		image: null, // Placeholder: agregar screenshot del pipeline corriendo
 		links: []
 	},
 	{
@@ -59,7 +73,6 @@ export const projects = [
 		solution: 'Portafolio interactivo con estética Windows 98. Ventanas arrastrables/redimensionables, Paint integrado, componentes Svelte reutilizables.',
 		impact: 'Diferencial visual +200% en recordación. Demuestra conocimiento de Svelte, SvelteKit, CSS avanzado y gestión de estado.',
 		stack: ['Svelte', 'SvelteKit', 'JavaScript', 'CSS', 'Vite'],
-		image: null, // Placeholder: agregar screenshot del portfolio
 		links: [
 			{ label: 'GitHub Repo', url: 'https://github.com/Quirogama/Quirogama.github.io' },
 			{ label: 'Deploy', url: 'https://quirogama.github.io' }
@@ -119,15 +132,9 @@ export const WINDOW_SIZES = {
 };
 
 // Constantes de posicionamiento de ventanas
-// Constantes de posicionamiento de ventanas
 export const WINDOW_OFFSET = 30; // Offset para cada nueva ventana
 export const WINDOW_INITIAL_X = 100;
 export const WINDOW_INITIAL_Y = 100;
-
-// Helper para gestionar z-index sin duplicación de lógica
-export function getNextZIndex(windows) {
-	return Math.max(...windows.map(w => w.z ?? 0), 0) + 1;
-}
 
 // Metadatos centralizados de todas las aplicaciones (única fuente de verdad)
 // NO se usa aún en Desktop/Taskbar/+layout, es preparación para Fase 3

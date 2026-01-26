@@ -1,15 +1,14 @@
 <script>
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
-	export let label = 'Start';
-	export let menuItems = [];
+	let { label = 'Start', menuItems = [] } = $props();
 	const dispatch = createEventDispatcher();
 
-	let open = false;
+	let open = $state(false);
 	let btnEl;
-	let menuEl;
-	let itemsRefs = [];
-	let menuTop = 0;
-	let menuLeft = 0;
+	let menuEl = $state(null);
+	let itemsRefs = $state([]);
+	let menuTop = $state(0);
+	let menuLeft = $state(0);
 
 	function toggle() {
 		open = !open;
@@ -130,8 +129,8 @@
 		bind:this={btnEl}
 		aria-haspopup="true"
 		aria-expanded={open}
-		on:click={toggle}
-		on:keydown={onButtonKeydown}
+		onclick={toggle}
+		onkeydown={onButtonKeydown}
 	>
 		<!-- small classic-style icon -->
 		<svg
@@ -162,8 +161,8 @@
 					role="menuitem"
 					tabindex="-1"
 					use:register={i}
-					on:keydown={(e) => onMenuKeydown(e, i)}
-					on:click={() => selectItem(i)}
+					onkeydown={(e) => onMenuKeydown(e, i)}
+					onclick={() => selectItem(i)}
 				>
 					{item.label}
 				</li>
@@ -232,3 +231,4 @@
 		color: white;
 	}
 </style>
+

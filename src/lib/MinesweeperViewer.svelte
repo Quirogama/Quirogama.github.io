@@ -9,3 +9,4 @@
     <button on:click={() => alert('Placeholder: Minesweeper aún no implementado')}>Launch</button>
   </div>
 </div>
+

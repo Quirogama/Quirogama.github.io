@@ -180,3 +180,4 @@
   .equals{ font-size:18px; font-weight:700 }
   @media (max-width:420px){ .grid{ grid-template-columns: repeat(4,minmax(30px,1fr)) } button{ font-size:14px; padding:5px } .display{ font-size:22px } }
 </style>
+

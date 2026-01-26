@@ -10,7 +10,7 @@
 	import GalleryViewer from './GalleryViewer.svelte';
 	import MinesweeperViewer from './MinesweeperViewer.svelte';
 	import SnakeViewer from './SnakeViewer.svelte';
-	import { aboutText, aboutTitle, projects, experiences, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y, APPS } from '$lib/windowsConfig.js';
+	import { aboutText, aboutTitle, projects, experiences, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y, APPS, CONTACT_TEXT, SOCIAL_LINKS } from '$lib/windowsConfig.js';
 	import { onMount } from 'svelte';
     
 	let { windows = $bindable([]) } = $props();
@@ -31,7 +31,7 @@
 				x: app.desktopPosition.x,
 				y: app.desktopPosition.y,
 				// Props específicas para about/contact
-				content: app.id === 'about' ? aboutText : (app.id === 'contact' ? 'Contacto\n\n📧 Email: quirogama@javeriana.edu.co\n🔗 GitHub: github.com/Quirogama\n💼 LinkedIn: linkedin.com/in/quirogama\n📍 Bogotá, Colombia\n\nEspecializado en análisis de datos, automatización y desarrollo web. Disponible para proyectos de Data Analysis, BI, Web Development o Data Science.' : null)
+				content: app.id === 'about' ? aboutText : (app.id === 'contact' ? CONTACT_TEXT : null)
 			}))
 	);
 
@@ -113,13 +113,13 @@
 		
 		// Si es el ícono de GitHub, abre la URL directamente en una nueva pestaña
 		if (icon.id === 'github') {
-			window.open('https://github.com/Quirogama', '_blank');
+			window.open(SOCIAL_LINKS.github, '_blank');
 			return;
 		}
 		
 		// Si es el ícono de LinkedIn, abre la URL directamente en una nueva pestaña
 		if (icon.id === 'linkedin') {
-			window.open('https://www.linkedin.com/in/quirogama/', '_blank');
+			window.open(SOCIAL_LINKS.linkedin, '_blank');
 			return;
 		}
 		
@@ -247,3 +247,4 @@
 		overflow: hidden;
 	}
 </style>
+

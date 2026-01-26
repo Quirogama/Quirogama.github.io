@@ -4,7 +4,7 @@
 	import Taskbar from '$lib/Taskbar.svelte';
 	import PDFViewer from '$lib/PDFViewer.svelte';
 	import ProjectsViewer from '$lib/ProjectsViewer.svelte';
-	import { aboutTitle, aboutText, projects, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y, APPS } from '$lib/windowsConfig.js';
+	import { aboutTitle, aboutText, projects, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y, APPS, CONTACT_TEXT } from '$lib/windowsConfig.js';
 	import { onMount } from 'svelte';
 	import '../global.css';
 
@@ -81,7 +81,6 @@
 	function createWindowFromApp(appId) {
 		const app = APPS[appId];
 		if (!app) {
-			console.log('App no encontrada:', appId);
 			return;
 		}
 
@@ -107,7 +106,7 @@
 		// Construir contenido según la app
 		let content = null;
 		if (appId === 'about') content = aboutText;
-		else if (appId === 'contact') content = 'Contacto\n\n📧 Email: quirogama@javeriana.edu.co\n🔗 GitHub: github.com/Quirogama\n💼 LinkedIn: linkedin.com/in/quirogama\n📍 Bogotá, Colombia\n\nEspecializado en análisis de datos, automatización y desarrollo web. Disponible para proyectos de Data Analysis, BI, Web Development o Data Science.';
+		else if (appId === 'contact') content = CONTACT_TEXT;
 
 		// Construir componentProps
 		let componentProps = { ...app.componentProps };

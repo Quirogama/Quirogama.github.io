@@ -2,13 +2,12 @@
   import { onMount } from 'svelte';
   let canvasEl;
   let ctx;
-  export let width = 535;
-  export let height = 290;
+  let { width = 535, height = 290 } = $props();
 
-  let tool = 'pencil';
-  let color1 = '#000000';
-  let color2 = '#FFFFFF';
-  let size = 1;
+  let tool = $state('pencil');
+  let color1 = $state('#000000');
+  let color2 = $state('#FFFFFF');
+  let size = $state(1);
 
   const palette = [
     '#000000', '#808080', '#800000', '#808000', '#008000', '#008080', '#000080', '#800080',
@@ -17,11 +16,11 @@
     '#FFFF80', '#00FF80', '#80FFFF', '#8080FF', '#FF0080', '#FF8040'
   ];
 
-  let drawing = false;
-  let start = { x: 0, y: 0 };
-  let last = { x: 0, y: 0 };
-  let snapshot = null;
-  let wasDrawingOnLeave = false;
+  let drawing = $state(false);
+  let start = $state({ x: 0, y: 0 });
+  let last = $state({ x: 0, y: 0 });
+  let snapshot = $state(null);
+  let wasDrawingOnLeave = $state(false);
 
   onMount(() => {
     ctx = canvasEl.getContext('2d');
@@ -302,26 +301,26 @@
     <!-- Toolbox a la izquierda con iconos tipo Windows 98 -->
     <div class="toolbox">
       <div class="tool-grid">
-        <button class="tool-btn" class:active={tool==='pencil'} on:click={() => tool='pencil'} title="Lápiz (P)">✏️</button>
-        <button class="tool-btn" class:active={tool==='brush'} on:click={() => tool='brush'} title="Pincel (B)">🖌️</button>
-        <button class="tool-btn" class:active={tool==='fill'} on:click={() => tool='fill'} title="Relleno (F)">🪣</button>
-        <button class="tool-btn" class:active={tool==='picker'} on:click={() => tool='picker'} title="Selector color (I)">💧</button>
-        <button class="tool-btn" class:active={tool==='eraser'} on:click={() => tool='eraser'} title="Borrador (E)">🧹</button>
-        <button class="tool-btn" class:active={tool==='line'} on:mousedown={beginPreview} on:click={() => tool='line'} title="Línea (L)">/</button>
-        <button class="tool-btn" class:active={tool==='rect'} on:mousedown={beginPreview} on:click={() => tool='rect'} title="Rectángulo (R)">▭</button>
-        <button class="tool-btn" class:active={tool==='ellipse'} on:mousedown={beginPreview} on:click={() => tool='ellipse'} title="Elipse (O)">○</button>
-        <button class="tool-btn" class:active={tool==='rectFilled'} on:mousedown={beginPreview} on:click={() => tool='rectFilled'} title="Rectángulo relleno">▬</button>
-        <button class="tool-btn" class:active={tool==='ellipseFilled'} on:mousedown={beginPreview} on:click={() => tool='ellipseFilled'} title="Elipse rellena">●</button>
+        <button class="tool-btn" class:active={tool==='pencil'} onclick={() => tool='pencil'} title="Lápiz (P)">✏️</button>
+        <button class="tool-btn" class:active={tool==='brush'} onclick={() => tool='brush'} title="Pincel (B)">🖌️</button>
+        <button class="tool-btn" class:active={tool==='fill'} onclick={() => tool='fill'} title="Relleno (F)">🪣</button>
+        <button class="tool-btn" class:active={tool==='picker'} onclick={() => tool='picker'} title="Selector color (I)">💧</button>
+        <button class="tool-btn" class:active={tool==='eraser'} onclick={() => tool='eraser'} title="Borrador (E)">🧹</button>
+        <button class="tool-btn" class:active={tool==='line'} onmousedown={beginPreview} onclick={() => tool='line'} title="Línea (L)">/</button>
+        <button class="tool-btn" class:active={tool==='rect'} onmousedown={beginPreview} onclick={() => tool='rect'} title="Rectángulo (R)">▭</button>
+        <button class="tool-btn" class:active={tool==='ellipse'} onmousedown={beginPreview} onclick={() => tool='ellipse'} title="Elipse (O)">○</button>
+        <button class="tool-btn" class:active={tool==='rectFilled'} onmousedown={beginPreview} onclick={() => tool='rectFilled'} title="Rectángulo relleno">▬</button>
+        <button class="tool-btn" class:active={tool==='ellipseFilled'} onmousedown={beginPreview} onclick={() => tool='ellipseFilled'} title="Elipse rellena">●</button>
       </div>
       
       <!-- Selector de tamaño -->
       <div class="size-selector">
-        <label class="size-label">Tamaño:</label>
+        <div class="size-title">Tamaño:</div>
         <div class="size-options">
-          <button class="size-btn" class:active={size===1} on:click={() => size=1}>·</button>
-          <button class="size-btn" class:active={size===2} on:click={() => size=2}>•</button>
-          <button class="size-btn" class:active={size===3} on:click={() => size=3}>●</button>
-          <button class="size-btn" class:active={size===5} on:click={() => size=5}>⬤</button>
+          <button class="size-btn" class:active={size===1} onclick={() => size=1}>·</button>
+          <button class="size-btn" class:active={size===2} onclick={() => size=2}>•</button>
+          <button class="size-btn" class:active={size===3} onclick={() => size=3}>●</button>
+          <button class="size-btn" class:active={size===5} onclick={() => size=5}>⬤</button>
         </div>
       </div>
     </div>
@@ -330,11 +329,11 @@
     <div class="canvas-area">
       <canvas
         bind:this={canvasEl}
-        on:pointerdown={(e) => { beginPreview(e); pointerDown(e); }}
-        on:pointermove={pointerMove}
-        on:pointerup={pointerUp}
-        on:pointerleave={pointerLeave}
-        on:pointerenter={pointerEnter}
+        onpointerdown={(e) => { beginPreview(e); pointerDown(e); }}
+        onpointermove={pointerMove}
+        onpointerup={pointerUp}
+        onpointerleave={pointerLeave}
+        onpointerenter={pointerEnter}
       ></canvas>
     </div>
   </div>
@@ -350,18 +349,18 @@
     
     <div class="palette">
       {#each palette.slice(0, 14) as c}
-        <button class="color-swatch" class:selected={color1 === c} style="background:{c};" on:click={() => color1 = c} title={c}></button>
+        <button class="color-swatch" class:selected={color1 === c} style="background:{c};" onclick={() => color1 = c} title={c}></button>
       {/each}
       <div class="palette-row2">
         {#each palette.slice(14) as c}
-          <button class="color-swatch" class:selected={color1 === c} style="background:{c};" on:click={() => color1 = c} title={c}></button>
+          <button class="color-swatch" class:selected={color1 === c} style="background:{c};" onclick={() => color1 = c} title={c}></button>
         {/each}
       </div>
     </div>
 
     <div class="actions">
-      <button class="action-btn" on:click={clearCanvas} title="Limpiar (C)">Limpiar</button>
-      <button class="action-btn" on:click={savePNG} title="Guardar (S)">Guardar</button>
+      <button class="action-btn" onclick={clearCanvas} title="Limpiar (C)">Limpiar</button>
+      <button class="action-btn" onclick={savePNG} title="Guardar (S)">Guardar</button>
     </div>
   </div>
 </div>
@@ -435,7 +434,7 @@
     padding-top: 6px;
   }
 
-  .size-label {
+  .size-title {
     font-size: 9px;
     display: block;
     margin-bottom: 4px;
@@ -597,3 +596,6 @@
     border-color: #000000 #ffffff #ffffff #000000;
   }
 </style>
+
+
+

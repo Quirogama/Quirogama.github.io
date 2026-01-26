@@ -2,16 +2,14 @@
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
   import { APPS } from '$lib/windowsConfig.js';
   
-  // Props: lista de tareas (ventanas abiertas) y la ventana activa
-  export let tasks = [];
-  export let activeWindowId = null;
+  let { tasks = [], activeWindowId = null } = $props();
 
-  let clock = '';
+  let clock = $state('');
   let timer;
-  let startPressed = false;
-  let startMenuOpen = false;
-  let menuEl;
-  let buttonEl;
+  let startPressed = $state(false);
+  let startMenuOpen = $state(false);
+  let menuEl = $state(null);
+  let buttonEl = $state(null);
 
   const dispatch = createEventDispatcher();
 
@@ -88,7 +86,7 @@
 <div class="taskbar">
   <!-- Botón de inicio y menú Start -->
   <div class="start">
-    <button bind:this={buttonEl} class="inicio-wrap" class:pressed={startPressed} on:click={toggleStart}>
+    <button bind:this={buttonEl} class="inicio-wrap" class:pressed={startPressed} onclick={toggleStart}>
       <!-- Icono del botón de inicio -->
       <img class="inicio-icon" src="/icons/windows.png" alt="Start" />
       <span class="inicio">Start</span>
@@ -103,8 +101,8 @@
           {:else}
             <button 
               class="menu-item" 
-              on:click={() => selectMenuItem(item)}
-              on:keydown={(e) => {
+              onclick={() => selectMenuItem(item)}
+              onkeydown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
                   selectMenuItem(item);
@@ -133,7 +131,7 @@
         class="task" 
         class:active={t.id === activeWindowId}
         title={t.label}
-        on:click={() => handleTaskClick(t.id)}
+        onclick={() => handleTaskClick(t.id)}
       >
         {#if t.icon}
           <img class="task-icon" src={t.icon} alt="" aria-hidden="true" />
@@ -388,3 +386,5 @@
     background: linear-gradient(to bottom, #808080, #ffffff);
   }
 </style>
+
+

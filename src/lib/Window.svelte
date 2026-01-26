@@ -267,3 +267,4 @@
 	.resize-handle.handle-se { right: -12px; bottom: -12px; width: 24px; height: 24px; cursor: nwse-resize; }
 	.resize-handle.handle-sw { left: -12px; bottom: -12px; width: 24px; height: 24px; cursor: nesw-resize; }
 </style>
+
