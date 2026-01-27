@@ -12,6 +12,7 @@
 	let clickCount = $state(0);
 	let clickTimer;
 
+	// Detecta doble click: primer click selecciona, segundo abre
 	function handleClick() {
 		clickCount++;
 		clearTimeout(clickTimer);
@@ -25,7 +26,7 @@
 		}
 	}
 
-	// Teclado: abrir con 1 sola pulsación de ENTER/SPACE
+	// Abre el icono con Enter o Espacio
 	function handleKeyDown(e) {
 		if (e.key === 'Enter' || e.key === ' ') {
 			e.preventDefault();

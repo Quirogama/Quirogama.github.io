@@ -1,4 +1,5 @@
 <script>
+	// Recibe lista de experiencias desde windowsConfig
 	let { experiences = [] } = $props();
 </script>
 

@@ -1,7 +1,7 @@
 <script>
 	let { projects = [] } = $props();
 	
-	// Mapeo de iconos por tipo de proyecto
+	// Mapeo de iconos emoji por título de proyecto
 	const projectIcons = {
 		'Analytics Dashboard': '📊',
 		'ETL Automation Pipeline': '⚙️',

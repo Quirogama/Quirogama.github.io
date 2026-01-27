@@ -10,6 +10,7 @@
 	let menuTop = $state(0);
 	let menuLeft = $state(0);
 
+	// Alterna la visibilidad del menú Start
 	function toggle() {
 		open = !open;
 		if (open) {
@@ -37,6 +38,7 @@
 		}
 	}
 
+	// Posiciona el menú encima del botón Start
 	function positionMenu() {
 		if (!btnEl || !menuEl) return;
 		const btnRect = btnEl.getBoundingClientRect();
@@ -49,6 +51,7 @@
 		menuLeft = left;
 	}
 
+	// Enfoca el primer elemento del menú al abrirse
 	function focusFirst() {
 		if (itemsRefs[0]) itemsRefs[0].focus();
 	}

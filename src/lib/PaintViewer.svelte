@@ -22,6 +22,7 @@
   let snapshot = $state(null);
   let wasDrawingOnLeave = $state(false);
 
+  // Inicializa el canvas con fondo blanco al montar
   onMount(() => {
     ctx = canvasEl.getContext('2d');
     resizeCanvas();
@@ -29,6 +30,7 @@
     ctx.fillRect(0, 0, canvasEl.width, canvasEl.height);
   });
 
+  // Ajusta el canvas considerando el pixel ratio de pantallas de alta densidad
   function resizeCanvas() {
     const dpr = window.devicePixelRatio || 1;
     canvasEl.width = width * dpr;
@@ -39,6 +41,7 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
+  // Convierte coordenadas del mouse a coordenadas locales del canvas
   function toLocal(e) {
     const rect = canvasEl.getBoundingClientRect();
     const xClient = e.clientX - rect.left;
@@ -49,6 +52,7 @@
     return { x: xClient * scaleX, y: yClient * scaleY };
   }
 
+  // Inicia el dibujo: activa herramienta según el tool seleccionado
   function pointerDown(e) {
     const p = toLocal(e);
     drawing = true;
@@ -67,6 +71,7 @@
     }
   }
 
+  // Maneja el movimiento del puntero: dibuja líneas, formas o borra según la herramienta
   function pointerMove(e) {
     if (e && typeof e.buttons !== 'undefined' && e.buttons === 0) {
       if (drawing) {
@@ -105,6 +110,7 @@
     }
   }
 
+  // Finaliza el dibujo: renderiza formas finales (líneas, rectángulos, elipses)
   function pointerUp(e) {
     if (!drawing) return;
     drawing = false;
@@ -155,6 +161,7 @@
     snapshot = null;
   }
 
+  // Detiene el dibujo al salir del canvas, guarda estado si se estaba dibujando
   function pointerLeave(e) {
     if (drawing && e && typeof e.buttons !== 'undefined' && e.buttons !== 0) {
       wasDrawingOnLeave = true;
@@ -165,6 +172,7 @@
     snapshot = null;
   }
 
+  // Retoma el dibujo al volver a entrar al canvas con el botón presionado
   function pointerEnter(e) {
     if (wasDrawingOnLeave && e && typeof e.buttons !== 'undefined' && e.buttons !== 0) {
       const p = toLocal(e);
@@ -183,6 +191,7 @@
     last = { x: 0, y: 0 };
   }
 
+  // Redibuja preview de formas (línea/rectángulo/elipse) mientras se arrastra
   function redrawPreview(p) {
     if (!snapshot) return;
     ctx.putImageData(snapshot, 0, 0);
@@ -227,17 +236,20 @@
     }
   }
 
+  // Guarda snapshot del canvas para herramientas de forma (permite preview)
   function beginPreview() {
     if (tool === 'line' || tool === 'rect' || tool === 'ellipse' || tool === 'rectFilled' || tool === 'ellipseFilled') {
       snapshot = ctx.getImageData(0, 0, canvasEl.width, canvasEl.height);
     }
   }
 
+  // Limpia el canvas con fondo blanco
   function clearCanvas() {
     ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(0, 0, canvasEl.width, canvasEl.height);
   }
 
+  // Descarga el canvas como PNG
   function savePNG() {
     const link = document.createElement('a');
     link.download = 'paint.png';
@@ -245,6 +257,7 @@
     link.click();
   }
 
+  // Selector: captura el color del pixel clickeado
   function pickColor(x, y) {
     const img = ctx.getImageData(x, y, 1, 1);
     const d = img.data;
@@ -254,6 +267,7 @@
     color1 = `#${r}${g}${b}`;
   }
 
+  // Relleno por inundación: pinta área contigua del mismo color usando stack
   function bucketFill(x, y) {
     const img = ctx.getImageData(0, 0, canvasEl.width, canvasEl.height);
     const w = img.width;
@@ -286,6 +300,7 @@
     ctx.putImageData(img, 0, 0);
   }
 
+  // Convierte color hexadecimal a array RGBA
   function hexToRgba(hex) {
     const c = hex.replace('#', '');
     const bigint = parseInt(c.length === 3 ? c.split('').map(ch => ch + ch).join('') : c, 16);
