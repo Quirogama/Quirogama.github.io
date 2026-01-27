@@ -1,6 +1,7 @@
 <script>
 	import { onMount, onDestroy } from 'svelte';
 
+	// Props principales de la ventana (posiciones bindables para drag/resize)
 	let {
 		title = 'Untitled',
 		width = 300,

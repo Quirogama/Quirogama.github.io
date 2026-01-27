@@ -25,7 +25,7 @@
 		}
 	}
 
-	// Teclado: abrir con 1 sola pulsación de ENTER/SPACE (más intuitivo)
+	// Teclado: abrir con 1 sola pulsación de ENTER/SPACE
 	function handleKeyDown(e) {
 		if (e.key === 'Enter' || e.key === ' ') {
 			e.preventDefault();

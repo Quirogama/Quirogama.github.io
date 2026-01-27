@@ -20,7 +20,7 @@
 		centerTop = Math.max(50, (window.innerHeight - WINDOW_SIZES.about.height - 100) / 2); // -100 para la taskbar
 	});
 
-	// Estado global de ventanas: contiene la ventana "Sobre mí" abierta por defecto
+	// Estado global de ventanas: arranca con "Sobre mí" ya abierta
 	let windows = $state([
 		{
 			id: 1,
@@ -39,19 +39,19 @@
 		}
 	]);
 
-	// Lista de tareas (ventanas visibles) para la taskbar
+	// Derivado: lista de tareas visibles para la taskbar
 	let tasks = $derived(
 		windows
 			.filter((w) => !w.hiddenInTaskbar)
 			.map((w) => ({ id: w.id, label: w.appLabel ?? w.title, icon: w.icon }))
 	);
 
-	// ID de la ventana activa (la que está en el frente)
+	// Derivado: id de la ventana activa (la que tiene z más alto y no está minimizada)
 	let activeWindowId = $derived(
 		windows.reduce((maxW, w) => (!w.minimized && w.z > (maxW?.z ?? 0) ? w : maxW), null)?.id ?? null
 	);
 
-	// Maneja los clics en las tareas de la taskbar
+	// Click en una tarea: restaura, minimiza o trae al frente según estado
 	function handleTaskClick(event) {
 		const { id } = event.detail;
 		const window = windows.find(w => w.id === id);

@@ -15,7 +15,7 @@
     
 	let { windows = $bindable([]) } = $props();
 
-	// Genera iconos del escritorio desde APPS (única fuente de verdad)
+	// Genera iconos del escritorio desde APPS
 	let icons = $state(
 		Object.values(APPS)
 			.filter(app => app.showInDesktop)
@@ -45,7 +45,7 @@
 	let layoutMode = $state('column');
 	let maxPerLine = $state(4); // máximo de iconos por línea
 
-	// Recalcula el layout basado en la altura de la pantalla
+	// Recalcula cuántos iconos caben en columna según la altura
 	function updateLayoutMode() {
 		if (typeof window === 'undefined') return;
 		const screenHeight = window.innerHeight;
@@ -68,7 +68,7 @@
 		});
 	}
 
-	// Al cargar, inicializa el layout y abre la ventana de "Sobre mí" automáticamente
+	// Al cargar: ajusta layout y abre "Sobre mí" si no hay ventanas
 	onMount(() => {
 		updateLayoutMode();
 		const handler = () => updateLayoutMode();
@@ -93,7 +93,7 @@
 		};
 	});
 
-	// Contador para controlar el orden de profundidad (z-index) de las ventanas
+	// Contador para z-index de ventanas
 	let zCounter = $state(Math.max(0, ...windows.map(w => w.z ?? 0)) || 1);
 	
 	// Trae una ventana al frente incrementando su z-index

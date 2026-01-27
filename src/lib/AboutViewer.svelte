@@ -1,76 +1,83 @@
 <script>
+  // Recibe el contenido del About desde windowsConfig
   let { content = '' } = $props();
-  // derive paragraphs from the content text
-  let paragraphs = content ? content.split(/\n\n+/).map(p => p.trim()) : [];
+  // Divide el contenido en párrafos (ya tiene saltos quemados)
+  let paragraphs = content ? content.split('\n').filter(p => p.trim()) : [];
 
-  // If the first paragraph begins with the full name, strip just the name so
-  // it doesn't appear next to the avatar (keeps the rest of the line).
-  if (paragraphs.length) {
-    paragraphs[0] = paragraphs[0].replace(/^Andr[eé]s Quiroga\s*[—-]?\s*/i, '');
-  }
-
-  // safer linkifier: single-pass regex that matches either http(s)://... or www.... or mailto:
-  // This avoids double-wrapping URLs (which produced malformed nested anchors during prerender).
+  // Linkificador seguro: convierte http(s)/www/mailto a <a>, evitando anidar anchors
   function linkify(text) {
-    if (!text) return '';
-    // escape HTML chars to avoid accidental injection
+    if (!text) return ''; // Si no hay texto, devuelve vacío
+    
+    // Escapa caracteres HTML para evitar inyecciones
     const escaped = text
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
 
-    // Convertir URLs y mailto en links
+    // Busca patrones de URL/mailto y envuelve en <a> con target="_blank"
     return escaped.replace(/(https?:\/\/[^\s]+)|(mailto:[^\s]+)|(www\.[^\s]+)/g, (match, p1, p2, p3) => {
-      const url = p1 || p2 || ('http://' + p3);
-      return `<a href="${url}" target="_blank" rel="noopener noreferrer">${match}</a>`;
+      const url = p1 || p2 || ('http://' + p3); // Resuelve la URL completa
+      return `<a href="${url}" target="_blank" rel="noopener noreferrer">${match}</a>`; // Envuelve el match
     });
   }
 
-  // Render paragraph as HTML. If paragraph is a known section title, wrap it
-  // in a title element for bold styling; otherwise run through linkify.
+  // Renderiza párrafo como HTML: títulos conocidos usan .about-title, resto pasa por linkify
   function renderParagraphHTML(p) {
-    if (!p) return '';
+    if (!p) return ''; // Si no hay párrafo, devuelve vacío
+    
     const titles = [
       'Sobre mí',
       'Qué hago',
       'Proyectos destacados',
       'Más sobre mí',
       '¿Contacto?'
-    ];
-    const trimmed = p.trim();
-    // case-insensitive compare
+    ]; // Lista de títulos conocidos
+    
+    const trimmed = p.trim(); // Limpia espacios al inicio/fin
+    
+    // Compara case-insensitive contra la lista de títulos
     if (titles.some(t => t.toLowerCase() === trimmed.toLowerCase())) {
-      // escape trimmed and wrap
+      // Escapa el título y lo envuelve en <div class="about-title">
       const escaped = trimmed.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       return `<div class="about-title">${escaped}</div>`;
     }
+    
+    // Si no es título, aplica linkify para convertir URLs
     return linkify(p);
   }
-  // small tech list - you can expand this later or generate from content
-  const tech = ['Python', 'SQL', 'Power BI', 'Pandas', 'Svelte', 'JavaScript', 'Java', 'HTML/CSS', 'RStudio'];
+  // Lista de tecnologías en about me
+  const tech = ['Python', 'SQL', 'Power BI', 'Pandas', 'Svelte', 'JavaScript', 'Java', 'HTML/CSS', 'RStudio', 'AWS'];
 
-  // map tech name -> colors (background, text, border)
+  // Mapea nombre de tecnología a colores (fondo/texto/borde)
   function chipStyle(name) {
-    if (!name) return '';
-    const key = name.toLowerCase();
+    if (!name) return ''; // Si no hay nombre, devuelve vacío
+    
+    const key = name.toLowerCase(); // Convierte a minúsculas para búsqueda
+    
+    // Mapa de colores: key → {bg, text, border}
     const map = {
-      python: { bg: '#FFD43B', text: '#000', border: '#D1A700' }, // yellow
-      sql: { bg: '#CC3B3B', text: '#fff', border: '#9e2c2c' }, // red
-      'power bi': { bg: '#FFB400', text: '#000', border: '#b37a00' }, // adjusted to be distinct from python
-      pandas: { bg: '#1f4b99', text: '#fff', border: '#15386d' },
-      svelte: { bg: '#FF3E00', text: '#fff', border: '#b02b00' },
-      javascript: { bg: '#F7DF1E', text: '#000', border: '#d6c717' },
-      java: { bg: '#5382a1', text: '#fff', border: '#3f6176' },
-      'html/css': { bg: '#e44d26', text: '#fff', border: '#b03a1f' },
-      rstudio: { bg: '#276DC3', text: '#fff', border: '#1f4f90' }
+      python: { bg: '#3776ab', text: '#fff', border: '#254668' },
+      sql: { bg: '#e23a3a', text: '#fff', border: '#b22e2e' },
+      'power bi': { bg: '#f25022', text: '#fff', border: '#c23e1c' },
+      pandas: { bg: '#6c3fb3', text: '#fff', border: '#4a2680' },
+      svelte: { bg: '#16a34a', text: '#fff', border: '#0f7a2a' },
+      javascript: { bg: '#f7df1e', text: '#222', border: '#d4b000' },
+      java: { bg: '#0078d4', text: '#fff', border: '#005a9e' },
+      'html/css': { bg: '#0891b2', text: '#fff', border: '#065f73' },
+      rstudio: { bg: '#9333ea', text: '#fff', border: '#6b21a8' },
+      aws: { bg: '#ff9900', text: '#000', border: '#e68000' }
     };
+    
+    // Busca en el mapa o usa fallback gris
     const c = map[key] || { bg: '#e0e0e0', text: '#000', border: '#808080' };
+    
+    // Devuelve string de estilos CSS inline
     return `background:${c.bg};color:${c.text};border:1px solid ${c.border};`;
   }
 </script>
 
 <div class="about-root">
-  <!-- ensure .about-title selector is recognized by the compiler (used via {@html}) -->
+  <!-- Dummy para que el compilador reconozca .about-title usada en {@html} -->
   <div class="about-title" style="display:none" aria-hidden="true"></div>
   <div class="about-left">
     <div class="image-box">
@@ -103,7 +110,7 @@
     color: #000;
   }
 
-  /* left column floats so text can flow beside/under it */
+  /* Columna izquierda flotada para que el texto fluya a la derecha/abajo */
   .about-left {
     float: left;
     width: 250px;
@@ -137,7 +144,7 @@
   }
 
   .about-right {
-    /* allow text to wrap under the floated left column */
+    /* Permitir que el texto envuelva la columna flotada */
     overflow: visible;
     padding-right: 6px;
     font-size: 17px;
@@ -188,7 +195,7 @@
     background: #fff;
   }
 
-  /* Responsive: stack columns on narrow screens */
+  /* Responsive: apilar columnas en pantallas angostas */
   @media (max-width: 720px) {
     .about-left {
       float: none;

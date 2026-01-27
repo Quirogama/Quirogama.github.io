@@ -5,30 +5,33 @@
 
   // Agrega un número o símbolo a la pantalla
   function press(v) {
+    // Si la pantalla está en '0' y no es un punto, reemplaza; sino concatena
     if (display === '0' && v !== '.') display = String(v);
     else display = display + String(v);
   }
 
-  // Limpia la pantalla
+  // Limpia la pantalla a '0'
   function clear() { display = '0'; }
 
-  // Elimina el último carácter
+  // Elimina el último carácter (o devuelve '0' si quedaría vacío)
   function back() { display = display.length > 1 ? display.slice(0, -1) : '0'; }
 
-  // Parser matemático seguro sin eval()
+  // Parser matemático seguro sin eval(): tokeniza, reconoce precedencia de operadores y paréntesis
   function safeEval(expr) {
-    // Tokenizador: convierte la expresión en tokens
+    // Tokenizador: extrae números, operadores y paréntesis del string
     const tokens = expr.match(/(\d+\.?\d*|\+|\-|\*|\/|\(|\))/g);
-    if (!tokens) return NaN;
+    if (!tokens) return NaN; // Sin tokens válidos, error
 
     let index = 0;
 
-    // Parser recursivo con precedencia de operadores
+    // Parser recursivo con precedencia: multiplicación/división antes que suma/resta
     function parseExpression() {
+      // Punto de entrada: evalúa suma y resta (precedencia más baja)
       return parseAddSub();
     }
 
     function parseAddSub() {
+      // Suma y resta: obtiene izquierda (mul/div), luego opera secuencialmente
       let left = parseMulDiv();
       while (index < tokens.length && (tokens[index] === '+' || tokens[index] === '-')) {
         const op = tokens[index++];
@@ -39,6 +42,7 @@
     }
 
     function parseMulDiv() {
+      // Multiplicación y división: obtiene izquierda (factor), luego opera secuencialmente
       let left = parseFactor();
       while (index < tokens.length && (tokens[index] === '*' || tokens[index] === '/')) {
         const op = tokens[index++];
@@ -49,86 +53,98 @@
     }
 
     function parseFactor() {
+      // Factor: número, paréntesis o unario (negativo)
       const token = tokens[index];
       
-      // Números
+      // Parsea números (enteros o decimales)
       if (/^\d+\.?\d*$/.test(token)) {
         index++;
-        return parseFloat(token);
+        return parseFloat(token); // Convierte a número
       }
       
-      // Paréntesis
+      // Parsea paréntesis: abre, evalúa recursivamente, cierra
       if (token === '(') {
-        index++; // consume '('
+        index++; // Consume '('
         const result = parseExpression();
-        index++; // consume ')'
+        index++; // Consume ')'
         return result;
       }
       
-      // Operadores unarios (negativo)
+      // Parsea negativo unario
       if (token === '-') {
         index++;
         return -parseFactor();
       }
       
+      // Parsea positivo unario
       if (token === '+') {
         index++;
         return parseFactor();
       }
       
-      return NaN;
+      return NaN; // Token inválido
     }
 
-    return parseExpression();
+    return parseExpression(); // Inicia el parseo desde la expresión raíz
   }
 
-  // Calcula y muestra el resultado
+  // Calcula y muestra el resultado evaluando la expresión del display
   function evalExpr() {
     try {
-      // Valida que solo haya números y operadores permitidos
-      if (!/^[0-9+\-*/. ()]+$/.test(display)) return;
+      // Valida que el display solo contenga caracteres permitidos: dígitos, operadores, paréntesis y espacios
+      if (!/^[0-9+\-*/. ()]+$/.test(display)) return; // Si hay caracteres inválidos, cancela
+      
+      // Llama al parser matemático con la expresión del display
       const val = safeEval(display);
+      
+      // Si el resultado es un número finito válido, lo muestra; si no, muestra '0'
       display = String(Number.isFinite(val) ? val : '0');
     } catch (e) {
+      // Si hay error en la ejecución, muestra 'Error'
       display = 'Error';
     }
   }
 
-  // Soporte de teclado numérico y operadores
+  // Hook de ciclo de vida: registra escuchador de teclado cuando el componente se monta
   onMount(() => {
+    // Función interna que maneja eventos de tecla presionada
     function handleKeyDown(e) {
-      // Números
       if (e.key >= '0' && e.key <= '9') {
-        e.preventDefault();
-        press(e.key);
+        e.preventDefault(); // Evita comportamiento por defecto del navegador
+        press(e.key); // Agrega el dígito al display
       }
-      // Operadores
+      // Mapea operadores matemáticos (+, -, *, /) al método press()
       else if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') {
         e.preventDefault();
         press(e.key);
       }
-      // Punto decimal
+      // Mapea punto decimal al método press()
       else if (e.key === '.') {
         e.preventDefault();
         press('.');
       }
-      // Enter para calcular
+      // Mapea Enter o = para calcular el resultado
       else if (e.key === 'Enter' || e.key === '=') {
         e.preventDefault();
         evalExpr();
       }
-      // Escape para limpiar
+      // Mapea Escape para limpiar la pantalla
       else if (e.key === 'Escape') {
         e.preventDefault();
         clear();
       }
-      // Backspace para borrar
+      // Mapea Backspace para borrar el último carácter
       else if (e.key === 'Backspace') {
         e.preventDefault();
         back();
       }
     }
+
+    // Registra el escuchador de eventos 'keydown' en la ventana global del navegador
     window.addEventListener('keydown', handleKeyDown);
+    
+    // Retorna función de limpieza que se ejecuta al desmontar el componente
+    // Elimina el escuchador para evitar memory leaks
     return () => window.removeEventListener('keydown', handleKeyDown);
   });
 </script>
@@ -172,7 +188,7 @@
 <style>
   .calc-root{ padding:8px;width:100%;box-sizing:border-box; display:flex; justify-content:center }
   :root { --cell-h: 48px; }
-  .display{ border:1px solid #999;padding:10px 8px;background:#fff;margin-bottom:8px;font-family:monospace;font-size:22px; height:var(--cell-h); box-sizing:border-box; text-align:right; display:flex; align-items:center; justify-content:flex-end }
+  .display{ border:1px solid #999;padding:10px 8px;background:#fff;margin-bottom:8px;font-family:monospace;font-size:22px; height:var(--cell-h); box-sizing:border-box; text-align:right; display:flex; align-items:center; justify-content:flex-end; overflow:hidden; white-space:nowrap }
   .grid{ display:grid; grid-template-columns: repeat(4, minmax(40px, 1fr)); gap:6px; justify-items:stretch; grid-auto-rows: var(--cell-h) }
   button{ padding:6px 6px; cursor:pointer; font-size:16px; box-sizing:border-box }
   .num{ font-size:18px; font-weight:600 }

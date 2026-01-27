@@ -1,7 +1,8 @@
 <script>
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
   import { APPS } from '$lib/windowsConfig.js';
-  
+	
+  // Props: lista de tareas visibles y ventana activa
   let { tasks = [], activeWindowId = null } = $props();
 
   let clock = $state('');

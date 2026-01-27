@@ -1,4 +1,4 @@
-// Configuración centralizada del portafolio (evita duplicación)
+// Configuración centralizada del portafolio (evita duplicación entre componentes)
 
 // Información de contacto y redes sociales
 export const CONTACT_EMAIL = 'quirogama@javeriana.edu.co';
@@ -16,7 +16,7 @@ export const CONTACT_TEXT = `Contacto
 
 Especializado en análisis de datos, automatización y desarrollo web. Disponible para proyectos de Data Analysis, BI, Web Development o Data Science.`;
 
-// Información del About
+// Texto del About Me
 export const aboutTitle = 'Andrés Quiroga - Analista de Datos & Desarrollador Junior';
 
 export const aboutText = `_____________________________________________________
@@ -50,6 +50,7 @@ Me interesa
 Roles en Fullstack Development, Data Engineering, BI, o ETL donde pueda combinar frontend + backend. Abierto a full-time, proyectos o colaboraciones.`;
 
 // Proyectos (casos de estudio)
+// Lista de proyectos destacados (cada objeto es un caso de estudio)
 export const projects = [
 	{
 		title: 'Analytics Dashboard',
@@ -102,11 +103,12 @@ export const projects = [
 ];
 
 // Experiencia laboral
+// Experiencia laboral (array para permitir múltiples entradas en el futuro)
 export const experiences = [
 	{
 		position: 'Analista de Datos',
 		company: 'Pontificia Universidad Javeriana - Departamento de Proyectos Sociales Universitarios',
-	dates: 'Agosto 2025 - Noviembre 2025 (4 meses)',
+		dates: 'Agosto 2025 - Noviembre 2025 (4 meses)',
 		description: 'Análisis y limpieza de base de datos de practicantes. Creación de dashboard interactivo en Power BI para visualización histórica de participación de practicantes.',
 		achievements: [
 			'Redujo base de datos de 114 registros a 21 registros válidos (81.6% de datos limpios)',
@@ -120,6 +122,7 @@ export const experiences = [
 ];
 
 // Tamaños por defecto de cada ventana 
+// Tamaños por defecto de cada ventana según tipo de app
 export const WINDOW_SIZES = {
 	about: { width: 850, height: 580 },
 	pdf: { width: 700, height: 600 },
@@ -131,13 +134,13 @@ export const WINDOW_SIZES = {
 	default: { width: 520, height: 360 }
 };
 
-// Constantes de posicionamiento de ventanas
+// Offset y posición inicial al abrir nuevas ventanas
 export const WINDOW_OFFSET = 30; // Offset para cada nueva ventana
 export const WINDOW_INITIAL_X = 100;
 export const WINDOW_INITIAL_Y = 100;
 
-// Metadatos centralizados de todas las aplicaciones (única fuente de verdad)
-// NO se usa aún en Desktop/Taskbar/+layout, es preparación para Fase 3
+// Metadatos centralizados de todas las aplicaciones
+// Registro central de apps: íconos, visibilidad y tipo de componente
 export const APPS = {
 	about: {
 		id: 'about',
