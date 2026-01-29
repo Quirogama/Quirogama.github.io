@@ -1,14 +1,16 @@
 <script>
 	import favicon from '$lib/assets/favicon.svg';
-	import Desktop from '$lib/Desktop.svelte';
-	import Taskbar from '$lib/Taskbar.svelte';
-	import PDFViewer from '$lib/PDFViewer.svelte';
-	import ProjectsViewer from '$lib/ProjectsViewer.svelte';
-	import { aboutTitle, aboutText, projects, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y, APPS, CONTACT_TEXT } from '$lib/windowsConfig.js';
+	import Desktop from '$lib/retro/components/Desktop.svelte';
+	import Taskbar from '$lib/retro/components/Taskbar.svelte';
+	import ModernLanding from '$lib/modern/components/ModernLanding.svelte';
+	import { aboutTitle, aboutText, projects, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y, APPS, CONTACT_TEXT } from '$lib/retro/windowsConfig.js';
 	import { onMount } from 'svelte';
 	import '../global.css';
 
 	let { children } = $props();
+	
+	// Estado para toggle entre modern y retro
+	let mode = $state('modern'); // 'modern' o 'retro'
 
 	// Calcula la posición centrada para la ventana inicial
 	let centerLeft = $state(300);
@@ -149,15 +151,113 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<!-- Contenedor principal con Desktop y Taskbar -->
-<div class="shell-root">
-	<Desktop bind:windows />
-	<Taskbar {tasks} {activeWindowId} on:taskclick={handleTaskClick} on:menuselect={handleMenuSelect} />
-</div>
+{#if mode === 'modern'}
+	<!-- MODO MODERNO -->
+	<div class="mode-switcher">
+		<button class="switch-btn retro-btn" onclick={() => (mode = 'retro')} title="Cambiar a versión retro">
+			<span>↻</span> Ver Portafolio Retro
+		</button>
+	</div>
+	<ModernLanding />
+{:else}
+	<!-- MODO RETRO (Windows 98) -->
+	<div class="mode-switcher">
+		<button class="switch-btn modern-btn" onclick={() => (mode = 'modern')} title="Cambiar a versión moderna">
+			<span>↻</span> Ver Versión Moderna
+		</button>
+	</div>
+	<div class="shell-root">
+		<Desktop bind:windows />
+		<Taskbar {tasks} {activeWindowId} on:taskclick={handleTaskClick} on:menuselect={handleMenuSelect} />
+	</div>
+{/if}
 
 <!-- Rutas anidadas (contenido de las páginas del sitio) -->
 {@render children?.()}
 
 <style>
-	/* El shell-root ocupa toda la pantalla y gestiona el layout entre desktop y taskbar */
+	.mode-switcher {
+		position: fixed;
+		top: 20px;
+		right: 20px;
+		z-index: 9999;
+		animation: fadeInDown 0.4s ease-out;
+	}
+
+	.switch-btn {
+		padding: 10px 16px;
+		border: none;
+		border-radius: 6px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		font-size: 0.9rem;
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		backdrop-filter: blur(10px);
+	}
+
+	.modern-btn {
+		background: rgba(255, 255, 255, 0.9);
+		color: #1a1a1a;
+		border: 2px solid #2563eb;
+	}
+
+	.modern-btn:hover {
+		background: white;
+		box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+		transform: translateY(-2px);
+	}
+
+	.retro-btn {
+		background: rgba(192, 192, 192, 0.95);
+		color: #000080;
+		border: 2px outset #dfdfdf;
+		font-family: 'MS Sans Serif', Tahoma, sans-serif;
+		font-size: 11px;
+	}
+
+	.retro-btn:active {
+		border-style: inset;
+	}
+
+	.retro-btn:hover {
+		background: rgba(255, 255, 255, 0.95);
+	}
+
+	.switch-btn span {
+		display: inline-block;
+		animation: spin 1s linear infinite;
+	}
+
+	.switch-btn:hover span {
+		animation: spin 0.6s linear infinite;
+	}
+
+	@keyframes fadeInDown {
+		from {
+			opacity: 0;
+			transform: translateY(-10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes spin {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	:global(html, body) {
+		margin: 0;
+		padding: 0;
+	}
 </style>
+

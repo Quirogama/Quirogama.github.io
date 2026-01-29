@@ -6,11 +6,11 @@
 	import AboutViewer from './AboutViewer.svelte';
 	import ExperienceViewer from './ExperienceViewer.svelte';
 	import PaintViewer from './PaintViewer.svelte';
-	import Calculator from './Calculator.svelte';
+	import Calculator from '$lib/Calculator.svelte';
 	import GalleryViewer from './GalleryViewer.svelte';
 	import MinesweeperViewer from './MinesweeperViewer.svelte';
 	import SnakeViewer from './SnakeViewer.svelte';
-	import { aboutText, aboutTitle, projects, experiences, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y, APPS, CONTACT_TEXT, SOCIAL_LINKS } from '$lib/windowsConfig.js';
+	import { aboutText, aboutTitle, projects, experiences, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y, APPS, CONTACT_TEXT, SOCIAL_LINKS } from '../windowsConfig.js';
 	import { onMount } from 'svelte';
     
 	let { windows = $bindable([]) } = $props();

@@ -8,7 +8,7 @@ import {
 	EXPERIENCES,
 	ABOUT_TEXT_RETRO,
 	ABOUT_TITLE_RETRO
-} from './config/portfolioData.js';
+} from '../config/portfolioData.js';
 
 // Re-exporta para mantener compatibilidad backward con componentes existentes
 export { SOCIAL_LINKS, CONTACT_TEXT };
