@@ -39,8 +39,8 @@ ${PERSONAL_INFO.summary}`;
 export const SKILLS = {
 	languages: ['Python', 'SQL', 'JavaScript', 'Java'],
 	frontend: ['Svelte', 'HTML/CSS', 'JavaScript', 'Bootstrap'],
-	backend: ['Python', 'Node.js', 'Apache Airflow'],
-	dataTools: ['Pandas', 'NumPy', 'Power BI', 'Matplotlib', 'Seaborn'],
+	backend: ['Python', 'Node.js'],
+	dataTools: ['Pandas', 'Power BI', 'Matplotlib', 'Seaborn'],
 	databases: ['SQL Server', 'PostgreSQL', 'MongoDB'],
 	tools: ['Git', 'GitHub', 'AWS', 'Jupyter', 'Excel']
 };
@@ -53,11 +53,9 @@ export const SKILLS_FLAT = [
 	'Svelte',
 	'Power BI',
 	'Pandas',
-	'NumPy',
 	'HTML/CSS',
 	'Git',
 	'PostgreSQL',
-	'Apache Airflow',
 	'Bootstrap',
 	'AWS',
 	'Node.js'
@@ -74,7 +72,7 @@ export const PROJECTS = [
 		problem: 'Reportes manuales semanales consumían 8 horas de análisis repetitivo y estaban sujetos a errores humanos.',
 		solution: 'Dashboard interactivo en Power BI con actualizaciones automáticas. Consultas SQL optimizadas y DAX para cálculos complejos.',
 		impact: 'Reducción del 60% en tiempo de análisis. Reportes generados automáticamente. Decisiones más rápidas basadas en datos en tiempo real.',
-		stack: ['Power BI', 'SQL', 'DAX', 'ETL'],
+		stack: ['Power BI', 'SQL', 'ETL'],
 		image: null,
 		links: []
 	},
