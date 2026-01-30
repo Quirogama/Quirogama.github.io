@@ -61,6 +61,20 @@ export const SKILLS_FLAT = [
 	'Node.js'
 ];
 
+// Habilidades con niveles de proficiencia (para progress bars)
+export const SKILLS_WITH_LEVELS = [
+	{ name: 'Python', level: 85, category: 'language' },
+	{ name: 'SQL', level: 80, category: 'language' },
+	{ name: 'JavaScript', level: 75, category: 'language' },
+	{ name: 'Power BI', level: 90, category: 'data' },
+	{ name: 'Pandas', level: 80, category: 'data' },
+	{ name: 'Svelte', level: 70, category: 'frontend' },
+	{ name: 'HTML/CSS', level: 85, category: 'frontend' },
+	{ name: 'PostgreSQL', level: 75, category: 'database' },
+	{ name: 'Git', level: 80, category: 'tool' },
+	{ name: 'AWS', level: 60, category: 'tool' }
+];
+
 // ─────────────────────────────────────────────────────────────────────────
 // PROYECTOS (casos de estudio)
 // ─────────────────────────────────────────────────────────────────────────
@@ -69,9 +83,8 @@ export const PROJECTS = [
 	{
 		id: 'analytics-dashboard',
 		title: 'Analytics Dashboard',
-		problem: 'Reportes manuales semanales consumían 8 horas de análisis repetitivo y estaban sujetos a errores humanos.',
-		solution: 'Dashboard interactivo en Power BI con actualizaciones automáticas. Consultas SQL optimizadas y DAX para cálculos complejos.',
-		impact: 'Reducción del 60% en tiempo de análisis. Reportes generados automáticamente. Decisiones más rápidas basadas en datos en tiempo real.',
+		description: 'Dashboard interactivo en Power BI con análisis histórico de practicantes universitarios. Incluye visualizaciones de tendencias desde 2008 hasta 2025 con filtros dinámicos.',
+		highlight: 'Reducción del 60% en tiempo de análisis',
 		stack: ['Power BI', 'SQL', 'ETL'],
 		image: null,
 		links: []
@@ -79,47 +92,43 @@ export const PROJECTS = [
 	{
 		id: 'etl-automation',
 		title: 'ETL Automation Pipeline',
-		problem: 'Procesamiento manual de datos de múltiples fuentes, con limpieza de datos inconsistente y consolidación tardía en la BD.',
-		solution: 'Pipeline ETL en Python con Apache Airflow. Automatización end-to-end: extracción, transformación, validación, carga.',
-		impact: 'Procesa 10,000+ registros diarios sin intervención. Reducción del 80% en errores de datos. Mejora en tiempo de disponibilidad de datos.',
-		stack: ['Python', 'Pandas', 'SQL', 'Apache Airflow', 'PostgreSQL'],
+		description: 'Pipeline automatizado para extracción, transformación y carga de datos. Procesa múltiples fuentes con validaciones automáticas y manejo de errores.',
+		highlight: 'Reducción del 80% en errores de datos',
+		stack: ['Python', 'Pandas', 'SQL', 'PostgreSQL'],
 		image: null,
 		links: []
 	},
 	{
 		id: 'windows98-portfolio',
 		title: 'Windows 98 Portfolio',
-		problem: 'Portafolios estándar no reflejan personalidad técnica ni creatividad en el desarrollo web moderno.',
-		solution: 'Portafolio interactivo con estética Windows 98. Ventanas arrastrables/redimensionables, Paint integrado, componentes Svelte reutilizables.',
-		impact: 'Diferencial visual +200% en recordación. Demuestra conocimiento de Svelte, SvelteKit, CSS avanzado y gestión de estado.',
-		stack: ['Svelte', 'SvelteKit', 'JavaScript', 'CSS', 'Vite'],
+		description: 'Portafolio interactivo con estética nostálgica de Windows 98. Incluye ventanas arrastrables, Paint funcional, Calculadora, Snake y Buscaminas. Arquitectura modular con componentes Svelte.',
+		highlight: 'Experiencia de usuario única y memorable',
+		stack: ['Svelte', 'SvelteKit', 'JavaScript', 'CSS'],
 		image: null,
 		links: [
-			{ label: 'GitHub Repo', url: 'https://github.com/Quirogama/Quirogama.github.io' },
-			{ label: 'Deploy', url: 'https://quirogama.github.io' }
+			{ label: 'GitHub', url: 'https://github.com/Quirogama/Quirogama.github.io' },
+			{ label: 'Ver Demo', url: 'https://quirogama.github.io' }
 		]
 	},
 	{
 		id: 'predictive-analysis',
 		title: 'Predictive Analysis Model',
-		problem: 'Necesidad de prever tendencias en datos históricos para toma de decisiones estratégicas sin modelos estadísticos formales.',
-		solution: 'Modelo de Machine Learning con scikit-learn. Análisis exploratorio con Pandas. Visualizaciones comparativas de predictores.',
-		impact: 'Precisión del 78% en predicciones. Identificación de 3 patrones clave no visibles en análisis manual.',
-		stack: ['Python', 'scikit-learn', 'Pandas', 'Matplotlib', 'NumPy'],
+		description: 'Modelo de Machine Learning para predicción de tendencias en datos históricos. Incluye análisis exploratorio, feature engineering y visualizaciones interactivas.',
+		highlight: 'Precisión del 78% en predicciones',
+		stack: ['Python', 'scikit-learn', 'Pandas', 'Matplotlib'],
 		image: null,
 		links: []
 	},
 	{
 		id: 'pawcare',
 		title: 'PawCare - Sistema Veterinario',
-		problem: 'Necesidad de un sistema integral para gestionar clientes, mascotas, citas y servicios en una veterinaria con diferenciación entre roles de cliente y administrador.',
-		solution: 'Plataforma web completa con CRUDs para gestión de mascotas, clientes y citas. Dashboards de estadísticas para administradores. Sistema de autenticación diferenciado con login de cliente y administrador. Interfaz intuitiva basada en Bootstrap.',
-		impact: 'Centraliza la información de la veterinaria. Mejora la experiencia del cliente con acceso a su historial de mascotas. Facilita la administración con dashboards analíticos de citas y servicios.',
-		stack: ['Angular', 'Bootstrap', 'TypeScript', 'HTTP Client'],
+		description: 'Sistema integral para gestión veterinaria con roles diferenciados. Incluye CRUDs completos, dashboards analíticos, autenticación JWT y administración de citas y servicios.',
+		highlight: 'Arquitectura fullstack escalable',
+		stack: ['Angular', 'Spring Boot', 'TypeScript', 'Bootstrap'],
 		image: '/icons/pawcare.png',
 		links: [
-			{ label: 'Backend (Spring Boot)', url: 'https://github.com/Quirogama/PAW-CARE-SPRINGBOOT' },
-			{ label: 'Frontend (Angular)', url: 'https://github.com/Quirogama/PAW-CARE-ANGULAR' }
+			{ label: 'Backend', url: 'https://github.com/Quirogama/PAW-CARE-SPRINGBOOT' },
+			{ label: 'Frontend', url: 'https://github.com/Quirogama/PAW-CARE-ANGULAR' }
 		]
 	}
 ];
@@ -207,3 +216,53 @@ Me interesa
 Roles en ${PROFESSIONAL_INTERESTS.roles.join(', ')} donde pueda ${PROFESSIONAL_INTERESTS.focus}. Abierto a ${PROFESSIONAL_INTERESTS.openTo.join(', ')}.`;
 
 export const ABOUT_TITLE_RETRO = `${PERSONAL_INFO.name} - ${PERSONAL_INFO.title}`;
+
+// ─────────────────────────────────────────────────────────────────────────
+// ESTADÍSTICAS / MÉTRICAS (para sección Stats)
+// ─────────────────────────────────────────────────────────────────────────
+
+export const STATS = [
+	{
+		value: 114,
+		suffix: '',
+		label: 'Registros Analizados',
+		icon: '📊'
+	},
+	{
+		value: 81,
+		suffix: '%',
+		label: 'Precisión en Limpieza',
+		icon: '✨'
+	},
+	{
+		value: 4,
+		suffix: '',
+		label: 'Meses de Experiencia',
+		icon: '💼'
+	},
+	{
+		value: 5,
+		suffix: '',
+		label: 'Proyectos Desarrollados',
+		icon: '🚀'
+	}
+];
+
+// ─────────────────────────────────────────────────────────────────────────
+// OBJETO CONSOLIDADO (para acceso fácil)
+// ─────────────────────────────────────────────────────────────────────────
+
+export const portfolioData = {
+	personal: PERSONAL_INFO,
+	social: SOCIAL_LINKS,
+	skills: SKILLS,
+	skillsFlat: SKILLS_FLAT,
+	skillsWithLevels: SKILLS_WITH_LEVELS,
+	projects: PROJECTS,
+	experiences: EXPERIENCES,
+	education: EDUCATION,
+	stats: STATS,
+	interests: PROFESSIONAL_INTERESTS,
+	aboutRetro: ABOUT_TEXT_RETRO,
+	contactText: CONTACT_TEXT
+};

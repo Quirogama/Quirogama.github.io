@@ -1,5 +1,25 @@
 <script>
-	import { PERSONAL_INFO, SKILLS_FLAT, PROFESSIONAL_INTERESTS } from '$lib/config/portfolioData.js';
+	import { onMount } from 'svelte';
+	import { portfolioData } from '$lib/config/portfolioData.js';
+
+	let skillsAnimated = $state(false);
+
+	onMount(() => {
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting && !skillsAnimated) {
+					skillsAnimated = true;
+				}
+			});
+		}, { threshold: 0.3 });
+
+		const skillsSection = document.querySelector('.skills-container');
+		if (skillsSection) {
+			observer.observe(skillsSection);
+		}
+
+		return () => observer.disconnect();
+	});
 </script>
 
 <section class="about" data-reveal id="about">
@@ -7,13 +27,28 @@
 		<h2 class="section-title">Sobre Mí</h2>
 		<div class="about-grid">
 			<div class="about-text">
-				<p>{PERSONAL_INFO.summary}</p>
-				<p>Especializado en <strong>{PROFESSIONAL_INTERESTS.focus}</strong> con experiencia en:</p>
+				<p>{portfolioData.personal.summary}</p>
+				<p>Especializado en <strong>{portfolioData.interests.focus}</strong> con experiencia en:</p>
 			</div>
-			<div class="skills-grid">
-				{#each SKILLS_FLAT as skill}
-					<div class="skill-tag">{skill}</div>
-				{/each}
+			<div class="skills-container">
+				<h3 class="skills-title">Habilidades Técnicas</h3>
+				<div class="skills-list">
+					{#each portfolioData.skillsWithLevels as skill}
+						<div class="skill-item">
+							<div class="skill-header">
+								<span class="skill-name">{skill.name}</span>
+								<span class="skill-percentage">{skill.level}%</span>
+							</div>
+							<div class="skill-bar-container">
+								<div 
+									class="skill-bar-fill" 
+									class:animated={skillsAnimated}
+									style="--skill-level: {skill.level}%"
+								></div>
+							</div>
+						</div>
+					{/each}
+				</div>
 			</div>
 		</div>
 	</div>
@@ -70,30 +105,90 @@
 		margin: 0 0 16px 0;
 	}
 
-	.skills-grid {
+	.skills-container {
 		display: flex;
-		flex-wrap: wrap;
-		gap: 12px;
+		flex-direction: column;
+		gap: var(--space-6);
 	}
 
-	.skill-tag {
-		padding: 8px 16px;
-		background: var(--glass-bg);
-		backdrop-filter: blur(10px);
-		border: 2px solid var(--glass-border);
-		border-radius: var(--radius-full);
+	.skills-title {
+		font-size: var(--text-xl);
+		font-weight: 600;
+		color: var(--primary);
+		margin: 0 0 var(--space-4) 0;
+	}
+
+	.skills-list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-5);
+	}
+
+	.skill-item {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+
+	.skill-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.skill-name {
 		font-size: var(--text-base);
 		font-weight: 500;
 		color: var(--text);
-		transition: all 0.3s ease;
 	}
 
-	.skill-tag:hover {
-		border-color: var(--primary);
-		background: rgba(212, 175, 55, 0.1);
+	.skill-percentage {
+		font-size: var(--text-sm);
+		font-weight: 600;
 		color: var(--primary);
-		transform: translateY(-2px);
-		box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+	}
+
+	.skill-bar-container {
+		width: 100%;
+		height: 8px;
+		background: rgba(26, 26, 46, 0.6);
+		border-radius: var(--radius-full);
+		overflow: hidden;
+		position: relative;
+	}
+
+	.skill-bar-fill {
+		height: 100%;
+		width: 0;
+		background: linear-gradient(90deg, var(--primary), #F4E5B7);
+		border-radius: var(--radius-full);
+		transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+		position: relative;
+		overflow: hidden;
+	}
+
+	.skill-bar-fill::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: -100%;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+		animation: shimmer 2s infinite;
+	}
+
+	.skill-bar-fill.animated {
+		width: var(--skill-level);
+	}
+
+	@keyframes shimmer {
+		0% {
+			left: -100%;
+		}
+		100% {
+			left: 200%;
+		}
 	}
 
 	@keyframes fadeIn {

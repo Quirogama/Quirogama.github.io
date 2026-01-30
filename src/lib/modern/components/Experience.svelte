@@ -181,7 +181,7 @@
 		margin: 0 0 16px 0;
 		color: var(--text-dim);
 		line-height: var(--line-height-relaxed);
-		font-size: var(--text-lg);
+		font-size: 1.4rem;
 	}
 
 	.timeline-tech {

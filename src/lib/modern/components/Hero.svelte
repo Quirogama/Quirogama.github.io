@@ -105,22 +105,21 @@
 
 <style>
 	.hero {
-		min-height: 100vh;
 		display: flex;
 		align-items: center;
-		padding: 80px 40px;
+		padding: clamp(64px, 8vh, 120px) 40px;
 		position: relative;
 		z-index: 1;
 		animation: fadeInUp 0.8s ease-out;
 	}
 
 	.hero-content {
-		max-width: 1200px;
+		max-width: 1400px;
 		margin: 0 auto;
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: minmax(320px, 1.1fr) minmax(280px, 0.9fr);
 		gap: 60px;
-		align-items: center;
+		align-items: start;
 		width: 100%;
 	}
 
@@ -156,7 +155,7 @@
 	}
 
 	.hero-description {
-		font-size: var(--text-xl);
+		font-size: 1.75rem;
 		color: var(--text-dim);
 		margin: 0 0 var(--space-lg) 0;
 		max-width: 550px;

@@ -1,130 +1,170 @@
 <script>
 	let { project } = $props();
 
-	// 3D tilt para cards
-	function handleCardTilt(e) {
-		const card = e.currentTarget;
-		const rect = card.getBoundingClientRect();
-		const x = e.clientX - rect.left;
-		const y = e.clientY - rect.top;
-		
-		const centerX = rect.width / 2;
-		const centerY = rect.height / 2;
-		
-		const rotateX = (y - centerY) / 10;
-		const rotateY = (centerX - x) / 10;
-		
-		card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-	}
+	// Placeholder image con gradiente único por proyecto
+	const gradients = [
+		'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+		'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+		'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+		'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+		'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'
+	];
 
-	function handleCardLeave(e) {
-		e.currentTarget.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-	}
+	const projectIndex = project.id ? project.id.split('-')[0].length % gradients.length : 0;
+	const projectGradient = gradients[projectIndex];
 </script>
 
-<div class="project-card glass-card"
-	onmouseenter={handleCardTilt}
-	onmousemove={handleCardTilt}
-	onmouseleave={handleCardLeave}>
-	<div class="project-header">
-		<h3 class="project-title">{project.title}</h3>
+<div class="project-card glass-card">
+	
+	<!-- Image placeholder con gradiente -->
+	<div class="project-image" style="background: {projectGradient}">
+		<div class="image-overlay">
+			<span class="image-placeholder-text">📊 Dashboard Preview</span>
+		</div>
 	</div>
-	<div class="project-problem">
-		<h4>Problema</h4>
-		<p>{project.problem}</p>
-	</div>
-	<div class="project-solution">
-		<h4>Solución</h4>
-		<p>{project.solution}</p>
-	</div>
-	<div class="project-impact">
-		<h4>Impacto</h4>
-		<p>{project.impact}</p>
-	</div>
-	<div class="project-stack">
-		{#each project.stack as tech}
-			<span class="stack-tag">{tech}</span>
-		{/each}
-	</div>
-	{#if project.links.length > 0}
-		<div class="project-links">
-			{#each project.links as link}
-				<a href={link.url} target="_blank" rel="noopener" class="project-link">
-					{link.label}
-					<span class="arrow">→</span>
-				</a>
+
+	<div class="project-content">
+		<div class="project-header">
+			<h3 class="project-title">{project.title}</h3>
+			{#if project.highlight}
+				<div class="project-highlight">
+					<span class="highlight-icon">✨</span>
+					{project.highlight}
+				</div>
+			{/if}
+		</div>
+		
+		<p class="project-description">{project.description}</p>
+
+		<div class="project-stack">
+			{#each project.stack as tech}
+				<span class="stack-tag">{tech}</span>
 			{/each}
 		</div>
-	{/if}
+
+		{#if project.links.length > 0}
+			<div class="project-links">
+				{#each project.links as link}
+					<a href={link.url} target="_blank" rel="noopener" class="project-link">
+						{link.label}
+						<span class="arrow">→</span>
+					</a>
+				{/each}
+			</div>
+		{/if}
+	</div>
 </div>
 
 <style>
 	.project-card {
 		background: var(--glass-bg);
 		backdrop-filter: blur(20px);
-		padding: 32px;
-		border-radius: 16px;
+		border-radius: 20px;
 		border: 2px solid var(--glass-border);
-		transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+		transition: all 0.3s ease;
 		display: flex;
 		flex-direction: column;
-		transform-style: preserve-3d;
-		will-change: transform;
+		overflow: hidden;
+		position: relative;
+		height: auto;
 	}
 
 	.project-card:hover {
 		border-color: var(--primary);
-		box-shadow: 0 20px 60px rgba(212, 175, 55, 0.3);
+		box-shadow: 0 12px 40px rgba(212, 175, 55, 0.25);
+		transform: translateY(-4px);
+	}
+
+	/* Project Image */
+	.project-image {
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.image-overlay {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: rgba(0, 0, 0, 0.3);
+		backdrop-filter: blur(2px);
+		transition: all 0.3s ease;
+	}
+
+	.project-card:hover .image-overlay {
+		background: rgba(0, 0, 0, 0.5);
+	}
+
+	.image-placeholder-text {
+		font-size: var(--text-4xl);
+		color: white;
+		font-weight: 600;
+		text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+	}
+
+	/* Project Content */
+	.project-content {
+		padding: 24px;
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		overflow: visible;
 	}
 
 	.project-header {
-		margin-bottom: 20px;
+		margin-bottom: 16px;
 	}
 
 	.project-title {
-		font-size: 1.3rem;
+		font-size: 1.8rem;
 		font-weight: 700;
-		margin: 0;
+		margin: 0 0 12px 0;
 		color: var(--accent);
+		line-height: 1.3;
 	}
 
-	.project-card h4 {
-		font-size: 0.95rem;
-		font-weight: 700;
-		margin: 16px 0 8px 0;
+	.project-highlight {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding: 6px 14px;
+		background: rgba(212, 175, 55, 0.15);
+		border: 1px solid rgba(212, 175, 55, 0.3);
+		border-radius: 20px;
+		font-size: 0.9rem;
 		color: var(--primary);
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
+		font-weight: 600;
 	}
 
-	.project-card p {
-		margin: 0;
+	.highlight-icon {
+		font-size: 1rem;
+	}
+
+	.project-description {
 		color: var(--text-dim);
-		font-size: 1.05rem;
+		font-size: 1.15rem;
 		line-height: 1.6;
-	}
-
-	.project-problem,
-	.project-solution,
-	.project-impact {
-		margin-bottom: 16px;
+		margin: 0 0 20px 0;
 	}
 
 	.project-stack {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 8px;
-		margin: 16px 0;
+		margin: 20px 0;
 		padding-top: 16px;
 		border-top: 1px solid var(--glass-border);
 	}
 
 	.stack-tag {
-		padding: 6px 12px;
+		padding: 4px 10px;
 		background: rgba(212, 175, 55, 0.1);
 		color: var(--primary);
 		border-radius: 4px;
-		font-size: 0.85rem;
+		font-size: 0.95rem;
 		font-weight: 500;
 		border: 1px solid var(--glass-border);
 		transition: all 0.3s ease;
@@ -140,8 +180,8 @@
 		display: flex;
 		flex-direction: column;
 		gap: 8px;
-		margin-top: auto;
-		padding-top: 16px;
+		margin-top: 12px;
+		padding-top: 12px;
 		border-top: 1px solid var(--glass-border);
 	}
 
@@ -149,6 +189,7 @@
 		color: var(--primary);
 		text-decoration: none;
 		font-weight: 600;
+		font-size: 1.05rem;
 		display: flex;
 		align-items: center;
 		gap: 8px;
@@ -174,5 +215,20 @@
 		backdrop-filter: blur(20px) saturate(180%);
 		border: 1px solid var(--glass-border);
 		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+	}
+
+	/* Mobile responsive */
+	@media (max-width: 768px) {
+		.project-content {
+			padding: 20px;
+		}
+
+		.project-title {
+			font-size: 1.6rem;
+		}
+
+		.project-description {
+			font-size: 1.1rem;
+		}
 	}
 </style>

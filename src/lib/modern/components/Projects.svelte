@@ -1,5 +1,5 @@
 <script>
-	import { PROJECTS } from '$lib/config/portfolioData.js';
+	import { portfolioData } from '$lib/config/portfolioData.js';
 	import ProjectCard from './ProjectCard.svelte';
 </script>
 
@@ -7,7 +7,7 @@
 	<div class="section-content">
 		<h2 class="section-title">Proyectos Destacados</h2>
 		<div class="projects-grid">
-			{#each PROJECTS as project (project.id)}
+			{#each portfolioData.projects as project (project.id)}
 				<ProjectCard {project} />
 			{/each}
 		</div>
@@ -24,7 +24,7 @@
 	}
 
 	.section-content {
-		max-width: 1200px;
+		max-width: 1400px;
 		margin: 0 auto;
 	}
 
@@ -49,6 +49,7 @@
 		border-radius: 2px;
 	}
 
+	/* Grid uniforme y responsivo */
 	.projects-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
@@ -64,6 +65,13 @@
 		}
 	}
 
+	@media (max-width: 1024px) {
+		.projects-grid {
+			grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+			gap: 24px;
+		}
+	}
+
 	@media (max-width: 768px) {
 		.projects {
 			padding: 60px 20px;
@@ -71,6 +79,7 @@
 
 		.projects-grid {
 			grid-template-columns: 1fr;
+			gap: 20px;
 		}
 	}
 </style>
