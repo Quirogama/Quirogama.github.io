@@ -101,6 +101,14 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- Scroll indicator -->
+	<a href="#projects" class="scroll-indicator" aria-label="Scroll to projects">
+		<div class="scroll-mouse">
+			<div class="scroll-wheel"></div>
+		</div>
+		<span class="scroll-text">Explorar</span>
+	</a>
 </section>
 
 <style>
@@ -111,6 +119,8 @@
 		position: relative;
 		z-index: 1;
 		animation: fadeInUp 0.8s ease-out;
+		flex-direction: column;
+		gap: 80px;
 	}
 
 	.hero-content {
@@ -297,6 +307,77 @@
 		border-color: var(--primary);
 	}
 
+	/* Scroll indicator */
+	.scroll-indicator {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 12px;
+		color: var(--primary);
+		text-decoration: none;
+		animation: fadeInUp 1.2s ease-out 0.6s both;
+		cursor: pointer;
+		transition: all 0.3s ease;
+	}
+
+	.scroll-indicator:hover {
+		transform: translateY(-4px);
+	}
+
+	.scroll-indicator:hover .scroll-text {
+		color: var(--primary-light);
+	}
+
+	.scroll-mouse {
+		width: 26px;
+		height: 42px;
+		border: 2px solid var(--primary);
+		border-radius: 20px;
+		position: relative;
+		opacity: 0.8;
+		transition: opacity 0.3s ease;
+	}
+
+	.scroll-indicator:hover .scroll-mouse {
+		opacity: 1;
+		border-color: var(--primary-light);
+	}
+
+	.scroll-wheel {
+		width: 4px;
+		height: 8px;
+		background: var(--primary);
+		border-radius: 2px;
+		position: absolute;
+		top: 8px;
+		left: 50%;
+		transform: translateX(-50%);
+		animation: scrollAnimation 1.5s ease-in-out infinite;
+	}
+
+	.scroll-text {
+		font-size: 0.875rem;
+		font-weight: 600;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		transition: color 0.3s ease;
+	}
+
+	@keyframes scrollAnimation {
+		0% {
+			opacity: 1;
+			transform: translateX(-50%) translateY(0);
+		}
+		50% {
+			opacity: 0.5;
+			transform: translateX(-50%) translateY(10px);
+		}
+		100% {
+			opacity: 1;
+			transform: translateX(-50%) translateY(0);
+		}
+	}
+
 	@keyframes fadeInUp {
 		from {
 			opacity: 0;
@@ -378,6 +459,7 @@
 
 		.hero {
 			padding: 60px 20px;
+			gap: 40px;
 		}
 
 		.hero-title {
@@ -391,6 +473,10 @@
 		.btn {
 			width: 100%;
 			text-align: center;
+		}
+
+		.scroll-indicator {
+			display: none;
 		}
 	}
 </style>
