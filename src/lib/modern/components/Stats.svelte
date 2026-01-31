@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { portfolioData } from '$lib/config/portfolioData.js';
+  import { portfolioData } from '$lib/config/portfolioData';
 
   let stats = $state(portfolioData.stats.map(stat => ({ ...stat, currentValue: 0 })));
   let hasAnimated = $state(false);
@@ -61,10 +61,7 @@
 
 <style>
   .stats-section {
-    padding: var(--space-8) var(--space-8) var(--space-24) var(--space-8);
-    margin-top: -80px;
-    position: relative;
-    z-index: 2;
+    padding: var(--space-16) var(--space-8) var(--space-24) var(--space-8);
     background: linear-gradient(180deg, #0f0f1e 0%, #0f0f1e 18%, rgba(15, 15, 30, 0.5) 40%, rgba(26, 26, 46, 0.8) 70%, rgba(26, 26, 46, 0.6) 85%, rgba(26, 26, 46, 0.3) 100%);
   }
 
