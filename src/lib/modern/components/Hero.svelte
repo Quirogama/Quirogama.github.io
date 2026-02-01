@@ -51,48 +51,50 @@
 
 <section class="hero" data-reveal id="hero">
 	<div class="hero-content">
-		<div class="hero-text">
-			<h1 class="hero-title">
-				{titleText}
-				<span class="accent-dot">.</span>
-			</h1>
-			<p class="hero-subtitle">{PERSONAL_INFO.title}</p>
+		<div class="hero-main">
+			<div class="hero-header">
+				<div class="hero-image-wrapper hero-avatar">
+					<img src="/icons/andres1.jpeg" alt={PERSONAL_INFO.name} class="hero-image" />
+				</div>
+				<div class="hero-headings">
+					<h1 class="hero-title">
+						{titleText}
+						<span class="accent-dot">.</span>
+					</h1>
+					<p class="hero-subtitle">{PERSONAL_INFO.title}</p>
+				</div>
+			</div>
 			<p class="hero-description">
-				Desarrollador <span class="highlight">fullstack</span> de Colombia con experiencia en <span class="highlight">automatización de datos</span> y <span class="highlight">análisis</span>. 
-				4 meses en Pontificia Universidad Javeriana trabajando en <span class="highlight">ETL</span>, dashboards y soluciones web. 
+				Desarrollador <span class="highlight">fullstack</span> de Colombia con experiencia en <span class="highlight">automatización de datos</span> y <span class="highlight">análisis</span>.
+				4 meses en Pontificia Universidad Javeriana trabajando en <span class="highlight">ETL</span>, dashboards y soluciones web.
 				Resuelvo problemas complejos combinando <span class="highlight">frontend interactivo</span> con <span class="highlight">lógica de datos</span> robusta.
 			</p>
 			<div class="cta-buttons">
-				<a href="#projects" class="btn btn-primary" 
+				<a href="#projects" class="btn btn-primary"
 					onmouseenter={handleMagneticMove}
 					onmousemove={handleMagneticMove}
 					onmouseleave={handleMagneticLeave}>
-					Ver Proyectos
+					Ver proyectos
 				</a>
 				<a href="#contact" class="btn btn-secondary"
 					onmouseenter={handleMagneticMove}
 					onmousemove={handleMagneticMove}
 					onmouseleave={handleMagneticLeave}>
-					Contacto
+					Contactarme
 				</a>
 			</div>
-		</div>
-		<div class="hero-image-section">
-			<div class="hero-image-wrapper">
-				<img src="/icons/andres1.jpeg" alt={PERSONAL_INFO.name} class="hero-image" />
-			</div>
-			<div class="hero-social">
-				<a href={SOCIAL_LINKS.github} target="_blank" rel="noopener" class="social-link github" title="GitHub">
+			<div class="hero-social" aria-label="Redes sociales">
+				<a href={SOCIAL_LINKS.github} target="_blank" rel="noopener" class="social-link github" title="GitHub" aria-label="GitHub">
 					<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
 						<path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
 					</svg>
 				</a>
-				<a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener" class="social-link linkedin" title="LinkedIn">
+				<a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener" class="social-link linkedin" title="LinkedIn" aria-label="LinkedIn">
 					<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
 						<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.474-2.237-1.668-2.237-.909 0-1.45.613-1.687 1.207-.087.216-.11.517-.11.819v5.78h-3.554s.047-9.38 0-10.354h3.554v1.468c.457-.704 1.274-1.707 3.102-1.707 2.267 0 3.967 1.482 3.967 4.667v5.926zM5.337 9.433c-1.144 0-1.915-.758-1.915-1.707 0-.955.771-1.71 1.958-1.71 1.187 0 1.914.755 1.938 1.71 0 .949-.751 1.707-1.981 1.707zm1.946 11.019H3.39V8.598h3.893v11.854zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z" />
 					</svg>
 				</a>
-				<a href="mailto:{PERSONAL_INFO.email}" class="social-link email" title="Email">
+				<a href="mailto:{PERSONAL_INFO.email}" class="social-link email" title="Email" aria-label="Email">
 					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 						<rect x="2" y="4" width="20" height="16" rx="2"></rect>
 						<path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
@@ -101,46 +103,54 @@
 			</div>
 		</div>
 	</div>
-	
-	<!-- Scroll indicator -->
-	<a href="#projects" class="scroll-indicator" aria-label="Scroll to projects">
-		<div class="scroll-mouse">
-			<div class="scroll-wheel"></div>
-		</div>
-		<span class="scroll-text">Explorar</span>
-	</a>
 </section>
 
 <style>
 	.hero {
 		display: flex;
 		align-items: center;
-		padding: clamp(64px, 8vh, 120px) 40px;
+		padding: clamp(80px, 10vh, 140px) 40px;
 		position: relative;
 		z-index: 1;
 		animation: fadeInUp 0.8s ease-out;
 		flex-direction: column;
 		gap: 80px;
+		background: radial-gradient(1200px 600px at 10% 10%, rgba(212, 175, 55, 0.12), transparent 60%);
 	}
 
 	.hero-content {
-		max-width: 1400px;
+		max-width: 1100px;
 		margin: 0 auto;
-		display: grid;
-		grid-template-columns: minmax(320px, 1.1fr) minmax(280px, 0.9fr);
-		gap: 60px;
-		align-items: start;
+		display: flex;
+		flex-direction: column;
+		gap: 32px;
+		align-items: flex-start;
 		width: 100%;
 	}
 
-	.hero-text {
+	.hero-main {
 		animation: slideInLeft 0.8s ease-out;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-md);
+	}
+
+	.hero-header {
+		display: flex;
+		gap: var(--space-lg);
+		align-items: center;
+	}
+
+	.hero-headings {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xs);
 	}
 
 	.hero-title {
-		font-size: clamp(var(--text-5xl), 10vw, var(--text-6xl));
+		font-size: clamp(2.8rem, 6vw, var(--text-6xl));
 		font-weight: var(--font-weight-extrabold);
-		margin: 0 0 var(--space-lg) 0;
+		margin: 0;
 		letter-spacing: -0.03em;
 		line-height: var(--line-height-tight);
 		background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
@@ -156,20 +166,21 @@
 	}
 
 	.hero-subtitle {
-		font-size: var(--text-3xl);
-		color: var(--primary);
-		margin: 0 0 var(--space-md) 0;
+		font-size: var(--text-2xl);
+		color: var(--text);
+		margin: 0;
 		font-weight: var(--font-weight-bold);
 		letter-spacing: -0.01em;
-		text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+		text-shadow: 0 0 16px rgba(212, 175, 55, 0.2);
 	}
 
 	.hero-description {
-		font-size: 1.75rem;
-		color: var(--text-dim);
-		margin: 0 0 var(--space-lg) 0;
-		max-width: 550px;
-		line-height: var(--line-height-relaxed);
+		font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+		color: var(--text);
+		margin: 0;
+		max-width: 620px;
+		line-height: 1.5;
+		margin-top: var(--space-xs);
 	}
 
 	.highlight {
@@ -180,15 +191,16 @@
 
 	.cta-buttons {
 		display: flex;
-		gap: var(--space-sm);
+		gap: var(--space-md);
 		flex-wrap: wrap;
 		animation: slideInUp 1s ease-out 0.2s both;
+		margin-top: var(--space-lg);
 	}
 
 	.btn {
-		padding: var(--space-md) var(--space-lg);
+		padding: calc(var(--space-md) + 2px) calc(var(--space-lg) + 6px);
 		border-radius: var(--radius-md);
-		font-size: var(--text-xl);
+		font-size: 1.05rem;
 		font-weight: var(--font-weight-semibold);
 		text-decoration: none;
 		transition: all var(--transition-base);
@@ -220,12 +232,12 @@
 	.btn-primary {
 		background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
 		color: var(--secondary);
-		box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+		box-shadow: 0 8px 28px rgba(212, 175, 55, 0.35);
 	}
 
 	.btn-primary:hover {
-		box-shadow: var(--shadow-gold-lg);
-		transform: translateY(-2px);
+		box-shadow: 0 12px 40px rgba(212, 175, 55, 0.45);
+		transform: translateY(-4px);
 	}
 
 	.btn-secondary {
@@ -234,34 +246,36 @@
 		border-color: var(--primary);
 	}
 
+	.btn:focus-visible {
+		outline: 3px solid rgba(212, 175, 55, 0.45);
+		outline-offset: 3px;
+	}
+
 	.btn-secondary:hover {
 		background: var(--primary);
 		color: var(--secondary);
-		transform: translateY(-2px);
-		box-shadow: var(--shadow-gold);
+		transform: translateY(-4px);
+		box-shadow: 0 8px 28px rgba(212, 175, 55, 0.35);
 	}
 
 	.hero-social {
 		display: flex;
-		gap: 24px;
-		justify-content: center;
+		gap: 16px;
+		justify-content: flex-start;
 		flex-wrap: wrap;
 		animation: slideInUp 0.8s ease-out 0.2s both;
-	}
-
-	.hero-image-section {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 30px;
-		animation: slideInRight 0.8s ease-out;
+		opacity: 0.9;
 	}
 
 	.hero-image-wrapper {
 		position: relative;
 		width: 100%;
-		max-width: 400px;
+		max-width: 220px;
 		aspect-ratio: 1;
+	}
+
+	.hero-avatar {
+		flex: 0 0 auto;
 	}
 
 	.hero-image {
@@ -307,76 +321,6 @@
 		border-color: var(--primary);
 	}
 
-	/* Scroll indicator */
-	.scroll-indicator {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 12px;
-		color: var(--primary);
-		text-decoration: none;
-		animation: fadeInUp 1.2s ease-out 0.6s both;
-		cursor: pointer;
-		transition: all 0.3s ease;
-	}
-
-	.scroll-indicator:hover {
-		transform: translateY(-4px);
-	}
-
-	.scroll-indicator:hover .scroll-text {
-		color: var(--primary-light);
-	}
-
-	.scroll-mouse {
-		width: 26px;
-		height: 42px;
-		border: 2px solid var(--primary);
-		border-radius: 20px;
-		position: relative;
-		opacity: 0.8;
-		transition: opacity 0.3s ease;
-	}
-
-	.scroll-indicator:hover .scroll-mouse {
-		opacity: 1;
-		border-color: var(--primary-light);
-	}
-
-	.scroll-wheel {
-		width: 4px;
-		height: 8px;
-		background: var(--primary);
-		border-radius: 2px;
-		position: absolute;
-		top: 8px;
-		left: 50%;
-		transform: translateX(-50%);
-		animation: scrollAnimation 1.5s ease-in-out infinite;
-	}
-
-	.scroll-text {
-		font-size: 0.875rem;
-		font-weight: 600;
-		letter-spacing: 0.05em;
-		text-transform: uppercase;
-		transition: color 0.3s ease;
-	}
-
-	@keyframes scrollAnimation {
-		0% {
-			opacity: 1;
-			transform: translateX(-50%) translateY(0);
-		}
-		50% {
-			opacity: 0.5;
-			transform: translateX(-50%) translateY(10px);
-		}
-		100% {
-			opacity: 1;
-			transform: translateX(-50%) translateY(0);
-		}
-	}
 
 	@keyframes fadeInUp {
 		from {
@@ -453,17 +397,25 @@
 
 	@media (max-width: 768px) {
 		.hero-content {
-			grid-template-columns: 1fr;
-			gap: 40px;
+			gap: 28px;
 		}
 
 		.hero {
-			padding: 60px 20px;
-			gap: 40px;
+			padding: 72px 20px;
+			gap: 32px;
 		}
 
 		.hero-title {
-			font-size: 2.5rem;
+			font-size: 2.4rem;
+		}
+
+		.hero-header {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.hero-image-wrapper {
+			max-width: 160px;
 		}
 
 		.cta-buttons {
@@ -473,10 +425,6 @@
 		.btn {
 			width: 100%;
 			text-align: center;
-		}
-
-		.scroll-indicator {
-			display: none;
 		}
 	}
 </style>
