@@ -61,10 +61,10 @@
 	}
 
 	.education-item {
-		padding: 24px;
+		padding: 32px;
 		background: var(--glass-bg);
 		backdrop-filter: blur(20px);
-		border-radius: 8px;
+		border-radius: 12px;
 		border-left: 4px solid var(--primary);
 		border: 2px solid var(--glass-border);
 		border-left: 4px solid var(--primary);
@@ -86,7 +86,7 @@
 	}
 
 	.edu-degree {
-		font-size: 1.2rem;
+		font-size: 1.8rem;
 		font-weight: 700;
 		margin: 0;
 		color: var(--accent);
@@ -95,7 +95,7 @@
 	.edu-period {
 		color: var(--primary);
 		font-weight: 600;
-		font-size: 0.95rem;
+		font-size: 1.15rem;
 		white-space: nowrap;
 	}
 
@@ -103,12 +103,13 @@
 		margin: 0 0 8px 0;
 		color: var(--text-dim);
 		font-weight: 500;
+		font-size: 1.25rem;
 	}
 
 	.edu-details {
 		margin: 0;
 		color: var(--text-dim);
-		font-size: 0.95rem;
+		font-size: 1.15rem;
 		line-height: 1.6;
 	}
 

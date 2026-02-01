@@ -109,7 +109,7 @@
 	.hero {
 		display: flex;
 		align-items: center;
-		padding: clamp(80px, 10vh, 140px) 40px;
+		padding: clamp(80px, 10vh, 140px) 40px clamp(140px, 16vh, 220px);
 		position: relative;
 		z-index: 1;
 		animation: fadeInUp 0.8s ease-out;

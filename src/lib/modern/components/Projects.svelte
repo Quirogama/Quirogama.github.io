@@ -52,8 +52,23 @@
 	/* Grid uniforme y responsivo */
 	.projects-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+		grid-template-columns: repeat(6, minmax(0, 1fr));
 		gap: 32px;
+	}
+
+	.projects-grid > :global(.project-card) {
+		grid-column: span 2;
+	}
+
+	/* Si queda 1 card en la última fila, ocupa todo el ancho */
+	.projects-grid > :global(.project-card):nth-last-child(1):nth-child(3n + 1) {
+		grid-column: span 6;
+	}
+
+	/* Si quedan 2 cards en la última fila, cada una ocupa la mitad */
+	.projects-grid > :global(.project-card):nth-last-child(2):nth-child(3n + 1),
+	.projects-grid > :global(.project-card):nth-last-child(1):nth-child(3n + 2) {
+		grid-column: span 3;
 	}
 
 	@keyframes fadeIn {
@@ -67,8 +82,12 @@
 
 	@media (max-width: 1024px) {
 		.projects-grid {
-			grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+			grid-template-columns: repeat(2, minmax(0, 1fr));
 			gap: 24px;
+		}
+
+		.projects-grid > :global(.project-card) {
+			grid-column: span 1;
 		}
 	}
 
@@ -80,6 +99,10 @@
 		.projects-grid {
 			grid-template-columns: 1fr;
 			gap: 20px;
+		}
+
+		.projects-grid > :global(.project-card) {
+			grid-column: span 1;
 		}
 	}
 </style>

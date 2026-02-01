@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte';
 	import AnimatedBackground from './AnimatedBackground.svelte';
 	import Hero from './Hero.svelte';
-	import Stats from './Stats.svelte';
 	import About from './About.svelte';
 	import Experience from './Experience.svelte';
 	import Projects from './Projects.svelte';
@@ -34,7 +33,6 @@
 
 <div class="modern-container">
 	<Hero />
-	<Stats />
 	<About />
 	<Experience />
 	<Projects />
