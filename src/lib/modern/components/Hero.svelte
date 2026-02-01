@@ -175,7 +175,7 @@
 	}
 
 	.hero-description {
-		font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+		font-size: clamp(1.20rem, 1.8vw, 1.40rem);
 		color: var(--text);
 		margin: 0;
 		max-width: 620px;

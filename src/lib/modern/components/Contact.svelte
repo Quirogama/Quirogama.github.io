@@ -61,7 +61,7 @@
 	}
 
 	.contact-info p {
-		font-size: 1.15rem;
+		font-size: 1.25rem;
 		margin-bottom: 32px;
 		color: var(--text);
 	}
@@ -78,8 +78,9 @@
 		border: 2px solid var(--primary);
 		color: var(--primary);
 		text-decoration: none;
-		border-radius: 6px;
+		border-radius: var(--radius-md);
 		font-weight: 600;
+		font-size: 1.05rem;
 		transition: all 0.3s ease;
 	}
 

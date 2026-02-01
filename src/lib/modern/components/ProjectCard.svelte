@@ -59,7 +59,7 @@
 	.project-card {
 		background: var(--glass-bg);
 		backdrop-filter: blur(20px);
-		border-radius: 20px;
+		border-radius: 12px;
 		border: 2px solid var(--glass-border);
 		transition: all 0.3s ease;
 		display: flex;
@@ -67,11 +67,12 @@
 		overflow: hidden;
 		position: relative;
 		height: auto;
+		box-shadow: none;
 	}
 
 	.project-card:hover {
 		border-color: var(--primary);
-		box-shadow: 0 12px 40px rgba(212, 175, 55, 0.25);
+		box-shadow: 0 12px 32px rgba(212, 175, 55, 0.2);
 		transform: translateY(-4px);
 	}
 
@@ -145,7 +146,7 @@
 
 	.project-description {
 		color: var(--text);
-		font-size: 1.15rem;
+		font-size: 1.25rem;
 		line-height: 1.7;
 		margin: 0 0 20px 0;
 	}
@@ -213,8 +214,8 @@
 	.glass-card {
 		background: var(--glass-bg);
 		backdrop-filter: blur(20px) saturate(180%);
-		border: 1px solid var(--glass-border);
-		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+		border: 2px solid var(--glass-border);
+		box-shadow: none;
 	}
 
 	/* Mobile responsive */

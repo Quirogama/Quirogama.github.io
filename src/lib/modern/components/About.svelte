@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { portfolioData } from '$lib/config/portfolioData.js';
+	import { PERSONAL_INFO, SOFT_SKILLS } from '$lib/config/portfolioData.js';
 
 	let skillsAnimated = $state(false);
 
@@ -27,8 +28,18 @@
 		<h2 class="section-title">Sobre Mí</h2>
 		<div class="about-grid">
 			<div class="about-text">
-				<p>{portfolioData.personal.summary}</p>
-				<p>Especializado en <strong>{portfolioData.interests.focus}</strong> con experiencia en:</p>
+				<p>{PERSONAL_INFO.aboutMe}</p>
+				<p>Especializado en <strong>{portfolioData.interests.focus}</strong> con experiencia en análisis de datos, automatización y desarrollo web.</p>
+				
+				<h3 class="subsection-title">Habilidades Blandas</h3>
+				<div class="soft-skills-grid">
+					{#each SOFT_SKILLS as skill}
+						<div class="soft-skill-item">
+							<span class="soft-skill-bullet">▹</span>
+							{skill}
+						</div>
+					{/each}
+				</div>
 			</div>
 			<div class="skills-container">
 				<h3 class="skills-title">Habilidades Técnicas</h3>
@@ -96,13 +107,42 @@
 	}
 
 	.about-text {
-		font-size: 1.15rem;
+		font-size: 1.25rem;
 		color: var(--text);
-		line-height: 1.7;
+		line-height: 1.8;
 	}
 
 	.about-text p {
-		margin: 0 0 16px 0;
+		margin: 0 0 24px 0;
+	}
+
+	.subsection-title {
+		font-size: 1.6rem;
+		font-weight: 700;
+		color: var(--primary);
+		margin: 36px 0 24px 0;
+	}
+
+	.soft-skills-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 16px 24px;
+		margin-top: 20px;
+	}
+
+	.soft-skill-item {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		color: var(--text);
+		font-size: 1.2rem;
+		line-height: 1.6;
+	}
+
+	.soft-skill-bullet {
+		color: var(--primary);
+		font-weight: 700;
+		flex-shrink: 0;
 	}
 
 	.skills-container {
@@ -137,7 +177,7 @@
 	}
 
 	.skill-name {
-		font-size: 1.1rem;
+		font-size: 1.2rem;
 		font-weight: 500;
 		color: var(--text);
 	}

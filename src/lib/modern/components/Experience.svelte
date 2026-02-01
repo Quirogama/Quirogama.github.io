@@ -17,7 +17,18 @@
 							<h3 class="timeline-position">{exp.position}</h3>
 							<p class="timeline-company">{exp.company}</p>
 							<p class="timeline-period">{exp.dates}</p>
+						{#if exp.achievements && exp.achievements.length > 0}
+							<ul class="timeline-achievements">
+								{#each exp.achievements as achievement}
+									<li class="achievement-item">
+										<span class="achievement-bullet">▹</span>
+										{achievement}
+									</li>
+								{/each}
+							</ul>
+						{:else}
 							<p class="timeline-description">{exp.description}</p>
+						{/if}
 							<div class="timeline-tech">
 								{#each exp.technologies as tech}
 									<span class="timeline-tech-badge">{tech}</span>
@@ -181,7 +192,29 @@
 		margin: 0 0 16px 0;
 		color: var(--text);
 		line-height: 1.7;
-		font-size: 1.15rem;
+		font-size: 1.25rem;
+	}
+
+	.timeline-achievements {
+		margin: 0 0 16px 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.achievement-item {
+		color: var(--text);
+		font-size: 1.2rem;
+		line-height: 1.7;
+		margin-bottom: 10px;
+		display: flex;
+		gap: 12px;
+	}
+
+	.achievement-bullet {
+		color: var(--primary);
+		font-weight: 700;
+		flex-shrink: 0;
+		margin-top: 2px;
 	}
 
 	.timeline-tech {

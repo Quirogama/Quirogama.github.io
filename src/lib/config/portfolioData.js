@@ -15,8 +15,19 @@ export const PERSONAL_INFO = {
 	location: 'Bogotá, Colombia',
 	email: 'quirogama@javeriana.edu.co',
 	bio: 'Desarrollador fullstack de Colombia con experiencia en automatización de datos y análisis. 4 meses en Pontificia Universidad Javeriana trabajando en ETL, dashboards y soluciones web. Resuelvo problemas complejos combinando frontend interactivo con lógica de datos robusta.',
-	summary: 'Especializado en análisis de datos, automatización y desarrollo web. Disponible para proyectos de Data Analysis, BI, Web Development o Data Science.'
+	summary: 'Especializado en análisis de datos, automatización y desarrollo web. Disponible para proyectos de Data Analysis, BI, Web Development o Data Science.',
+	aboutMe: 'Estudiante de Ingeniería de Sistemas apasionado por convertir datos complejos en soluciones prácticas. Me motiva construir herramientas que realmente impacten, desde dashboards analíticos hasta aplicaciones web interactivas.'
 };
+
+export const SOFT_SKILLS = [
+	'Resolución creativa de problemas',
+	'Adaptabilidad',
+	'Trabajo en equipo',
+	'Aprendizaje continuo',
+	'Comunicación efectiva',
+	'Pensamiento analítico',
+	'Atención al detalle'
+];
 
 export const SOCIAL_LINKS = {
 	github: 'https://github.com/Quirogama',
@@ -146,10 +157,10 @@ export const EXPERIENCES = [
 		duration: '4 meses',
 		description: 'Análisis y limpieza de base de datos de practicantes. Creación de dashboard interactivo en Power BI para visualización histórica de participación de practicantes.',
 		achievements: [
-			'Redujo base de datos de 114 registros a 21 registros válidos (81.6% de datos limpios)',
-			'Creó dashboard interactivo en Power BI con análisis de practicantes desde 2008 hasta 2025',
-			'Implementó validaciones de datos y documentó procesos de limpieza',
-			'Presentó insights visuales a stakeholders del departamento'
+			'Reduje base de datos de 114 registros a 21 registros válidos (81.6% de datos limpios)',
+			'Creé dashboard interactivo en Power BI con análisis de practicantes desde 2008 hasta 2025',
+			'Implementé validaciones de datos y documenté procesos de limpieza',
+			'Presenté insights visuales a stakeholders del departamento'
 		],
 		technologies: ['Power BI', 'SQL', 'Excel', 'DAX', 'Análisis de Datos'],
 		image: '/icons/javeriana.png'

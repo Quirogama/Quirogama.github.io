@@ -22,6 +22,7 @@
 
 <style>
 	.education {
+		background: rgba(0, 0, 0, 0.2);
 		padding: 120px 40px;
 		animation: fadeIn 0.6s ease-out;
 		position: relative;
@@ -65,7 +66,6 @@
 		background: var(--glass-bg);
 		backdrop-filter: blur(20px);
 		border-radius: 12px;
-		border-left: 4px solid var(--primary);
 		border: 2px solid var(--glass-border);
 		border-left: 4px solid var(--primary);
 		transition: all 0.3s ease;
@@ -109,7 +109,7 @@
 	.edu-details {
 		margin: 0;
 		color: var(--text-dim);
-		font-size: 1.15rem;
+		font-size: 1.2rem;
 		line-height: 1.6;
 	}
 
