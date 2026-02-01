@@ -24,7 +24,7 @@
 	.contact {
 		background: linear-gradient(135deg, var(--secondary) 0%, #000000 100%);
 		color: var(--text);
-		padding: 100px 40px;
+		padding: 120px 40px;
 		animation: fadeIn 0.6s ease-out;
 		position: relative;
 		z-index: 1;
@@ -61,9 +61,9 @@
 	}
 
 	.contact-info p {
-		font-size: 1.3rem;
+		font-size: 1.15rem;
 		margin-bottom: 32px;
-		color: var(--text-dim);
+		color: var(--text);
 	}
 
 	.contact-links {

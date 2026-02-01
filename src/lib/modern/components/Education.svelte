@@ -22,7 +22,7 @@
 
 <style>
 	.education {
-		padding: 100px 40px;
+		padding: 120px 40px;
 		animation: fadeIn 0.6s ease-out;
 		position: relative;
 		z-index: 1;

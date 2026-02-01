@@ -107,7 +107,7 @@
 
 	/* Project Content */
 	.project-content {
-		padding: 24px;
+		padding: 32px;
 		display: flex;
 		flex-direction: column;
 		flex: 1;
@@ -119,7 +119,7 @@
 	}
 
 	.project-title {
-		font-size: 1.8rem;
+		font-size: 1.6rem;
 		font-weight: 700;
 		margin: 0 0 12px 0;
 		color: var(--accent);
@@ -144,9 +144,9 @@
 	}
 
 	.project-description {
-		color: var(--text-dim);
+		color: var(--text);
 		font-size: 1.15rem;
-		line-height: 1.6;
+		line-height: 1.7;
 		margin: 0 0 20px 0;
 	}
 

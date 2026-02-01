@@ -34,7 +34,7 @@
 <style>
 	.experience {
 		background: rgba(0, 0, 0, 0.2);
-		padding: 100px 40px;
+		padding: 120px 40px;
 		animation: fadeIn 0.6s ease-out;
 		position: relative;
 		z-index: 1;
@@ -146,7 +146,7 @@
 		backdrop-filter: blur(20px);
 		border: 2px solid var(--glass-border);
 		border-radius: 12px;
-		padding: 28px;
+		padding: 32px;
 		transition: all 0.3s ease;
 	}
 
@@ -157,31 +157,31 @@
 	}
 
 	.timeline-position {
-		font-size: var(--text-2xl);
-		font-weight: var(--font-weight-bold);
-		margin: 0 0 6px 0;
+		font-size: 1.6rem;
+		font-weight: 700;
+		margin: 0 0 8px 0;
 		color: var(--accent);
 	}
 
 	.timeline-company {
 		margin: 0 0 8px 0;
 		color: var(--primary);
-		font-weight: var(--font-weight-semibold);
-		font-size: var(--text-lg);
+		font-weight: 600;
+		font-size: 1.2rem;
 	}
 
 	.timeline-period {
 		margin: 0 0 12px 0;
 		color: var(--text-dim);
-		font-size: var(--text-lg);
-		font-weight: var(--font-weight-medium);
+		font-size: 1.05rem;
+		font-weight: 500;
 	}
 
 	.timeline-description {
 		margin: 0 0 16px 0;
-		color: var(--text-dim);
-		line-height: var(--line-height-relaxed);
-		font-size: 1.4rem;
+		color: var(--text);
+		line-height: 1.7;
+		font-size: 1.15rem;
 	}
 
 	.timeline-tech {

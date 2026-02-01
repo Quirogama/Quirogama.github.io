@@ -11,7 +11,7 @@
 
 export const PERSONAL_INFO = {
 	name: 'Andrés Quiroga',
-	title: 'Analista de Datos & Desarrollador Junior',
+	title: 'Ingeniero de Sistemas | Especialista en Datos y Desarrollo',
 	location: 'Bogotá, Colombia',
 	email: 'quirogama@javeriana.edu.co',
 	bio: 'Desarrollador fullstack de Colombia con experiencia en automatización de datos y análisis. 4 meses en Pontificia Universidad Javeriana trabajando en ETL, dashboards y soluciones web. Resuelvo problemas complejos combinando frontend interactivo con lógica de datos robusta.',

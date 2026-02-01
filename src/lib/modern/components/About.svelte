@@ -57,7 +57,7 @@
 <style>
 	.about {
 		background: rgba(0, 0, 0, 0.2);
-		padding: 100px 40px;
+		padding: 120px 40px;
 		animation: fadeIn 0.6s ease-out;
 		position: relative;
 		z-index: 1;
@@ -96,9 +96,9 @@
 	}
 
 	.about-text {
-		font-size: var(--text-lg);
-		color: var(--text-dim);
-		line-height: var(--line-height-relaxed);
+		font-size: 1.15rem;
+		color: var(--text);
+		line-height: 1.7;
 	}
 
 	.about-text p {
@@ -112,10 +112,10 @@
 	}
 
 	.skills-title {
-		font-size: var(--text-xl);
-		font-weight: 600;
+		font-size: 1.5rem;
+		font-weight: 700;
 		color: var(--primary);
-		margin: 0 0 var(--space-4) 0;
+		margin: 0 0 20px 0;
 	}
 
 	.skills-list {
@@ -137,7 +137,7 @@
 	}
 
 	.skill-name {
-		font-size: var(--text-base);
+		font-size: 1.1rem;
 		font-weight: 500;
 		color: var(--text);
 	}
