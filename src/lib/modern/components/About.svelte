@@ -29,7 +29,7 @@
 		<div class="about-grid">
 			<div class="about-text">
 				<p>{PERSONAL_INFO.aboutMe}</p>
-				<p>Especializado en <strong>{portfolioData.interests.focus}</strong> con experiencia en análisis de datos, automatización y desarrollo web.</p>
+				<p>Me interesa trabajar en <strong>{portfolioData.interests.focus}</strong>, creando soluciones completas desde la lógica de negocio hasta la interfaz.</p>
 				
 				<h3 class="subsection-title">Habilidades Blandas</h3>
 				<div class="soft-skills-grid">

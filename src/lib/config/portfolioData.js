@@ -11,12 +11,12 @@
 
 export const PERSONAL_INFO = {
 	name: 'Andrés Quiroga',
-	title: 'Ingeniero de Sistemas | Especialista en Datos y Desarrollo',
+	title: 'Ingeniero de Sistemas | Desarrollador Full-Stack Junior',
 	location: 'Bogotá, Colombia',
 	email: 'quirogama@javeriana.edu.co',
-	bio: 'Desarrollador fullstack de Colombia con experiencia en automatización de datos y análisis. 4 meses en Pontificia Universidad Javeriana trabajando en ETL, dashboards y soluciones web. Resuelvo problemas complejos combinando frontend interactivo con lógica de datos robusta.',
-	summary: 'Especializado en análisis de datos, automatización y desarrollo web. Disponible para proyectos de Data Analysis, BI, Web Development o Data Science.',
-	aboutMe: 'Estudiante de Ingeniería de Sistemas apasionado por convertir datos complejos en soluciones prácticas. Me motiva construir herramientas que realmente impacten, desde dashboards analíticos hasta aplicaciones web interactivas.'
+	bio: 'Desarrollador full‑stack de Colombia con experiencia en backend, frontend y despliegue. He construido aplicaciones con Java/Spring Boot, Angular y Svelte, integrando APIs y bases de datos para resolver problemas reales.',
+	summary: 'Disponible para roles Junior de Full‑Stack, Backend o Frontend, con interés en proyectos de software end‑to‑end.',
+	aboutMe: 'Estudiante de Ingeniería de Sistemas enfocado en desarrollo de software. Me motiva construir productos completos: desde APIs y lógica de negocio hasta interfaces web y despliegue con buenas prácticas.'
 };
 
 export const SOFT_SKILLS = [
@@ -186,10 +186,10 @@ export const EDUCATION = [
 // ─────────────────────────────────────────────────────────────────────────
 
 export const PROFESSIONAL_INTERESTS = {
-	roles: ['Fullstack Development', 'Data Engineering', 'BI', 'ETL'],
-	focus: 'Combinar frontend interactivo con lógica de datos robusta',
+	roles: ['Fullstack Development', 'Backend Development', 'Frontend Development'],
+	focus: 'construir soluciones end‑to‑end con buenas prácticas de ingeniería',
 	openTo: ['Full-time', 'Proyectos', 'Colaboraciones'],
-	interests: ['Full-stack development', 'Data-driven solutions', 'Automatización', 'UX interactiva']
+	interests: ['Full-stack development', 'Backend/APIs', 'Frontend/UI', 'DevOps básico', 'Automatización']
 };
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -209,10 +209,10 @@ ${PERSONAL_INFO.bio}
 _____________________________________________________
 
 Lo que he hecho
-→ Desarrollé dashboards BI que redujeron tiempo de análisis manual en 60%
-→ Automaticé pipeline ETL que procesa 10k+ registros diarios sin intervención
-→ Construí este portfolio interactivo (Svelte, componentes avanzados, gestión de estado)
-→ Implementé Paint, Calculadora, Snake, Buscaminas — demostrando lógica de juegos y UI interactiva
+→ Desarrollé una plataforma veterinaria full‑stack (Spring Boot + Angular + PostgreSQL) con roles y CRUD
+→ Construí una app móvil en Kotlin con geolocalización y Google Maps para rutas y ETA
+→ Creé este portafolio interactivo en Svelte con ventanas, apps retro y estado reactivo
+→ He trabajado con datos cuando el proyecto lo requiere (dashboards y automatización)
 
 __________________________________________________________________________________
 

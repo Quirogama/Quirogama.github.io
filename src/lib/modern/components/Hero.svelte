@@ -65,9 +65,9 @@
 				</div>
 			</div>
 			<p class="hero-description">
-				Desarrollador <span class="highlight">fullstack</span> de Colombia con experiencia en <span class="highlight">automatización de datos</span> y <span class="highlight">análisis</span>.
-				4 meses en Pontificia Universidad Javeriana trabajando en <span class="highlight">ETL</span>, dashboards y soluciones web.
-				Resuelvo problemas complejos combinando <span class="highlight">frontend interactivo</span> con <span class="highlight">lógica de datos</span> robusta.
+				Desarrollador <span class="highlight">full‑stack</span> de Colombia con experiencia en <span class="highlight">backend</span>, <span class="highlight">frontend</span> y despliegue.
+				He construido aplicaciones con <span class="highlight">Java/Spring Boot</span>, <span class="highlight">Angular</span> y <span class="highlight">Svelte</span>, integrando APIs y bases de datos.
+				Me enfoco en crear soluciones completas con buenas prácticas de ingeniería.
 			</p>
 			<div class="cta-buttons">
 				<a href="#projects" class="btn btn-primary"

@@ -5,25 +5,24 @@
 
 <!-- Contenido accesible para IAs y SEO (visualmente oculto) -->
 <div class="sr-only" aria-hidden="false">
-	<h1>Quirogama - Portafolio de Analista de Datos y Desarrollador</h1>
+	<h1>Quirogama - Portafolio de Desarrollador Full-Stack Junior</h1>
 	
 	<section>
 		<h2>Sobre mí</h2>
 		<p>
-			Analista de Datos y Programador Junior con 6 meses de experiencia en análisis de datos, 
-			visualización y desarrollo de aplicaciones web. Apasionado por transformar datos en 
-			insights accionables y crear soluciones tecnológicas innovadoras.
+			Desarrollador full‑stack junior con experiencia en backend, frontend y construcción de aplicaciones web. 
+			Apasionado por crear soluciones completas con buenas prácticas de ingeniería.
 		</p>
 	</section>
 
 	<section>
 		<h2>Habilidades Técnicas</h2>
 		<ul>
-			<li>Lenguajes: Python, SQL, JavaScript</li>
-			<li>Análisis de Datos: Pandas, NumPy, análisis estadístico</li>
-			<li>Visualización: Power BI, Matplotlib, Seaborn</li>
-			<li>Desarrollo Web: Svelte, HTML, CSS, Git</li>
-			<li>Bases de Datos: SQL Server, PostgreSQL</li>
+			<li>Backend: Java, Spring Boot, REST APIs</li>
+			<li>Frontend: Angular, Svelte, HTML, CSS, JavaScript</li>
+			<li>Bases de Datos: PostgreSQL, SQL Server</li>
+			<li>DevOps/Tools: Docker, Git, GitHub Actions</li>
+			<li>Otros: Python, Firebase, Google Maps SDK</li>
 		</ul>
 	</section>
 

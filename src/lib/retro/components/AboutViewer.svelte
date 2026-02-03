@@ -27,6 +27,10 @@
     
     const titles = [
       'Sobre mí',
+      '¿Quién soy?',
+      'Lo que he hecho',
+      'Educación & Contexto',
+      'Me interesa',
       'Qué hago',
       'Proyectos destacados',
       'Más sobre mí',
