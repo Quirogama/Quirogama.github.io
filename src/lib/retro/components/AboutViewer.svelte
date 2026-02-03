@@ -169,14 +169,10 @@
   }
 
   :global(.about-title) {
-    font-weight: 900;
-    font-size: 18px;
-    margin: 16px 0 10px 0;
-    color: #fff;
-    background: linear-gradient(90deg, #000080 0%, #0066cc 100%);
-    padding: 6px 12px;
-    border: 2px outset #dfdfdf;
-    box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    font-weight: 700;
+    font-size: 17px;
+    margin: 20px 0 10px 0;
+    color: #000;
   }
 
   .image-box {
