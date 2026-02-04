@@ -107,13 +107,14 @@
 	}
 
 	.about-text {
-		font-size: 1.25rem;
+		font-size: 1.5rem;
 		color: var(--text);
 		line-height: 1.8;
 	}
 
 	.about-text p {
 		margin: 0 0 24px 0;
+		font-size: 1.5rem;
 	}
 
 	.subsection-title {
@@ -135,7 +136,7 @@
 		align-items: center;
 		gap: 12px;
 		color: var(--text);
-		font-size: 1.2rem;
+		font-size: 1.5rem;
 		line-height: 1.6;
 	}
 
@@ -177,7 +178,7 @@
 	}
 
 	.skill-name {
-		font-size: 1.2rem;
+		font-size: 1.5rem;
 		font-weight: 500;
 		color: var(--text);
 	}

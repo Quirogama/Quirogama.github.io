@@ -135,7 +135,7 @@
 		background: rgba(212, 175, 55, 0.15);
 		border: 1px solid rgba(212, 175, 55, 0.3);
 		border-radius: 20px;
-		font-size: 0.9rem;
+		font-size: 1.25rem;
 		color: var(--primary);
 		font-weight: 600;
 	}
@@ -165,7 +165,7 @@
 		background: rgba(212, 175, 55, 0.1);
 		color: var(--primary);
 		border-radius: 4px;
-		font-size: 0.95rem;
+		font-size: 1.25rem;
 		font-weight: 500;
 		border: 1px solid var(--glass-border);
 		transition: all 0.3s ease;
@@ -190,7 +190,7 @@
 		color: var(--primary);
 		text-decoration: none;
 		font-weight: 600;
-		font-size: 1.05rem;
+		font-size: 1.25rem;
 		display: flex;
 		align-items: center;
 		gap: 8px;

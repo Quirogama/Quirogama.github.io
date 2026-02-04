@@ -166,7 +166,13 @@
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		gap: 60px;
-		align-items: start;
+		align-items: stretch;
+	}
+
+	.contact-info {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
 	}
 
 	.contact-info p {
@@ -177,9 +183,10 @@
 	}
 
 	.contact-cards {
-		display: flex;
-		flex-direction: column;
-		gap: 32px;
+		display: grid;
+		grid-template-rows: 1fr 1fr 1fr;
+		gap: 24px;
+		flex: 1;
 	}
 
 	.contact-card {
@@ -191,6 +198,7 @@
 		display: flex;
 		align-items: center;
 		gap: 20px;
+		height: 100%;
 	}
 
 	.contact-card:hover {
@@ -238,6 +246,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 20px;
+		height: 100%;
 	}
 
 	.form-input,
@@ -248,7 +257,7 @@
 		border: 1px solid rgba(212, 175, 55, 0.2);
 		border-radius: var(--radius-md);
 		color: var(--text);
-		font-size: 1rem;
+		font-size: 1.5rem;
 		font-family: inherit;
 		transition: all 0.3s ease;
 	}
@@ -271,7 +280,7 @@
 		color: var(--secondary);
 		border: none;
 		border-radius: var(--radius-md);
-		font-size: 1.1rem;
+		font-size: 1.5rem;
 		font-weight: 600;
 		cursor: pointer;
 		transition: all 0.3s ease;
@@ -290,7 +299,7 @@
 
 	.submit-message {
 		text-align: center;
-		font-size: 0.95rem;
+		font-size: 1.5rem;
 		margin: 0;
 		padding: 12px;
 		border-radius: var(--radius-md);
@@ -307,7 +316,7 @@
 		color: var(--text-dim);
 		padding: 40px;
 		text-align: center;
-		font-size: 0.95rem;
+		font-size: 1rem;
 	}
 
 	.footer p {

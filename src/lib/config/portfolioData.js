@@ -14,7 +14,7 @@ export const PERSONAL_INFO = {
 	title: 'Ingeniero de Sistemas | Desarrollador Full-Stack Junior',
 	location: 'Bogotá, Colombia',
 	email: 'quirogama@javeriana.edu.co',
-	bio: 'Desarrollador full‑stack de Colombia con experiencia en backend, frontend y despliegue. He construido aplicaciones con Java/Spring Boot, Angular y Svelte, integrando APIs y bases de datos para resolver problemas reales.',
+	bio: 'Desarrollador full‑stack de Colombia con experiencia en backend, frontend y despliegue. He construido aplicaciones con Java/Spring Boot, Angular y Svelte, integrando APIs y bases de datos. Me enfoco en crear soluciones completas con buenas prácticas de ingeniería.',
 	summary: 'Disponible para roles Junior de Full‑Stack, Backend o Frontend, con interés en proyectos de software end‑to‑end.',
 	aboutMe: 'Estudiante de Ingeniería de Sistemas enfocado en desarrollo de software. Me motiva construir productos completos: desde APIs y lógica de negocio hasta interfaces web y despliegue con buenas prácticas.'
 };

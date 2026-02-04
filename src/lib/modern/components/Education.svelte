@@ -95,7 +95,7 @@
 	.edu-period {
 		color: var(--primary);
 		font-weight: 600;
-		font-size: 1.15rem;
+		font-size: 1.5rem;
 		white-space: nowrap;
 	}
 
@@ -103,13 +103,13 @@
 		margin: 0 0 8px 0;
 		color: var(--text-dim);
 		font-weight: 500;
-		font-size: 1.25rem;
+		font-size: 1.5rem;
 	}
 
 	.edu-details {
 		margin: 0;
 		color: var(--text-dim);
-		font-size: 1.2rem;
+		font-size: 1.5rem;
 		line-height: 1.6;
 	}
 

@@ -178,13 +178,13 @@
 		margin: 0 0 8px 0;
 		color: var(--primary);
 		font-weight: 600;
-		font-size: 1.2rem;
+		font-size: 1.5rem;
 	}
 
 	.timeline-period {
 		margin: 0 0 12px 0;
 		color: var(--text-dim);
-		font-size: 1.05rem;
+		font-size: 1.5rem;
 		font-weight: 500;
 	}
 
@@ -192,7 +192,7 @@
 		margin: 0 0 16px 0;
 		color: var(--text);
 		line-height: 1.7;
-		font-size: 1.25rem;
+		font-size: 1.5rem;
 	}
 
 	.timeline-achievements {
@@ -203,7 +203,7 @@
 
 	.achievement-item {
 		color: var(--text);
-		font-size: 1.2rem;
+		font-size: 1.5rem;
 		line-height: 1.7;
 		margin-bottom: 10px;
 		display: flex;

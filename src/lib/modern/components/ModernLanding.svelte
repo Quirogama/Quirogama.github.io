@@ -34,9 +34,9 @@
 <div class="modern-container">
 	<Hero />
 	<About />
+	<Education />
 	<Experience />
 	<Projects />
-	<Education />
 	<Contact />
 </div>
 
