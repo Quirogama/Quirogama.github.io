@@ -220,16 +220,48 @@
 
 	/* Mobile responsive */
 	@media (max-width: 768px) {
+		.project-image {
+			aspect-ratio: 21 / 9;
+		}
+
+		.image-placeholder-text {
+			font-size: 1.4rem;
+		}
+
 		.project-content {
-			padding: 20px;
+			padding: 18px;
 		}
 
 		.project-title {
-			font-size: 1.6rem;
+			font-size: 1.4rem;
+		}
+
+		.project-highlight {
+			font-size: 1.1rem;
+			padding: 4px 10px;
 		}
 
 		.project-description {
-			font-size: 1.1rem;
+			font-size: 1.05rem;
+			display: -webkit-box;
+			-webkit-line-clamp: 4;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+		}
+
+		.stack-tag {
+			font-size: 1.05rem;
+			padding: 3px 8px;
+		}
+
+		.project-link {
+			font-size: 1.05rem;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.project-content {
+			padding: 16px;
 		}
 	}
 </style>

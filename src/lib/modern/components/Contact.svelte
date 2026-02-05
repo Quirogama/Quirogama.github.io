@@ -123,7 +123,7 @@
 </section>
 
 <footer class="footer">
-	<p>© 2025 {PERSONAL_INFO.name}. Diseño & código hecho con ❤️</p>
+	<p>© 2026 {PERSONAL_INFO.name}. Todos los derechos reservados.</p>
 </footer>
 
 <style>
@@ -329,6 +329,42 @@
 		}
 		to {
 			opacity: 1;
+		}
+	}
+
+	@media (max-width: 1200px) {
+		.contact {
+			padding: 96px 32px;
+		}
+
+		.section-content {
+			max-width: 1080px;
+		}
+
+		.section-title {
+			font-size: clamp(2.3rem, 5vw, 3.2rem);
+			margin: 0 0 50px 0;
+		}
+
+		.contact-grid {
+			gap: 48px;
+		}
+
+		.contact-info p {
+			font-size: 1.15rem;
+		}
+
+		.contact-card {
+			padding: 28px;
+		}
+
+		.contact-card h3,
+		.contact-detail,
+		.form-input,
+		.form-textarea,
+		.form-submit,
+		.submit-message {
+			font-size: 1.4rem;
 		}
 	}
 

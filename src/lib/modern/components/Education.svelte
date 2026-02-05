@@ -122,6 +122,31 @@
 		}
 	}
 
+	@media (max-width: 1200px) {
+		.education {
+			padding: 96px 32px;
+		}
+
+		.section-content {
+			max-width: 1080px;
+		}
+
+		.section-title {
+			font-size: clamp(2.3rem, 5vw, 3.2rem);
+			margin: 0 0 50px 0;
+		}
+
+		.edu-degree {
+			font-size: 1.65rem;
+		}
+
+		.edu-period,
+		.edu-institution,
+		.edu-details {
+			font-size: 1.4rem;
+		}
+	}
+
 	@media (max-width: 768px) {
 		.education {
 			padding: 60px 20px;

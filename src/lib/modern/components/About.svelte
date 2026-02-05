@@ -241,6 +241,36 @@
 		}
 	}
 
+	@media (max-width: 1200px) {
+		.about {
+			padding: 96px 32px;
+		}
+
+		.section-content {
+			max-width: 1080px;
+		}
+
+		.section-title {
+			font-size: clamp(2.3rem, 5vw, 3.2rem);
+			margin: 0 0 50px 0;
+		}
+
+		.about-text,
+		.about-text p,
+		.soft-skill-item,
+		.skill-name {
+			font-size: 1.4rem;
+		}
+
+		.subsection-title {
+			font-size: 1.5rem;
+		}
+
+		.skills-title {
+			font-size: 1.4rem;
+		}
+	}
+
 	@media (max-width: 768px) {
 		.about {
 			padding: 60px 20px;

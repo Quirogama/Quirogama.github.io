@@ -395,6 +395,44 @@
 		}
 	}
 
+	@media (max-width: 1200px) {
+		.hero {
+			padding: clamp(70px, 9vh, 120px) 32px clamp(120px, 14vh, 180px);
+			gap: 56px;
+		}
+
+		.hero-content {
+			max-width: 1080px;
+			gap: 28px;
+		}
+
+		.hero-title {
+			font-size: clamp(2.5rem, 5.2vw, 3.6rem);
+		}
+
+		.hero-subtitle {
+			font-size: 1.35rem;
+		}
+
+		.hero-description {
+			font-size: 1.4rem;
+			max-width: 580px;
+		}
+
+		.hero-image-wrapper {
+			max-width: 200px;
+		}
+
+		.btn {
+			font-size: 1.4rem;
+		}
+
+		.social-link {
+			width: 44px;
+			height: 44px;
+		}
+	}
+
 	@media (max-width: 768px) {
 		.hero-content {
 			gap: 28px;
