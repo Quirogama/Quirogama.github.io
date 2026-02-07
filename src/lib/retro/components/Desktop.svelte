@@ -226,7 +226,7 @@
 				{:else if w.componentType === 'snake'}
 					<SnakeViewer />
 				{:else if w.componentType === 'minesweeper'}
-					<MinesweeperViewer />
+				<MinesweeperViewer />
 				{:else if w.content}
 					<div style="padding:8px">{w.content}</div>
 				{:else}

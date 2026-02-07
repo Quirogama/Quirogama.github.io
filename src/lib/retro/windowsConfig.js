@@ -28,6 +28,7 @@ export const WINDOW_SIZES = {
 	paint: { width: 640, height: 410 },
 	calc: { width: 260, height: 390 },
 	snake: { width: 480, height: 620 },
+	minesweeper: { width: 260, height: 355 },
 	default: { width: 520, height: 360 }
 };
 

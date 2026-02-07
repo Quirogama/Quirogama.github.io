@@ -166,8 +166,8 @@
     padding:4px 6px;
     gap:8px;
     background: var(--window-frame, #c0c0c0);
-    /* aumentar el resaltado blanco superior a 2px para mayor definición */
-    box-shadow: inset 0 2px 0 #fff;
+    /* línea blanca superior de 1px */
+    box-shadow: inset 0 1px 0 #fff;
     z-index: 1000;
     box-sizing: border-box;
     overflow: hidden; /* prevent children from expanding the bar */
