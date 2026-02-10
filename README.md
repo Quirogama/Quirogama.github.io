@@ -9,6 +9,13 @@ Portafolio interactivo con diseño moderno y modo retro Windows 98. **Analista d
 
 ---
 
+## ✨ Características
+
+- 🎨 **Diseño Moderno**: Interfaz contemporánea y limpia
+- 🕹️ **Modo Retro Windows 98**: Experiencia nostálgica interactiva
+
+---
+
 ## 🛠️ Stack Tecnológico
 
 - **Frontend**: Svelte + SvelteKit
