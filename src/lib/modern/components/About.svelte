@@ -3,6 +3,8 @@
 	import { portfolioData } from '$lib/config/portfolioData.js';
 	import { PERSONAL_INFO, SOFT_SKILLS } from '$lib/config/portfolioData.js';
 
+	let { shouldAnimate = true } = $props();
+
 	let skillsAnimated = $state(false);
 
 	onMount(() => {
@@ -23,7 +25,7 @@
 	});
 </script>
 
-<section class="about" data-reveal id="about">
+<section class="about" data-reveal id="about" class:animate={shouldAnimate}>
 	<div class="section-content">
 		<h2 class="section-title">Sobre Mí</h2>
 		<div class="about-grid">
@@ -69,9 +71,12 @@
 	.about {
 		background: rgba(0, 0, 0, 0.2);
 		padding: 120px 40px;
-		animation: fadeIn 0.6s ease-out;
 		position: relative;
 		z-index: 1;
+	}
+
+	.about.animate {
+		animation: fadeIn 0.6s ease-out;
 	}
 
 	.section-content {

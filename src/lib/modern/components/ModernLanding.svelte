@@ -35,7 +35,7 @@
 
 <div class="modern-container">
 	<Hero shouldAnimate={shouldAnimate} />
-	<About />
+	<About shouldAnimate={shouldAnimate} />
 	<Education />
 	<Experience />
 	<Projects />
