@@ -31,19 +31,6 @@
 		}, 30);
 	}
 
-	// Magnetic effect para botones
-	function handleMagneticMove(e) {
-		const btn = e.currentTarget;
-		const rect = btn.getBoundingClientRect();
-		const x = e.clientX - rect.left - rect.width / 2;
-		const y = e.clientY - rect.top - rect.height / 2;
-		btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-	}
-
-	function handleMagneticLeave(e) {
-		e.currentTarget.style.transform = 'translate(0, 0)';
-	}
-
 	onMount(() => {
 		scrambleText();
 	});
@@ -70,16 +57,10 @@
 				Me enfoco en crear soluciones completas con buenas prácticas de ingeniería.
 			</p>
 			<div class="cta-buttons">
-				<a href="#projects" class="btn btn-primary"
-					onmouseenter={handleMagneticMove}
-					onmousemove={handleMagneticMove}
-					onmouseleave={handleMagneticLeave}>
+				<a href="#projects" class="btn btn-primary">
 					Ver proyectos
 				</a>
-				<a href="#contact" class="btn btn-secondary"
-					onmouseenter={handleMagneticMove}
-					onmousemove={handleMagneticMove}
-					onmouseleave={handleMagneticLeave}>
+				<a href="#contact" class="btn btn-secondary">
 					Contactarme
 				</a>
 			</div>

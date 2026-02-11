@@ -25,8 +25,7 @@ export const SOFT_SKILLS = [
 	'Trabajo en equipo',
 	'Aprendizaje continuo',
 	'Comunicación efectiva',
-	'Pensamiento analítico',
-	'Atención al detalle'
+	'Pensamiento analítico'
 ];
 
 export const SOCIAL_LINKS = {
