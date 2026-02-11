@@ -9,6 +9,8 @@
 	import Contact from './Contact.svelte';
 	import '../styles/theme.css';
 
+	let { shouldAnimate = true } = $props();
+
 	let scrollY = $state(0);
 	let mouseX = $state(0);
 	let mouseY = $state(0);
@@ -32,7 +34,7 @@
 <AnimatedBackground {mouseX} {mouseY} />
 
 <div class="modern-container">
-	<Hero />
+	<Hero shouldAnimate={shouldAnimate} />
 	<About />
 	<Education />
 	<Experience />

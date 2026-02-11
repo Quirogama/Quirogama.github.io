@@ -2,6 +2,8 @@
 	import { onMount } from 'svelte';
 	import { PERSONAL_INFO, SOCIAL_LINKS } from '$lib/config/portfolioData.js';
 
+	let { shouldAnimate = true } = $props();
+
 	let titleText = $state('');
 	let isScrambling = $state(true);
 
@@ -32,11 +34,17 @@
 	}
 
 	onMount(() => {
-		scrambleText();
+		if (shouldAnimate) {
+			scrambleText();
+		} else {
+			// Si no debe animar, mostrar el texto completo directamente
+			titleText = fullTitle;
+			isScrambling = false;
+		}
 	});
 </script>
 
-<section class="hero" data-reveal id="hero">
+<section class="hero" data-reveal id="hero" class:animate={shouldAnimate}>
 	<div class="hero-content">
 		<div class="hero-main">
 			<div class="hero-header">
@@ -93,10 +101,13 @@
 		padding: clamp(80px, 10vh, 140px) 40px clamp(140px, 16vh, 220px);
 		position: relative;
 		z-index: 1;
-		animation: fadeInUp 0.8s ease-out;
 		flex-direction: column;
 		gap: 80px;
 		background: radial-gradient(1200px 600px at 10% 10%, rgba(212, 175, 55, 0.12), transparent 60%);
+	}
+
+	.hero.animate {
+		animation: fadeInUp 0.8s ease-out;
 	}
 
 	.hero-content {
@@ -110,10 +121,13 @@
 	}
 
 	.hero-main {
-		animation: slideInLeft 0.8s ease-out;
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-md);
+	}
+
+	.hero.animate .hero-main {
+		animation: slideInLeft 0.8s ease-out;
 	}
 
 	.hero-header {
@@ -174,8 +188,11 @@
 		display: flex;
 		gap: var(--space-md);
 		flex-wrap: wrap;
-		animation: slideInUp 1s ease-out 0.2s both;
 		margin-top: var(--space-lg);
+	}
+
+	.hero.animate .cta-buttons {
+		animation: slideInUp 1s ease-out 0.2s both;
 	}
 
 	.btn {
@@ -244,8 +261,11 @@
 		gap: 16px;
 		justify-content: flex-start;
 		flex-wrap: wrap;
-		animation: slideInUp 0.8s ease-out 0.2s both;
 		opacity: 0.9;
+	}
+
+	.hero.animate .hero-social {
+		animation: slideInUp 0.8s ease-out 0.2s both;
 	}
 
 	.hero-image-wrapper {
@@ -265,8 +285,11 @@
 		object-fit: cover;
 		border-radius: 16px;
 		box-shadow: 0 20px 60px rgba(212, 175, 55, 0.3);
-		animation: imageReveal 0.8s ease-out;
 		border: 2px solid var(--glass-border);
+	}
+
+	.hero.animate .hero-image {
+		animation: imageReveal 0.8s ease-out;
 	}
 
 	.hero-image-wrapper::before {

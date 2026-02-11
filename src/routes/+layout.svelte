@@ -12,6 +12,7 @@
 	// Estado para toggle entre modern y retro
 	let mode = $state('modern'); // 'modern' o 'retro'
 	let isTransitioning = $state(false);
+	let isFirstModernView = $state(true); // Para controlar animaciones solo en primera visita
 
 	// Calcula la posición centrada para la ventana inicial
 	let centerLeft = $state(300);
@@ -150,6 +151,10 @@
 	// Función para cambiar de modo con animación de escaneo
 	function switchMode(newMode) {
 		isTransitioning = true;
+		// Si cambiamos a moderno desde retro, ya no es la primera vez
+		if (newMode === 'modern' && mode === 'retro') {
+			isFirstModernView = false;
+		}
 		// Espera a que la cortina termine completamente (1200ms) para cambiar el contenido
 		// Así la animación es suave y sin interrupciones
 		setTimeout(() => {
@@ -170,7 +175,7 @@
 			<span>↻</span> Ver Portafolio Retro
 		</button>
 	</div>
-	<ModernLanding />
+	<ModernLanding shouldAnimate={isFirstModernView} />
 {:else}
 	<!-- MODO RETRO (Windows 98) -->
 	<div class="mode-switcher">
@@ -196,7 +201,7 @@
 				</div>
 			{:else}
 				<!-- Revelar Moderno debajo del escaneo -->
-				<ModernLanding />
+				<ModernLanding shouldAnimate={false} />
 			{/if}
 		</div>
 	</div>
