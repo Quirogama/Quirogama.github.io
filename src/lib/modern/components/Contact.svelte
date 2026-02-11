@@ -1,5 +1,5 @@
 <script>
-	import { PERSONAL_INFO, SOCIAL_LINKS, PROFESSIONAL_INTERESTS } from '$lib/config/portfolioData.js';
+	import { PERSONAL_INFO, SOCIAL_LINKS, FORMSPREE_ID } from '$lib/config/portfolioData.js';
 
 	let formData = $state({
 		name: '',
@@ -15,25 +15,45 @@
 		isSubmitting = true;
 		submitStatus = '';
 
-		// Construct mailto link with form data
-		const subject = encodeURIComponent(`Contacto de ${formData.name}`);
-		const body = encodeURIComponent(`Nombre: ${formData.name}\nEmail: ${formData.email}\n\nMensaje:\n${formData.message}`);
-		const mailtoLink = `mailto:${PERSONAL_INFO.email}?subject=${subject}&body=${body}`;
+		try {
+			const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					name: formData.name,
+					email: formData.email,
+					message: formData.message
+				})
+			});
 
-		// Open default email client
-		window.location.href = mailtoLink;
-
-		// Reset form
-		formData.name = '';
-		formData.email = '';
-		formData.message = '';
-		isSubmitting = false;
-		submitStatus = 'success';
-
-		// Clear success message after 3 seconds
-		setTimeout(() => {
-			submitStatus = '';
-		}, 3000);
+			if (response.ok) {
+				submitStatus = 'success';
+				// Reset form
+				formData.name = '';
+				formData.email = '';
+				formData.message = '';
+				
+				// Clear success message after 4 seconds
+				setTimeout(() => {
+					submitStatus = '';
+				}, 4000);
+			} else {
+				submitStatus = 'error';
+				setTimeout(() => {
+					submitStatus = '';
+				}, 4000);
+			}
+		} catch (error) {
+			console.error('Error:', error);
+			submitStatus = 'error';
+			setTimeout(() => {
+				submitStatus = '';
+			}, 4000);
+		} finally {
+			isSubmitting = false;
+		}
 	}
 </script>
 
@@ -115,7 +135,10 @@
 					{isSubmitting ? 'Enviando...' : 'Enviar Mensaje'}
 				</button>
 				{#if submitStatus === 'success'}
-					<p class="submit-message success">¡Se abrirá tu cliente de correo!</p>
+					<p class="submit-message success">✓ ¡Mensaje enviado! Te contactaré lo antes posible.</p>
+				{/if}
+				{#if submitStatus === 'error'}
+					<p class="submit-message error">✗ Hubo un error al enviar. Intenta nuevamente.</p>
 				{/if}
 			</form>
 		</div>
@@ -309,6 +332,12 @@
 		background: rgba(16, 163, 74, 0.2);
 		color: #10a34a;
 		border: 1px solid rgba(16, 163, 74, 0.3);
+	}
+
+	.submit-message.error {
+		background: rgba(220, 38, 38, 0.2);
+		color: #dc2626;
+		border: 1px solid rgba(220, 38, 38, 0.3);
 	}
 
 	.footer {

@@ -11,6 +11,7 @@
 	
 	// Estado para toggle entre modern y retro
 	let mode = $state('modern'); // 'modern' o 'retro'
+	let isTransitioning = $state(false);
 
 	// Calcula la posición centrada para la ventana inicial
 	let centerLeft = $state(300);
@@ -145,6 +146,17 @@
 		const { id } = event.detail;
 		createWindowFromApp(id);
 	}
+
+	// Función para cambiar de modo con animación de escaneo
+	function switchMode(newMode) {
+		isTransitioning = true;
+		// Espera a que la cortina termine completamente (1200ms) para cambiar el contenido
+		// Así la animación es suave y sin interrupciones
+		setTimeout(() => {
+			mode = newMode;
+			isTransitioning = false;
+		}, 1200);
+	}
 </script>
 
 <svelte:head>
@@ -154,7 +166,7 @@
 {#if mode === 'modern'}
 	<!-- MODO MODERNO -->
 	<div class="mode-switcher">
-		<button class="switch-btn retro-btn" onclick={() => (mode = 'retro')} title="Cambiar a versión retro">
+		<button class="switch-btn retro-btn" onclick={() => switchMode('retro')} title="Cambiar a versión retro" disabled={isTransitioning}>
 			<span>↻</span> Ver Portafolio Retro
 		</button>
 	</div>
@@ -162,7 +174,7 @@
 {:else}
 	<!-- MODO RETRO (Windows 98) -->
 	<div class="mode-switcher">
-		<button class="switch-btn modern-btn" onclick={() => (mode = 'modern')} title="Cambiar a versión moderna">
+		<button class="switch-btn modern-btn" onclick={() => switchMode('modern')} title="Cambiar a versión moderna" disabled={isTransitioning}>
 			<span>↻</span> Ver Versión Moderna
 		</button>
 	</div>
@@ -172,10 +184,145 @@
 	</div>
 {/if}
 
+<!-- Reveal Overlay - Revela el nuevo contenido con cortina -->
+{#if isTransitioning}
+	<div class="reveal-overlay">
+		<div class="reveal-content">
+			{#if mode === 'modern'}
+				<!-- Revelar Retro debajo del escaneo -->
+				<div class="shell-root">
+					<Desktop bind:windows />
+					<Taskbar {tasks} {activeWindowId} on:taskclick={handleTaskClick} on:menuselect={handleMenuSelect} />
+				</div>
+			{:else}
+				<!-- Revelar Moderno debajo del escaneo -->
+				<ModernLanding />
+			{/if}
+		</div>
+	</div>
+	
+	<!-- Scan Overlay encima de todo -->
+	<div class="scan-overlay">
+		<div class="scan-lines"></div>
+	</div>
+{/if}
+
 <!-- Rutas anidadas (contenido de las páginas del sitio) -->
 {@render children?.()}
 
 <style>
+	/* Reveal Overlay - Cortina que revela el nuevo contenido */
+	.reveal-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 9998;
+		pointer-events: none;
+		overflow: hidden;
+	}
+
+	.reveal-content {
+		width: 100%;
+		height: 100%;
+		/* Empieza tapado (0% visibilidad arriba) */
+		clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+		/* Anima la cortina bajando para revelar contenido */
+		animation: revealCurtain 1.2s ease-in-out forwards;
+	}
+
+	@keyframes revealCurtain {
+		0% {
+			/* Nada visible - la línea está en el tope */
+			clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+		}
+		100% {
+			/* Todo visible - la cortina bajó completamente */
+			clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+		}
+	}
+
+	/* Scan Overlay - Líneas de escaneo que bajan */
+	.scan-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.3);
+		backdrop-filter: blur(2px);
+		z-index: 10000;
+		animation: scanFade 1.2s ease-in-out forwards;
+		pointer-events: none;
+	}
+
+	.scan-lines {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: repeating-linear-gradient(
+			0deg,
+			rgba(212, 175, 55, 0.15) 0px,
+			rgba(212, 175, 55, 0.15) 2px,
+			transparent 2px,
+			transparent 4px
+		);
+		animation: scanSweep 1.2s ease-in-out forwards;
+	}
+
+	.scan-lines::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 8px;
+		background: linear-gradient(
+			180deg,
+			rgba(212, 175, 55, 0.8) 0%,
+			rgba(212, 175, 55, 0.4) 50%,
+			transparent 100%
+		);
+		animation: scanBright 1.2s ease-in-out forwards;
+		box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+	}
+
+	@keyframes scanFade {
+		0% {
+			opacity: 0;
+		}
+		10% {
+			opacity: 1;
+		}
+		90% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0;
+		}
+	}
+
+	@keyframes scanSweep {
+		0% {
+			transform: translateY(-100%);
+		}
+		100% {
+			transform: translateY(100vh);
+		}
+	}
+
+	@keyframes scanBright {
+		0% {
+			transform: translateY(-100%);
+		}
+		100% {
+			transform: translateY(100vh);
+		}
+	}
+
 	.mode-switcher {
 		position: fixed;
 		top: 20px;
@@ -198,13 +345,18 @@
 		backdrop-filter: blur(10px);
 	}
 
+	.switch-btn:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+
 	.modern-btn {
 		background: rgba(255, 255, 255, 0.9);
 		color: #1a1a1a;
 		border: 2px solid #2563eb;
 	}
 
-	.modern-btn:hover {
+	.modern-btn:hover:not(:disabled) {
 		background: white;
 		box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
 		transform: translateY(-2px);
@@ -218,11 +370,11 @@
 		font-size: 11px;
 	}
 
-	.retro-btn:active {
+	.retro-btn:active:not(:disabled) {
 		border-style: inset;
 	}
 
-	.retro-btn:hover {
+	.retro-btn:hover:not(:disabled) {
 		background: rgba(255, 255, 255, 0.95);
 	}
 
@@ -231,7 +383,7 @@
 		animation: spin 1s linear infinite;
 	}
 
-	.switch-btn:hover span {
+	.switch-btn:hover:not(:disabled) span {
 		animation: spin 0.6s linear infinite;
 	}
 

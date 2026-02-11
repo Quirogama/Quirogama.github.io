@@ -33,6 +33,10 @@ export const SOCIAL_LINKS = {
 	linkedin: 'https://www.linkedin.com/in/quirogama/'
 };
 
+// Formspree ID para el formulario de contacto
+// Obtén tu ID en https://formspree.io (crea una cuenta gratuita)
+export const FORMSPREE_ID = 'xjgegrzr';
+
 export const CONTACT_TEXT = `Contacto
 
 📧 Email: ${PERSONAL_INFO.email}
