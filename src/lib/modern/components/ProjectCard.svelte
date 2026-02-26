@@ -16,11 +16,15 @@
 
 <div class="project-card glass-card">
 	
-	<!-- Image placeholder con gradiente -->
+	<!-- Imagen del proyecto o placeholder con gradiente -->
 	<div class="project-image" style="background: {projectGradient}">
-		<div class="image-overlay">
-			<span class="image-placeholder-text">📊 Dashboard Preview</span>
-		</div>
+		{#if project.image}
+			<img src={project.image} alt={project.title} class="project-image-asset" />
+		{:else}
+			<div class="image-overlay">
+				<span class="image-placeholder-text">📊 Dashboard Preview</span>
+			</div>
+		{/if}
 	</div>
 
 	<div class="project-content">
@@ -82,6 +86,13 @@
 		aspect-ratio: 16 / 9;
 		position: relative;
 		overflow: hidden;
+	}
+
+	.project-image-asset {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
 	}
 
 	.image-overlay {

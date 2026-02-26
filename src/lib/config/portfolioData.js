@@ -118,7 +118,7 @@ export const PROJECTS = [
 		description: 'Portafolio interactivo con estética nostálgica de Windows 98. Incluye ventanas arrastrables, Paint funcional, Calculadora, Snake y Buscaminas. Arquitectura modular con componentes Svelte.',
 		highlight: 'Experiencia de usuario única y memorable',
 		stack: ['Svelte', 'SvelteKit', 'JavaScript', 'CSS'],
-		image: null,
+		image: '/icons/windows_img.jpg',
 		links: [
 			{ label: 'GitHub', url: 'https://github.com/Quirogama/Quirogama.github.io' },
 			{ label: 'Ver Demo', url: 'https://quirogama.github.io' }
@@ -139,7 +139,7 @@ export const PROJECTS = [
 		description: 'Sistema integral para gestión veterinaria con roles diferenciados. Incluye CRUDs completos, dashboards analíticos, autenticación JWT y administración de citas y servicios.',
 		highlight: 'Arquitectura fullstack escalable',
 		stack: ['Angular', 'Spring Boot', 'TypeScript', 'Bootstrap'],
-		image: '/icons/pawcare.png',
+		image: '/icons/pawcare2.jpg?v=2',
 		links: [
 			{ label: 'Backend', url: 'https://github.com/Quirogama/PAW-CARE-SPRINGBOOT' },
 			{ label: 'Frontend', url: 'https://github.com/Quirogama/PAW-CARE-ANGULAR' }
