@@ -54,7 +54,7 @@ export const SKILLS = {
 	languages: ['Python', 'SQL', 'JavaScript', 'Java'],
 	frontend: ['Svelte', 'HTML/CSS', 'JavaScript', 'Bootstrap'],
 	backend: ['Python', 'Node.js'],
-	dataTools: ['Pandas', 'Power BI', 'Matplotlib', 'Seaborn'],
+	dataTools: ['Power BI', 'Matplotlib', 'Seaborn'],
 	databases: ['SQL Server', 'PostgreSQL', 'MongoDB'],
 	tools: ['Git', 'GitHub', 'AWS', 'Jupyter', 'Excel']
 };
@@ -62,11 +62,11 @@ export const SKILLS = {
 // Versión flat para más fácil iterar (usado en landing moderno)
 export const SKILLS_FLAT = [
 	'Python',
+	'Java',
 	'SQL',
 	'JavaScript',
 	'Svelte',
 	'Power BI',
-	'Pandas',
 	'HTML/CSS',
 	'Git',
 	'PostgreSQL',
@@ -78,15 +78,15 @@ export const SKILLS_FLAT = [
 // Habilidades con niveles de proficiencia (para progress bars)
 export const SKILLS_WITH_LEVELS = [
 	{ name: 'Python', level: 85, category: 'language' },
-	{ name: 'SQL', level: 80, category: 'language' },
+	{ name: 'Java', level: 90, category: 'language' },
+	{ name: 'SQL', level: 65, category: 'language' },
 	{ name: 'JavaScript', level: 75, category: 'language' },
 	{ name: 'Power BI', level: 90, category: 'data' },
-	{ name: 'Pandas', level: 80, category: 'data' },
 	{ name: 'Svelte', level: 70, category: 'frontend' },
 	{ name: 'HTML/CSS', level: 85, category: 'frontend' },
-	{ name: 'PostgreSQL', level: 75, category: 'database' },
+	{ name: 'PostgreSQL', level: 65, category: 'database' },
 	{ name: 'Git', level: 80, category: 'tool' },
-	{ name: 'AWS', level: 60, category: 'tool' }
+	{ name: 'AWS', level: 80, category: 'tool' }
 ];
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -96,21 +96,23 @@ export const SKILLS_WITH_LEVELS = [
 export const PROJECTS = [
 	{
 		id: 'analytics-dashboard',
-		title: 'Analytics Dashboard',
-		description: 'Dashboard interactivo en Power BI con análisis histórico de practicantes universitarios. Incluye visualizaciones de tendencias desde 2008 hasta 2025 con filtros dinámicos.',
-		highlight: 'Reducción del 60% en tiempo de análisis',
+		title: 'Análisis de Datos - Universidad Javeriana',
+		description: 'Proyecto de análisis de datos en la Pontificia Universidad Javeriana. Incluyó limpieza y depuración de información histórica de practicantes, estructuración de indicadores y construcción de dashboard en Power BI con tendencias 2008-2025, segmentación por variables clave y apoyo a la toma de decisiones del área.',
+		highlight: 'Proyecto aplicado durante 4 meses de experiencia en análisis de datos',
 		stack: ['Power BI', 'SQL', 'ETL'],
-		image: null,
+		image: '/icons/javeriana_logo.png',
 		links: []
 	},
 	{
-		id: 'etl-automation',
-		title: 'ETL Automation Pipeline',
-		description: 'Pipeline automatizado para extracción, transformación y carga de datos. Procesa múltiples fuentes con validaciones automáticas y manejo de errores.',
-		highlight: 'Reducción del 80% en errores de datos',
-		stack: ['Python', 'Pandas', 'SQL', 'PostgreSQL'],
-		image: null,
-		links: []
+		id: 'medical-dicom-api-thesis',
+		title: 'Tesis: API de Imágenes Médicas DICOM',
+		description: 'API REST para almacenar, consultar y descargar imágenes médicas DICOM, enfocada en estudios transfontanelares de la Fundación Canguro y en el intercambio con terceros/hospitales. Implementa estándares DICOMWeb (STOW-RS, QIDO-RS y WADO-RS) con arquitectura Node.js + Express, SQLite y almacenamiento de archivos en servidor.',
+		highlight: 'API DICOMWeb funcional con flujo completo STOW-QIDO-WADO',
+		stack: ['Node.js', 'Express', 'SQLite', 'DICOMWeb'],
+		image: '/icons/canguro_logo.jpg',
+		links: [
+			{ label: 'GitHub', url: 'https://github.com/JoseJ1709/ATIM.git' }
+		]
 	},
 	{
 		id: 'windows98-portfolio',
@@ -118,20 +120,11 @@ export const PROJECTS = [
 		description: 'Portafolio interactivo con estética nostálgica de Windows 98. Incluye ventanas arrastrables, Paint funcional, Calculadora, Snake y Buscaminas. Arquitectura modular con componentes Svelte.',
 		highlight: 'Experiencia de usuario única y memorable',
 		stack: ['Svelte', 'SvelteKit', 'JavaScript', 'CSS'],
-		image: '/icons/windows_img.jpg',
+		image: '/icons/windows_logo.jpg',
 		links: [
 			{ label: 'GitHub', url: 'https://github.com/Quirogama/Quirogama.github.io' },
 			{ label: 'Ver Demo', url: 'https://quirogama.github.io' }
 		]
-	},
-	{
-		id: 'predictive-analysis',
-		title: 'Predictive Analysis Model',
-		description: 'Modelo de Machine Learning para predicción de tendencias en datos históricos. Incluye análisis exploratorio, feature engineering y visualizaciones interactivas.',
-		highlight: 'Precisión del 78% en predicciones',
-		stack: ['Python', 'scikit-learn', 'Pandas', 'Matplotlib'],
-		image: null,
-		links: []
 	},
 	{
 		id: 'pawcare',
@@ -139,10 +132,21 @@ export const PROJECTS = [
 		description: 'Sistema integral para gestión veterinaria con roles diferenciados. Incluye CRUDs completos, dashboards analíticos, autenticación JWT y administración de citas y servicios.',
 		highlight: 'Arquitectura fullstack escalable',
 		stack: ['Angular', 'Spring Boot', 'TypeScript', 'Bootstrap'],
-		image: '/icons/pawcare2.jpg?v=2',
+		image: '/icons/pawcare_logo.jpg',
 		links: [
 			{ label: 'Backend', url: 'https://github.com/Quirogama/PAW-CARE-SPRINGBOOT' },
 			{ label: 'Frontend', url: 'https://github.com/Quirogama/PAW-CARE-ANGULAR' }
+		]
+	},
+	{
+		id: 'walkypet-mobile',
+		title: 'WalkyPet - App Móvil para Paseos',
+		description: 'Aplicación móvil enfocada en mejorar la experiencia de paseo con mascotas. Permite crear rutas, realizar seguimiento durante recorridos y explorar puntos de interés para dueños de mascotas.',
+		highlight: 'Proyecto móvil colaborativo con enfoque en rutas y geolocalización',
+		stack: ['Kotlin', 'Firebase', 'OpenStreetMap', 'Android'],
+		image: '/icons/walkypet_logo.png',
+		links: [
+			{ label: 'GitHub', url: 'https://github.com/PUJ-ICM-13190/Walkypet.git' }
 		]
 	}
 ];

@@ -19,7 +19,12 @@
 	<!-- Imagen del proyecto o placeholder con gradiente -->
 	<div class="project-image" style="background: {projectGradient}">
 		{#if project.image}
-			<img src={project.image} alt={project.title} class="project-image-asset" />
+			<img
+				src={project.image}
+				alt={project.title}
+				class="project-image-asset"
+				class:white-logo={project.id === 'analytics-dashboard'}
+			/>
 		{:else}
 			<div class="image-overlay">
 				<span class="image-placeholder-text">📊 Dashboard Preview</span>
@@ -93,6 +98,12 @@
 		height: 100%;
 		object-fit: cover;
 		display: block;
+	}
+
+	.project-image-asset.white-logo {
+		background: #ffffff;
+		object-fit: contain;
+		padding: 16px;
 	}
 
 	.image-overlay {
