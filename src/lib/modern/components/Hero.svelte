@@ -60,11 +60,15 @@
 				</div>
 			</div>
 			<p class="hero-description">
-				Desarrollador <span class="highlight">full‑stack</span> de Colombia con experiencia en <span class="highlight">backend</span>, <span class="highlight">frontend</span> y despliegue.
+				Desarrollador <span class="highlight">full‑stack junior</span> enfocado en <span class="highlight">backend</span> y soluciones <span class="highlight">end‑to‑end</span>.
+				Cuento con experiencia en <span class="highlight">backend</span>, <span class="highlight">frontend</span> y despliegue.
 				He construido aplicaciones con <span class="highlight">Java/Spring Boot</span>, <span class="highlight">Angular</span> y <span class="highlight">Svelte</span>, integrando APIs y bases de datos.
 				Me enfoco en crear soluciones completas con buenas prácticas de ingeniería.
 			</p>
 			<div class="cta-buttons">
+				<a href="/cv.pdf" target="_blank" rel="noopener" class="btn btn-secondary">
+					Ver CV
+				</a>
 				<a href="#projects" class="btn btn-primary">
 					Ver proyectos
 				</a>
