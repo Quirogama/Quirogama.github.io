@@ -213,6 +213,7 @@ _____________________________________________________
 
 ${PERSONAL_INFO.bio}
 
+
 _____________________________________________________
 
 Lo que he hecho
@@ -221,12 +222,17 @@ Lo que he hecho
 → Creé este portafolio interactivo en Svelte con ventanas, apps retro y estado reactivo
 → He trabajado con datos cuando el proyecto lo requiere (dashboards y automatización)
 
+_____________________________________________________
+
+Habilidades blandas
+${SOFT_SKILLS.map((skill) => `• ${skill}`).join('\n')}
+
 __________________________________________________________________________________
 
 Educación & Contexto
-🎓 Ingeniería de Sistemas — Pontificia Universidad Javeriana (2022-2026)
-💼 Experiencia como Analista de Datos — PUJ (4 meses, 2025)
-🔬 Intereses: ${PROFESSIONAL_INTERESTS.interests.join(', ')}
+Ingeniería de Sistemas — Pontificia Universidad Javeriana (2022-2026)
+Experiencia como Analista de Datos — PUJ (4 meses, 2025)
+Intereses: ${PROFESSIONAL_INTERESTS.interests.join(', ')}
 
 __________________________________________________________________________________
 

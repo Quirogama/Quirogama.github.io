@@ -55,7 +55,7 @@
 			<div class="project-links">
 				{#each project.links as link}
 					<a href={link.url} target="_blank" rel="noopener" class="project-link">
-						{link.label}
+						{link.label} (externo)
 						<span class="arrow">→</span>
 					</a>
 				{/each}
@@ -266,6 +266,7 @@
 		.project-description {
 			font-size: 1.05rem;
 			display: -webkit-box;
+			line-clamp: 4;
 			-webkit-line-clamp: 4;
 			-webkit-box-orient: vertical;
 			overflow: hidden;

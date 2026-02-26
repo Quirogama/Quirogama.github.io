@@ -109,12 +109,12 @@
 	}
 
 	.project-image {
-		width: 200px;
+		width: 240px;
 		height: 150px;
 		flex-shrink: 0;
 		border: 2px solid #000;
 		overflow: hidden;
-		background: #000;
+		background: #fff;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -123,8 +123,8 @@
 	.project-image img {
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
-		image-rendering: pixelated;
+		object-fit: contain;
+		image-rendering: auto;
 	}
 
 	.image-placeholder {

@@ -5,9 +5,9 @@
 	import ProjectsViewer from './ProjectsViewer.svelte';
 	import AboutViewer from './AboutViewer.svelte';
 	import ExperienceViewer from './ExperienceViewer.svelte';
+	import ContactViewer from './ContactViewer.svelte';
 	import PaintViewer from './PaintViewer.svelte';
 	import Calculator from '$lib/Calculator.svelte';
-	import GalleryViewer from './GalleryViewer.svelte';
 	import MinesweeperViewer from './MinesweeperViewer.svelte';
 	import SnakeViewer from './SnakeViewer.svelte';
 	import { aboutText, aboutTitle, projects, experiences, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y, APPS, CONTACT_TEXT, SOCIAL_LINKS } from '../windowsConfig.js';
@@ -113,18 +113,27 @@
 		
 		// Si es el ícono de GitHub, abre la URL directamente en una nueva pestaña
 		if (icon.id === 'github') {
+			if (!window.confirm('Vas a abrir un sitio externo (GitHub). ¿Continuar?')) {
+				return;
+			}
 			window.open(SOCIAL_LINKS.github, '_blank');
 			return;
 		}
 		
 		// Si es el ícono de LinkedIn, abre la URL directamente en una nueva pestaña
 		if (icon.id === 'linkedin') {
+			if (!window.confirm('Vas a abrir un sitio externo (LinkedIn). ¿Continuar?')) {
+				return;
+			}
 			window.open(SOCIAL_LINKS.linkedin, '_blank');
 			return;
 		}
 		
 		// Si tiene downloadUrl, descarga el archivo directamente
 		if (icon.downloadUrl) {
+			if (!window.confirm('Se va a descargar un archivo. ¿Deseas continuar?')) {
+				return;
+			}
 			const link = document.createElement('a');
 			link.href = icon.downloadUrl;
 			link.download = icon.downloadFilename || 'download';
@@ -217,12 +226,12 @@
 					<ExperienceViewer {experiences} />
 				{:else if w.componentType === 'about'}
 					<AboutViewer content={w.content} />
+				{:else if w.componentType === 'contact'}
+					<ContactViewer />
 				{:else if w.componentType === 'paint'}
 					<PaintViewer />
 			{:else if w.componentType === 'calc'}
 				<Calculator />
-			{:else if w.componentType === 'gallery'}
-				<GalleryViewer />
 				{:else if w.componentType === 'snake'}
 					<SnakeViewer />
 				{:else if w.componentType === 'minesweeper'}

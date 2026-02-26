@@ -73,6 +73,7 @@
 						<div>
 							<h3>Correo Electrónico</h3>
 							<a href="mailto:{PERSONAL_INFO.email}" class="contact-detail">{PERSONAL_INFO.email}</a>
+							<p class="contact-disclaimer">Abre tu cliente de correo</p>
 						</div>
 					</div>
 
@@ -86,6 +87,7 @@
 						<div>
 							<h3>GitHub</h3>
 							<a href={SOCIAL_LINKS.github} target="_blank" rel="noopener" class="contact-detail">@Quirogama</a>
+							<p class="contact-disclaimer">Enlace externo</p>
 						</div>
 					</div>
 
@@ -100,6 +102,7 @@
 						<div>
 							<h3>LinkedIn</h3>
 							<a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener" class="contact-detail">quirogama</a>
+							<p class="contact-disclaimer">Enlace externo</p>
 						</div>
 					</div>
 				</div>
@@ -243,7 +246,7 @@
 	}
 
 	.contact-card h3 {
-		font-size: 1.5rem;
+		font-size: 1.6rem;
 		font-weight: 600;
 		color: var(--primary);
 		margin: 0 0 4px 0;
@@ -252,9 +255,15 @@
 	.contact-detail {
 		color: var(--text);
 		text-decoration: none;
-		font-size: 1.5rem;
+		font-size: 1.6rem;
 		transition: color 0.3s ease;
 		display: block;
+	}
+
+	.contact-disclaimer {
+		margin: 4px 0 0 0;
+		font-size: 1.05rem;
+		color: var(--text-dim);
 	}
 
 	.contact-detail:hover {

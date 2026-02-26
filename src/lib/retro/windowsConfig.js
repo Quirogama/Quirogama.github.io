@@ -25,6 +25,7 @@ export const WINDOW_SIZES = {
 	pdf: { width: 700, height: 600 },
 	projects: { width: 750, height: 550 },
 	experience: { width: 900, height: 650 },
+	contact: { width: 720, height: 500 },
 	paint: { width: 640, height: 410 },
 	calc: { width: 260, height: 390 },
 	snake: { width: 480, height: 620 },
@@ -81,6 +82,7 @@ export const APPS = {
 		id: 'contact',
 		label: 'Contacto',
 		icon: '/icons/contacto.png',
+		componentType: 'contact',
 		showInDesktop: true,
 		showInStartMenu: true,
 		desktopPosition: { x: 134, y: 126 }
@@ -93,15 +95,6 @@ export const APPS = {
 		showInDesktop: true,
 		showInStartMenu: false,
 		desktopPosition: { x: 134, y: 346 }
-	},
-	gallery: {
-		id: 'gallery',
-		label: 'Galería',
-		icon: '/icons/gallery.png',
-		componentType: 'gallery',
-		showInDesktop: true,
-		showInStartMenu: false,
-		desktopPosition: { x: 252, y: 16 }
 	},
 	snake: {
 		id: 'snake',

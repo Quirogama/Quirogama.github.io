@@ -90,6 +90,9 @@
 
 		// Si tiene downloadUrl, descarga el archivo directamente
 		if (app.downloadUrl) {
+			if (!window.confirm('Se va a descargar un archivo. ¿Deseas continuar?')) {
+				return;
+			}
 			const link = document.createElement('a');
 			link.href = app.downloadUrl;
 			link.download = app.downloadFilename || 'download';
