@@ -28,9 +28,9 @@ export const WINDOW_SIZES = {
 	contact: { width: 720, height: 500 },
 	paint: { width: 640, height: 410 },
 	calc: { width: 260, height: 390 },
-	snake: { width: 480, height: 620 },
-	minesweeper: { width: 260, height: 355 },
-	default: { width: 520, height: 360 }
+	snake: { width: 430, height: 555 },
+	minesweeper: { width: 300, height: 420 },
+	default: { width: 510, height: 360 }
 };
 
 // Offset y posición inicial al abrir nuevas ventanas

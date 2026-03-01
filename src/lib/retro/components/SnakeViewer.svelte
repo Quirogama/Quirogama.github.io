@@ -112,7 +112,7 @@
       return;
     }
 
-    if (!gameStarted && (e.key.startsWith('Arrow') || e.key === 'Enter')) {
+    if (!gameStarted && e.key.startsWith('Arrow')) {
       // Establece la dirección inicial según el input
       switch (e.key) {
         case 'ArrowUp':
@@ -128,11 +128,6 @@
           nextDirection = { x: -1, y: 0 };
           break;
         case 'ArrowRight':
-          direction = { x: 1, y: 0 };
-          nextDirection = { x: 1, y: 0 };
-          break;
-        case 'Enter':
-          // Enter inicia con la dirección por defecto (derecha)
           direction = { x: 1, y: 0 };
           nextDirection = { x: 1, y: 0 };
           break;
@@ -263,9 +258,9 @@
       {#if gameOver}
         <div class="game-over-overlay">
           <div class="game-over-box">
-            <div class="game-over-title">GAME OVER</div>
-            <div class="score-line">Score: {score}</div>
-            <div class="highscore-line">High Score: {highScore}</div>
+            <div class="game-over-title">FIN DE PARTIDA</div>
+            <div class="score-line">Puntos: {score} · Récord: {highScore}</div>
+            <button class="retry-btn" onclick={startGame}>Reintentar</button>
           </div>
         </div>
       {/if}
@@ -278,12 +273,7 @@
 
   <div class="status-bar">
     {#if !gameStarted}
-      <button class="start-btn" onclick={startGame}>Start Game</button>
-    {:else if gameOver}
-      <div class="game-over">
-        <span class="game-over-text">Game Over!</span>
-        <button class="start-btn" onclick={startGame}>Reiniciar</button>
-      </div>
+      <span class="start-hint">Pulsa cualquier flecha para comenzar</span>
     {:else if isPaused}
       <span class="paused-text">PAUSA</span>
     {/if}
@@ -292,12 +282,12 @@
 
 <style>
   .snake-container {
-    padding: 12px;
+    padding: 8px;
     background: var(--win98-face, #c0c0c0);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
     user-select: none;
   }
 
@@ -315,7 +305,7 @@
   }
 
   .score-display {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: bold;
     font-family: 'Courier New', monospace;
     color: #000;
@@ -325,22 +315,6 @@
     border: 2px solid;
     border-color: #808080 #fff #fff #808080;
     background: var(--win98-face, #c0c0c0);
-  }
-
-  .game-over {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 6px 12px;
-    background: var(--win98-face, #c0c0c0);
-    border: 2px solid;
-    border-color: #fff #808080 #808080 #fff;
-  }
-
-  .game-over-text {
-    font-weight: bold;
-    font-size: 16px;
-    color: #c00;
   }
 
   .paused-text {
@@ -353,23 +327,19 @@
     border-color: #fff #808080 #808080 #fff;
   }
 
-  .start-btn {
-    padding: 4px 12px;
-    font-size: 13px;
+  .start-hint {
+    font-size: 14px;
     font-weight: bold;
+    color: #003b8c;
+    padding: 6px 12px;
     background: var(--win98-face, #c0c0c0);
     border: 2px solid;
-    border-color: #fff #000 #000 #fff;
-    cursor: pointer;
-  }
-
-  .start-btn:active {
-    border-color: #000 #fff #fff #000;
-    padding: 5px 11px 3px 13px;
+    border-color: #fff #808080 #808080 #fff;
+    text-align: center;
   }
 
   .game-board-wrapper {
-    padding: 20px;
+    padding: 14px;
     background: #9eb99e;
     border: 2px solid #808080;
     border-top-color: #000;
@@ -429,9 +399,10 @@
     background: var(--win98-face, #c0c0c0);
     border: 3px solid;
     border-color: #fff #000 #000 #fff;
-    padding: 20px 32px;
+    padding: 18px 24px;
     text-align: center;
     box-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    animation: pop-in 260ms ease-out;
   }
 
   .game-over-title {
@@ -442,16 +413,51 @@
     text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
   }
 
-  .score-line, .highscore-line {
-    font-size: 16px;
+  .score-line {
+    font-size: 14px;
     font-weight: bold;
     color: #000;
-    margin: 8px 0;
+    margin: 6px 0;
   }
 
-  .highscore-line {
-    color: #006000;
+  .retry-btn {
+    margin-top: 10px;
+    padding: 4px 12px;
+    font-size: 13px;
+    font-weight: bold;
+    background: var(--win98-face, #c0c0c0);
+    border: 2px solid;
+    border-color: #fff #000 #000 #fff;
+    cursor: pointer;
+    animation: pulse 1.15s ease-in-out infinite;
   }
+
+  .retry-btn:active {
+    border-color: #000 #fff #fff #000;
+    padding: 5px 11px 3px 13px;
+  }
+
+  @keyframes pop-in {
+    from {
+      transform: scale(0.93);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.04);
+    }
+  }
+
   .food {
     position: absolute;
     background: #ff0000;

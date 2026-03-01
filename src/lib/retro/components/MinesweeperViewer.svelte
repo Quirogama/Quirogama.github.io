@@ -184,6 +184,7 @@
   
   $: minesRemaining = mineCount - flagsPlaced;
   $: faceEmoji = gameOver ? '😵' : gameWon ? '😎' : '🙂';
+  $: safeCellsRevealed = board.flat().filter(cell => cell.isRevealed && !cell.isMine).length;
 </script>
 
 <div class="minesweeper">
@@ -215,15 +216,29 @@
         {/each}
       </div>
     {/each}
+
+    {#if gameOver}
+      <div class="result-overlay game-over-overlay">
+        <div class="result-box">
+          <div class="result-title">💥 Fin de partida</div>
+          <div class="result-stats">Tiempo: {timeElapsed}s · Banderas: {flagsPlaced}/{mineCount}</div>
+          <div class="result-stats">Casillas seguras: {safeCellsRevealed}/{rows * cols - mineCount}</div>
+          <button class="retry-button" on:click={reset}>Reintentar</button>
+        </div>
+      </div>
+    {/if}
+
+    {#if gameWon}
+      <div class="result-overlay win-overlay">
+        <div class="result-box win-box">
+          <div class="result-title win-title">🎉 ¡Ganaste!</div>
+          <div class="result-stats">Tiempo final: {timeElapsed}s</div>
+          <div class="result-stats">Banderas usadas: {flagsPlaced}/{mineCount}</div>
+          <button class="retry-button" on:click={reset}>Jugar de nuevo</button>
+        </div>
+      </div>
+    {/if}
   </div>
-  
-  {#if gameOver}
-    <div class="message">Game Over! 💥</div>
-  {/if}
-  
-  {#if gameWon}
-    <div class="message win">You Win! 🎉</div>
-  {/if}
 </div>
 
 <style>
@@ -252,7 +267,7 @@
     color: #ff0000;
     font-family: 'Courier New', monospace;
     font-weight: bold;
-    font-size: 28px;
+    font-size: 30px;
     padding: 4px 8px;
     border: 2px solid;
     border-color: #808080 #fff #fff #808080;
@@ -280,10 +295,11 @@
   }
   
   .board {
+    position: relative;
     background: #c0c0c0;
     border: 3px solid;
     border-color: #808080 #fff #fff #808080;
-    padding: 8px;
+    padding: 13px;
     display: inline-block;
   }
   
@@ -293,12 +309,12 @@
   }
   
   .cell {
-    width: 20px;
-    height: 20px;
-    min-width: 20px;
-    min-height: 20px;
-    max-width: 20px;
-    max-height: 20px;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    min-height: 24px;
+    max-width: 24px;
+    max-height: 24px;
     border: 2px solid;
     background: #c0c0c0;
     cursor: pointer;
@@ -307,7 +323,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+    font-size: 14px;
     font-weight: bold;
     font-family: Arial, sans-serif;
     box-sizing: border-box;
@@ -345,12 +361,90 @@
     text-align: center;
     margin-top: 12px;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 17px;
     color: #ff0000;
   }
   
   .message.win {
     color: #008000;
+  }
+
+  .result-overlay {
+    position: absolute;
+    inset: 8px;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+  }
+
+  .win-overlay {
+    background: rgba(0, 60, 0, 0.68);
+  }
+
+  .result-box {
+    text-align: center;
+    background: #c0c0c0;
+    border: 3px solid;
+    border-color: #fff #808080 #808080 #fff;
+    padding: 10px 14px;
+    max-width: 90%;
+    animation: pop-in 240ms ease-out;
+  }
+
+  .result-title {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #ff0000;
+  }
+
+  .win-title {
+    color: #008000;
+  }
+
+  .result-stats {
+    font-size: 13px;
+    margin-bottom: 4px;
+    color: #000;
+  }
+
+  .retry-button {
+    margin-top: 8px;
+    padding: 5px 12px;
+    font-size: 13px;
+    font-weight: bold;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #808080 #808080 #fff;
+    cursor: pointer;
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+
+  .retry-button:active {
+    border-color: #808080 #fff #fff #808080;
+  }
+
+  @keyframes pop-in {
+    from {
+      transform: scale(0.92);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
   }
 </style>
 
