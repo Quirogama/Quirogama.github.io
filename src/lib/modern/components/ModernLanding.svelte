@@ -34,8 +34,8 @@
 <AnimatedBackground {mouseX} {mouseY} />
 
 <div class="modern-container">
-	<Hero shouldAnimate={shouldAnimate} />
-	<About shouldAnimate={shouldAnimate} />
+	<Hero {shouldAnimate} />
+	<About {shouldAnimate} />
 	<Education />
 	<Experience />
 	<Projects />
@@ -48,9 +48,9 @@
 	}
 
 	:global(:root) {
-		--primary: #D4AF37;
-		--primary-dark: #B8941F;
-		--primary-light: #F0D77C;
+		--primary: #d4af37;
+		--primary-dark: #b8941f;
+		--primary-light: #f0d77c;
 		--secondary: #1a1a2e;
 		--secondary-light: #2d2d44;
 		--accent: #ffffff;
@@ -66,7 +66,14 @@
 		background: var(--bg);
 		color: var(--text);
 		min-height: 100vh;
-		font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+		font-family:
+			'Inter',
+			-apple-system,
+			BlinkMacSystemFont,
+			'Segoe UI',
+			Roboto,
+			'Helvetica Neue',
+			sans-serif;
 		line-height: 1.6;
 		position: relative;
 		overflow-x: hidden;

@@ -1,469 +1,481 @@
 <script>
-  import { onMount, onDestroy } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 
-  // Configuración del juego
-  const GRID_SIZE = 14;
-  const CELL_SIZE = 26;
-  const INITIAL_SPEED = 140; // velocidad base
-  const SPEED_INCREMENT = 5;
-  const MIN_SPEED = 70;
+	// Configuración del juego
+	const GRID_SIZE = 14;
+	const CELL_SIZE = 26;
+	const INITIAL_SPEED = 140; // velocidad base
+	const SPEED_INCREMENT = 5;
+	const MIN_SPEED = 70;
 
-  // Estado del juego
-  let snake = $state([{ x: 7, y: 7 }, { x: 6, y: 7 }, { x: 5, y: 7 }]);
-  let direction = $state({ x: 1, y: 0 });
-  let nextDirection = $state({ x: 1, y: 0 });
-  let food = $state({ x: 10, y: 7 });
-  let score = $state(0);
-  let highScore = $state(0);
-  let gameOver = $state(false);
-  let gameStarted = $state(false);
-  let speed = $state(INITIAL_SPEED);
-  let isPaused = $state(false);
-  let inputQueue = $state([]);
+	// Estado del juego
+	let snake = $state([
+		{ x: 7, y: 7 },
+		{ x: 6, y: 7 },
+		{ x: 5, y: 7 }
+	]);
+	let direction = $state({ x: 1, y: 0 });
+	let nextDirection = $state({ x: 1, y: 0 });
+	let food = $state({ x: 10, y: 7 });
+	let score = $state(0);
+	let highScore = $state(0);
+	let gameOver = $state(false);
+	let gameStarted = $state(false);
+	let speed = $state(INITIAL_SPEED);
+	let isPaused = $state(false);
+	let inputQueue = $state([]);
 
-  // rAF loop
-  let rafId = null;
-  let accumulator = 0;
-  let lastTime = 0;
+	// rAF loop
+	let rafId = null;
+	let accumulator = 0;
+	let lastTime = 0;
 
-  function generateFood() {
-    let newFood;
-    do {
-      newFood = {
-        x: Math.floor(Math.random() * GRID_SIZE),
-        y: Math.floor(Math.random() * GRID_SIZE)
-      };
-    } while (snake.some(segment => segment.x === newFood.x && segment.y === newFood.y));
-    return newFood;
-  }
+	function generateFood() {
+		let newFood;
+		do {
+			newFood = {
+				x: Math.floor(Math.random() * GRID_SIZE),
+				y: Math.floor(Math.random() * GRID_SIZE)
+			};
+		} while (snake.some((segment) => segment.x === newFood.x && segment.y === newFood.y));
+		return newFood;
+	}
 
-  function startGame() {
-    snake = [{ x: 7, y: 7 }, { x: 6, y: 7 }, { x: 5, y: 7 }];
-    direction = { x: 1, y: 0 };
-    nextDirection = { x: 1, y: 0 };
-    food = generateFood();
-    score = 0;
-    gameOver = false;
-    gameStarted = false;
-    isPaused = false;
-    speed = INITIAL_SPEED;
-    inputQueue = [];
-    accumulator = 0;
-    lastTime = 0;
+	function startGame() {
+		snake = [
+			{ x: 7, y: 7 },
+			{ x: 6, y: 7 },
+			{ x: 5, y: 7 }
+		];
+		direction = { x: 1, y: 0 };
+		nextDirection = { x: 1, y: 0 };
+		food = generateFood();
+		score = 0;
+		gameOver = false;
+		gameStarted = false;
+		isPaused = false;
+		speed = INITIAL_SPEED;
+		inputQueue = [];
+		accumulator = 0;
+		lastTime = 0;
 
-    if (rafId) cancelAnimationFrame(rafId);
-  }
+		if (rafId) cancelAnimationFrame(rafId);
+	}
 
-  function togglePause() {
-    if (gameOver || !gameStarted) return;
-    isPaused = !isPaused;
-  }
+	function togglePause() {
+		if (gameOver || !gameStarted) return;
+		isPaused = !isPaused;
+	}
 
-  function update() {
-    if (gameOver || !gameStarted || isPaused) return;
+	function update() {
+		if (gameOver || !gameStarted || isPaused) return;
 
-    // Aplica la siguiente dirección en cola para giros rápidos suaves
-    if (inputQueue.length > 0) {
-      direction = inputQueue.shift();
-      nextDirection = { ...direction };
-    } else {
-      direction = { ...nextDirection };
-    }
+		// Aplica la siguiente dirección en cola para giros rápidos suaves
+		if (inputQueue.length > 0) {
+			direction = inputQueue.shift();
+			nextDirection = { ...direction };
+		} else {
+			direction = { ...nextDirection };
+		}
 
-    const head = { ...snake[0] };
-    head.x += direction.x;
-    head.y += direction.y;
+		const head = { ...snake[0] };
+		head.x += direction.x;
+		head.y += direction.y;
 
-    if (head.x < 0 || head.x >= GRID_SIZE || head.y < 0 || head.y >= GRID_SIZE) {
-      endGame();
-      return;
-    }
+		if (head.x < 0 || head.x >= GRID_SIZE || head.y < 0 || head.y >= GRID_SIZE) {
+			endGame();
+			return;
+		}
 
-    if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
-      endGame();
-      return;
-    }
+		if (snake.some((segment) => segment.x === head.x && segment.y === head.y)) {
+			endGame();
+			return;
+		}
 
-    snake = [head, ...snake];
+		snake = [head, ...snake];
 
-    if (head.x === food.x && head.y === food.y) {
-      score++;
-      food = generateFood();
-      
-      if (score % 5 === 0 && speed > MIN_SPEED) {
-        speed = Math.max(MIN_SPEED, speed - SPEED_INCREMENT);
-      }
-    } else {
-      snake = snake.slice(0, -1);
-    }
-  }
+		if (head.x === food.x && head.y === food.y) {
+			score++;
+			food = generateFood();
 
-  function endGame() {
-    gameOver = true;
-    if (score > highScore) {
-      highScore = score;
-    }
-    if (rafId) cancelAnimationFrame(rafId);
-  }
+			if (score % 5 === 0 && speed > MIN_SPEED) {
+				speed = Math.max(MIN_SPEED, speed - SPEED_INCREMENT);
+			}
+		} else {
+			snake = snake.slice(0, -1);
+		}
+	}
 
-  function handleKeyDown(e) {
-    if (gameOver && e.key === 'Enter') {
-      startGame();
-      return;
-    }
+	function endGame() {
+		gameOver = true;
+		if (score > highScore) {
+			highScore = score;
+		}
+		if (rafId) cancelAnimationFrame(rafId);
+	}
 
-    if (!gameStarted && e.key.startsWith('Arrow')) {
-      // Establece la dirección inicial según el input
-      switch (e.key) {
-        case 'ArrowUp':
-          direction = { x: 0, y: -1 };
-          nextDirection = { x: 0, y: -1 };
-          break;
-        case 'ArrowDown':
-          direction = { x: 0, y: 1 };
-          nextDirection = { x: 0, y: 1 };
-          break;
-        case 'ArrowLeft':
-          direction = { x: -1, y: 0 };
-          nextDirection = { x: -1, y: 0 };
-          break;
-        case 'ArrowRight':
-          direction = { x: 1, y: 0 };
-          nextDirection = { x: 1, y: 0 };
-          break;
-      }
-      gameStarted = true;
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(loop);
-      return;
-    }
+	function handleKeyDown(e) {
+		if (gameOver && e.key === 'Enter') {
+			startGame();
+			return;
+		}
 
-    if (e.key === ' ') {
-      e.preventDefault();
-      togglePause();
-      return;
-    }
+		if (!gameStarted && e.key.startsWith('Arrow')) {
+			// Establece la dirección inicial según el input
+			switch (e.key) {
+				case 'ArrowUp':
+					direction = { x: 0, y: -1 };
+					nextDirection = { x: 0, y: -1 };
+					break;
+				case 'ArrowDown':
+					direction = { x: 0, y: 1 };
+					nextDirection = { x: 0, y: 1 };
+					break;
+				case 'ArrowLeft':
+					direction = { x: -1, y: 0 };
+					nextDirection = { x: -1, y: 0 };
+					break;
+				case 'ArrowRight':
+					direction = { x: 1, y: 0 };
+					nextDirection = { x: 1, y: 0 };
+					break;
+			}
+			gameStarted = true;
+			if (rafId) cancelAnimationFrame(rafId);
+			rafId = requestAnimationFrame(loop);
+			return;
+		}
 
-    if (gameOver) return;
+		if (e.key === ' ') {
+			e.preventDefault();
+			togglePause();
+			return;
+		}
 
-    function isOpposite(a, b) {
-      return a.x === -b.x && a.y === -b.y;
-    }
+		if (gameOver) return;
 
-    const lastDir = inputQueue.length ? inputQueue[inputQueue.length - 1] : direction;
+		function isOpposite(a, b) {
+			return a.x === -b.x && a.y === -b.y;
+		}
 
-    switch (e.key) {
-      case 'ArrowUp': {
-        const nd = { x: 0, y: -1 };
-        if (!isOpposite(nd, lastDir) && !(nd.x === lastDir.x && nd.y === lastDir.y)) {
-          nextDirection = nd;
-          inputQueue = [...inputQueue, nd].slice(-2);
-        }
-        break;
-      }
-      case 'ArrowDown': {
-        const nd = { x: 0, y: 1 };
-        if (!isOpposite(nd, lastDir) && !(nd.x === lastDir.x && nd.y === lastDir.y)) {
-          nextDirection = nd;
-          inputQueue = [...inputQueue, nd].slice(-2);
-        }
-        break;
-      }
-      case 'ArrowLeft': {
-        const nd = { x: -1, y: 0 };
-        if (!isOpposite(nd, lastDir) && !(nd.x === lastDir.x && nd.y === lastDir.y)) {
-          nextDirection = nd;
-          inputQueue = [...inputQueue, nd].slice(-2);
-        }
-        break;
-      }
-      case 'ArrowRight': {
-        const nd = { x: 1, y: 0 };
-        if (!isOpposite(nd, lastDir) && !(nd.x === lastDir.x && nd.y === lastDir.y)) {
-          nextDirection = nd;
-          inputQueue = [...inputQueue, nd].slice(-2);
-        }
-        break;
-      }
-    }
-  }
+		const lastDir = inputQueue.length ? inputQueue[inputQueue.length - 1] : direction;
 
-  function loop(ts) {
-    if (!lastTime) lastTime = ts;
+		switch (e.key) {
+			case 'ArrowUp': {
+				const nd = { x: 0, y: -1 };
+				if (!isOpposite(nd, lastDir) && !(nd.x === lastDir.x && nd.y === lastDir.y)) {
+					nextDirection = nd;
+					inputQueue = [...inputQueue, nd].slice(-2);
+				}
+				break;
+			}
+			case 'ArrowDown': {
+				const nd = { x: 0, y: 1 };
+				if (!isOpposite(nd, lastDir) && !(nd.x === lastDir.x && nd.y === lastDir.y)) {
+					nextDirection = nd;
+					inputQueue = [...inputQueue, nd].slice(-2);
+				}
+				break;
+			}
+			case 'ArrowLeft': {
+				const nd = { x: -1, y: 0 };
+				if (!isOpposite(nd, lastDir) && !(nd.x === lastDir.x && nd.y === lastDir.y)) {
+					nextDirection = nd;
+					inputQueue = [...inputQueue, nd].slice(-2);
+				}
+				break;
+			}
+			case 'ArrowRight': {
+				const nd = { x: 1, y: 0 };
+				if (!isOpposite(nd, lastDir) && !(nd.x === lastDir.x && nd.y === lastDir.y)) {
+					nextDirection = nd;
+					inputQueue = [...inputQueue, nd].slice(-2);
+				}
+				break;
+			}
+		}
+	}
 
-    if (!gameStarted || gameOver) {
-      lastTime = ts;
-      rafId = requestAnimationFrame(loop);
-      return;
-    }
+	function loop(ts) {
+		if (!lastTime) lastTime = ts;
 
-    if (isPaused) {
-      lastTime = ts;
-      rafId = requestAnimationFrame(loop);
-      return;
-    }
+		if (!gameStarted || gameOver) {
+			lastTime = ts;
+			rafId = requestAnimationFrame(loop);
+			return;
+		}
 
-    const delta = ts - lastTime;
-    lastTime = ts;
-    accumulator += delta;
+		if (isPaused) {
+			lastTime = ts;
+			rafId = requestAnimationFrame(loop);
+			return;
+		}
 
-    const step = speed;
-    while (accumulator >= step) {
-      update();
-      accumulator -= step;
-    }
+		const delta = ts - lastTime;
+		lastTime = ts;
+		accumulator += delta;
 
-    rafId = requestAnimationFrame(loop);
-  }
+		const step = speed;
+		while (accumulator >= step) {
+			update();
+			accumulator -= step;
+		}
 
-  onMount(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      if (rafId) cancelAnimationFrame(rafId);
-    };
-  });
+		rafId = requestAnimationFrame(loop);
+	}
 
-  onDestroy(() => {
-    if (rafId) cancelAnimationFrame(rafId);
-  });
+	onMount(() => {
+		window.addEventListener('keydown', handleKeyDown);
+		return () => {
+			window.removeEventListener('keydown', handleKeyDown);
+			if (rafId) cancelAnimationFrame(rafId);
+		};
+	});
+
+	onDestroy(() => {
+		if (rafId) cancelAnimationFrame(rafId);
+	});
 </script>
 
 <div class="snake-container">
-  <div class="game-board-wrapper">
-    <div class="game-board" style="width: {GRID_SIZE * CELL_SIZE}px; height: {GRID_SIZE * CELL_SIZE}px;">
-      {#each Array(GRID_SIZE) as _, row}
-        {#each Array(GRID_SIZE) as _, col}
-          <div 
-            class="grid-cell" 
-            class:light={(row + col) % 2 === 0}
-            class:dark={(row + col) % 2 === 1}
-            style="left: {col * CELL_SIZE}px; top: {row * CELL_SIZE}px; width: {CELL_SIZE}px; height: {CELL_SIZE}px;"
-          ></div>
-        {/each}
-      {/each}
+	<div class="game-board-wrapper">
+		<div
+			class="game-board"
+			style="width: {GRID_SIZE * CELL_SIZE}px; height: {GRID_SIZE * CELL_SIZE}px;"
+		>
+			{#each Array(GRID_SIZE) as _, row}
+				{#each Array(GRID_SIZE) as _, col}
+					<div
+						class="grid-cell"
+						class:light={(row + col) % 2 === 0}
+						class:dark={(row + col) % 2 === 1}
+						style="left: {col * CELL_SIZE}px; top: {row *
+							CELL_SIZE}px; width: {CELL_SIZE}px; height: {CELL_SIZE}px;"
+					></div>
+				{/each}
+			{/each}
 
-      <div 
-        class="food" 
-        style="left: {food.x * CELL_SIZE}px; top: {food.y * CELL_SIZE}px; width: {CELL_SIZE}px; height: {CELL_SIZE}px;"
-      ></div>
+			<div
+				class="food"
+				style="left: {food.x * CELL_SIZE}px; top: {food.y *
+					CELL_SIZE}px; width: {CELL_SIZE}px; height: {CELL_SIZE}px;"
+			></div>
 
-      {#each snake as segment, i}
-        <div 
-          class="snake-segment {i === 0 ? 'head' : ''}" 
-          style="transform: translate({segment.x * CELL_SIZE}px, {segment.y * CELL_SIZE}px); width: {CELL_SIZE}px; height: {CELL_SIZE}px;"
-        ></div>
-      {/each}
+			{#each snake as segment, i}
+				<div
+					class="snake-segment {i === 0 ? 'head' : ''}"
+					style="transform: translate({segment.x * CELL_SIZE}px, {segment.y *
+						CELL_SIZE}px); width: {CELL_SIZE}px; height: {CELL_SIZE}px;"
+				></div>
+			{/each}
 
-      {#if gameOver}
-        <div class="game-over-overlay">
-          <div class="game-over-box">
-            <div class="game-over-title">FIN DE PARTIDA</div>
-            <div class="score-line">Puntos: {score} · Récord: {highScore}</div>
-            <button class="retry-btn" onclick={startGame}>Reintentar</button>
-          </div>
-        </div>
-      {/if}
-    </div>
-  </div>
+			{#if gameOver}
+				<div class="game-over-overlay">
+					<div class="game-over-box">
+						<div class="game-over-title">FIN DE PARTIDA</div>
+						<div class="score-line">Puntos: {score} · Récord: {highScore}</div>
+						<button class="retry-btn" onclick={startGame}>Reintentar</button>
+					</div>
+				</div>
+			{/if}
+		</div>
+	</div>
 
-  <div class="score-row">
-    <span class="score-display">{score}</span>
-  </div>
+	<div class="score-row">
+		<span class="score-display">{score}</span>
+	</div>
 
-  <div class="status-bar">
-    {#if !gameStarted}
-      <span class="start-hint">Pulsa cualquier flecha para comenzar</span>
-    {:else if isPaused}
-      <span class="paused-text">PAUSA</span>
-    {/if}
-  </div>
+	<div class="status-bar">
+		{#if !gameStarted}
+			<span class="start-hint">Pulsa cualquier flecha para comenzar</span>
+		{:else if isPaused}
+			<span class="paused-text">PAUSA</span>
+		{/if}
+	</div>
 </div>
 
 <style>
-  .snake-container {
-    padding: 8px;
-    background: var(--win98-face, #c0c0c0);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    user-select: none;
-  }
+	.snake-container {
+		padding: 8px;
+		background: var(--win98-face, #c0c0c0);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 8px;
+		user-select: none;
+	}
 
-  .status-bar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-  }
+	.status-bar {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 8px;
+	}
 
-  .score-row {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
+	.score-row {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
 
-  .score-display {
-    font-size: 17px;
-    font-weight: bold;
-    font-family: 'Courier New', monospace;
-    color: #000;
-    padding: 4px 8px;
-    display: inline-block;
-    line-height: 1;
-    border: 2px solid;
-    border-color: #808080 #fff #fff #808080;
-    background: var(--win98-face, #c0c0c0);
-  }
+	.score-display {
+		font-size: 17px;
+		font-weight: bold;
+		font-family: 'Courier New', monospace;
+		color: #000;
+		padding: 4px 8px;
+		display: inline-block;
+		line-height: 1;
+		border: 2px solid;
+		border-color: #808080 #fff #fff #808080;
+		background: var(--win98-face, #c0c0c0);
+	}
 
-  .paused-text {
-    font-size: 16px;
-    font-weight: bold;
-    color: #c00;
-    padding: 6px 12px;
-    background: var(--win98-face, #c0c0c0);
-    border: 2px solid;
-    border-color: #fff #808080 #808080 #fff;
-  }
+	.paused-text {
+		font-size: 16px;
+		font-weight: bold;
+		color: #c00;
+		padding: 6px 12px;
+		background: var(--win98-face, #c0c0c0);
+		border: 2px solid;
+		border-color: #fff #808080 #808080 #fff;
+	}
 
-  .start-hint {
-    font-size: 14px;
-    font-weight: bold;
-    color: #003b8c;
-    padding: 6px 12px;
-    background: var(--win98-face, #c0c0c0);
-    border: 2px solid;
-    border-color: #fff #808080 #808080 #fff;
-    text-align: center;
-  }
+	.start-hint {
+		font-size: 14px;
+		font-weight: bold;
+		color: #003b8c;
+		padding: 6px 12px;
+		background: var(--win98-face, #c0c0c0);
+		border: 2px solid;
+		border-color: #fff #808080 #808080 #fff;
+		text-align: center;
+	}
 
-  .game-board-wrapper {
-    padding: 14px;
-    background: #9eb99e;
-    border: 2px solid #808080;
-    border-top-color: #000;
-    border-left-color: #000;
-    border-right-color: #dfdfdf;
-    border-bottom-color: #dfdfdf;
-  }
+	.game-board-wrapper {
+		padding: 14px;
+		background: #9eb99e;
+		border: 2px solid #808080;
+		border-top-color: #000;
+		border-left-color: #000;
+		border-right-color: #dfdfdf;
+		border-bottom-color: #dfdfdf;
+	}
 
-  .game-board {
-    position: relative;
-    border: 1px solid #4a774a;
-  }
+	.game-board {
+		position: relative;
+		border: 1px solid #4a774a;
+	}
 
-  .grid-cell {
-    position: absolute;
-    pointer-events: none;
-  }
+	.grid-cell {
+		position: absolute;
+		pointer-events: none;
+	}
 
-  .grid-cell.light {
-    background: #aad751;
-  }
+	.grid-cell.light {
+		background: #aad751;
+	}
 
-  .grid-cell.dark {
-    background: #a2d149;
-  }
+	.grid-cell.dark {
+		background: #a2d149;
+	}
 
-  .snake-segment {
-    position: absolute;
-    left: 0;
-    top: 0;
-    background: #008000;
-    border: 1px solid #006000;
-    transition: transform 0.115s linear;
-    z-index: 10;
-  }
+	.snake-segment {
+		position: absolute;
+		left: 0;
+		top: 0;
+		background: #008000;
+		border: 1px solid #006000;
+		transition: transform 0.115s linear;
+		z-index: 10;
+	}
 
-  .snake-segment.head {
-    background: #00a000;
-    border: 2px solid #005000;
-  }
+	.snake-segment.head {
+		background: #00a000;
+		border: 2px solid #005000;
+	}
 
+	.game-over-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.7);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 100;
+	}
 
-  .game-over-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-  }
+	.game-over-box {
+		background: var(--win98-face, #c0c0c0);
+		border: 3px solid;
+		border-color: #fff #000 #000 #fff;
+		padding: 18px 24px;
+		text-align: center;
+		box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+		animation: pop-in 260ms ease-out;
+	}
 
-  .game-over-box {
-    background: var(--win98-face, #c0c0c0);
-    border: 3px solid;
-    border-color: #fff #000 #000 #fff;
-    padding: 18px 24px;
-    text-align: center;
-    box-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-    animation: pop-in 260ms ease-out;
-  }
+	.game-over-title {
+		font-size: 24px;
+		font-weight: bold;
+		color: #c00;
+		margin-bottom: 16px;
+		text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+	}
 
-  .game-over-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #c00;
-    margin-bottom: 16px;
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
-  }
+	.score-line {
+		font-size: 14px;
+		font-weight: bold;
+		color: #000;
+		margin: 6px 0;
+	}
 
-  .score-line {
-    font-size: 14px;
-    font-weight: bold;
-    color: #000;
-    margin: 6px 0;
-  }
+	.retry-btn {
+		margin-top: 10px;
+		padding: 4px 12px;
+		font-size: 13px;
+		font-weight: bold;
+		background: var(--win98-face, #c0c0c0);
+		border: 2px solid;
+		border-color: #fff #000 #000 #fff;
+		cursor: pointer;
+		animation: pulse 1.15s ease-in-out infinite;
+	}
 
-  .retry-btn {
-    margin-top: 10px;
-    padding: 4px 12px;
-    font-size: 13px;
-    font-weight: bold;
-    background: var(--win98-face, #c0c0c0);
-    border: 2px solid;
-    border-color: #fff #000 #000 #fff;
-    cursor: pointer;
-    animation: pulse 1.15s ease-in-out infinite;
-  }
+	.retry-btn:active {
+		border-color: #000 #fff #fff #000;
+		padding: 5px 11px 3px 13px;
+	}
 
-  .retry-btn:active {
-    border-color: #000 #fff #fff #000;
-    padding: 5px 11px 3px 13px;
-  }
+	@keyframes pop-in {
+		from {
+			transform: scale(0.93);
+			opacity: 0;
+		}
+		to {
+			transform: scale(1);
+			opacity: 1;
+		}
+	}
 
-  @keyframes pop-in {
-    from {
-      transform: scale(0.93);
-      opacity: 0;
-    }
-    to {
-      transform: scale(1);
-      opacity: 1;
-    }
-  }
+	@keyframes pulse {
+		0%,
+		100% {
+			transform: scale(1);
+		}
+		50% {
+			transform: scale(1.04);
+		}
+	}
 
-  @keyframes pulse {
-    0%,
-    100% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.04);
-    }
-  }
-
-  .food {
-    position: absolute;
-    background: #ff0000;
-    border-radius: 50%;
-    border: 2px solid #c00;
-    z-index: 5;
-  }
+	.food {
+		position: absolute;
+		background: #ff0000;
+		border-radius: 50%;
+		border: 2px solid #c00;
+		z-index: 5;
+	}
 </style>
-

@@ -167,27 +167,67 @@
 	}}
 >
 	<!-- Manijas de redimensionamiento en los 8 lados y esquinas -->
-	<div class="resize-handle handle-n" data-dir="n" onpointerdown={onPointerDown} aria-hidden="true"></div>
-	<div class="resize-handle handle-e" data-dir="e" onpointerdown={onPointerDown} aria-hidden="true"></div>
-	<div class="resize-handle handle-s" data-dir="s" onpointerdown={onPointerDown} aria-hidden="true"></div>
-		<div class="resize-handle handle-w" data-dir="w" onpointerdown={onPointerDown} aria-hidden="true"></div>
-		<div class="resize-handle handle-ne" data-dir="ne" onpointerdown={onPointerDown} aria-hidden="true"></div>
-		<div class="resize-handle handle-nw" data-dir="nw" onpointerdown={onPointerDown} aria-hidden="true"></div>
-		<div class="resize-handle handle-se" data-dir="se" onpointerdown={onPointerDown} aria-hidden="true"></div>
-		<div class="resize-handle handle-sw" data-dir="sw" onpointerdown={onPointerDown} aria-hidden="true"></div>
+	<div
+		class="resize-handle handle-n"
+		data-dir="n"
+		onpointerdown={onPointerDown}
+		aria-hidden="true"
+	></div>
+	<div
+		class="resize-handle handle-e"
+		data-dir="e"
+		onpointerdown={onPointerDown}
+		aria-hidden="true"
+	></div>
+	<div
+		class="resize-handle handle-s"
+		data-dir="s"
+		onpointerdown={onPointerDown}
+		aria-hidden="true"
+	></div>
+	<div
+		class="resize-handle handle-w"
+		data-dir="w"
+		onpointerdown={onPointerDown}
+		aria-hidden="true"
+	></div>
+	<div
+		class="resize-handle handle-ne"
+		data-dir="ne"
+		onpointerdown={onPointerDown}
+		aria-hidden="true"
+	></div>
+	<div
+		class="resize-handle handle-nw"
+		data-dir="nw"
+		onpointerdown={onPointerDown}
+		aria-hidden="true"
+	></div>
+	<div
+		class="resize-handle handle-se"
+		data-dir="se"
+		onpointerdown={onPointerDown}
+		aria-hidden="true"
+	></div>
+	<div
+		class="resize-handle handle-sw"
+		data-dir="sw"
+		onpointerdown={onPointerDown}
+		aria-hidden="true"
+	></div>
 	<div class="title-bar" style="touch-action: none;">
 		<div class="title-bar-text">{title}</div>
 		<div class="title-bar-controls">
-			<button 
-				aria-label="Minimize" 
+			<button
+				aria-label="Minimize"
 				onclick={(e) => {
 					e.stopPropagation();
 					minimize();
 				}}
 			></button>
 			<button aria-label="Maximize" disabled></button>
-			<button 
-				aria-label="Close" 
+			<button
+				aria-label="Close"
 				onclick={(e) => {
 					e.stopPropagation();
 					close();
@@ -212,9 +252,9 @@
 
 	/* Keep windows inside the viewport and avoid overflow on small screens */
 	.window {
-	  max-width: calc(100vw - 40px);
-	  max-height: calc(100vh - 80px); /* leave room for taskbar */
-	  box-sizing: border-box;
+		max-width: calc(100vw - 40px);
+		max-height: calc(100vh - 80px); /* leave room for taskbar */
+		box-sizing: border-box;
 	}
 	/* Preservar saltos de línea del contenido de texto plano */
 	.window-body {
@@ -263,9 +303,32 @@
 		cursor: ew-resize;
 	}
 	/* Corners: larger square regions to make diagonal resizing easy */
-	.resize-handle.handle-ne { right: -12px; top: -12px; width: 24px; height: 24px; cursor: nesw-resize; }
-	.resize-handle.handle-nw { left: -12px; top: -12px; width: 24px; height: 24px; cursor: nwse-resize; }
-	.resize-handle.handle-se { right: -12px; bottom: -12px; width: 24px; height: 24px; cursor: nwse-resize; }
-	.resize-handle.handle-sw { left: -12px; bottom: -12px; width: 24px; height: 24px; cursor: nesw-resize; }
+	.resize-handle.handle-ne {
+		right: -12px;
+		top: -12px;
+		width: 24px;
+		height: 24px;
+		cursor: nesw-resize;
+	}
+	.resize-handle.handle-nw {
+		left: -12px;
+		top: -12px;
+		width: 24px;
+		height: 24px;
+		cursor: nwse-resize;
+	}
+	.resize-handle.handle-se {
+		right: -12px;
+		bottom: -12px;
+		width: 24px;
+		height: 24px;
+		cursor: nwse-resize;
+	}
+	.resize-handle.handle-sw {
+		left: -12px;
+		bottom: -12px;
+		width: 24px;
+		height: 24px;
+		cursor: nesw-resize;
+	}
 </style>
-

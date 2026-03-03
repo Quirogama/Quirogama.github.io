@@ -22,7 +22,6 @@
 		<a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer">quirogama</a>
 		<span class="contact-note">(enlace externo)</span>
 	</div>
-
 </div>
 
 <style>

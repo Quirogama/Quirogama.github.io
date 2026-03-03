@@ -15,8 +15,10 @@ export const PERSONAL_INFO = {
 	location: 'Bogotá, Colombia',
 	email: 'quirogama@javeriana.edu.co',
 	bio: 'Desarrollador full‑stack de Colombia con experiencia en backend, frontend y despliegue. He construido aplicaciones con Java/Spring Boot, Angular y Svelte, integrando APIs y bases de datos. Me enfoco en crear soluciones completas con buenas prácticas de ingeniería.',
-	summary: 'Disponible para roles Junior de Full‑Stack, Backend o Frontend, con interés en proyectos de software end‑to‑end.',
-	aboutMe: 'Estudiante de Ingeniería de Sistemas enfocado en desarrollo de software. Me motiva construir productos completos: desde APIs y lógica de negocio hasta interfaces web y despliegue con buenas prácticas.'
+	summary:
+		'Disponible para roles Junior de Full‑Stack, Backend o Frontend, con interés en proyectos de software end‑to‑end.',
+	aboutMe:
+		'Estudiante de Ingeniería de Sistemas enfocado en desarrollo de software. Me motiva construir productos completos: desde APIs y lógica de negocio hasta interfaces web y despliegue con buenas prácticas.'
 };
 
 export const SOFT_SKILLS = [
@@ -35,7 +37,7 @@ export const SOCIAL_LINKS = {
 
 // Formspree ID para el formulario de contacto
 // Obtén tu ID en https://formspree.io (crea una cuenta gratuita)
-export const FORMSPREE_ID = 'xjgegrzr';
+export const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID || 'xjgegrzr';
 
 export const CONTACT_TEXT = `Contacto
 
@@ -97,7 +99,8 @@ export const PROJECTS = [
 	{
 		id: 'analytics-dashboard',
 		title: 'Análisis de Datos - Universidad Javeriana',
-		description: 'Proyecto de análisis de datos en la Pontificia Universidad Javeriana. Incluyó limpieza y depuración de información histórica de practicantes, estructuración de indicadores y construcción de dashboard en Power BI con tendencias 2008-2025, segmentación por variables clave y apoyo a la toma de decisiones del área.',
+		description:
+			'Proyecto de análisis de datos en la Pontificia Universidad Javeriana. Incluyó limpieza y depuración de información histórica de practicantes, estructuración de indicadores y construcción de dashboard en Power BI con tendencias 2008-2025, segmentación por variables clave y apoyo a la toma de decisiones del área.',
 		highlight: 'Proyecto aplicado durante 4 meses de experiencia en análisis de datos',
 		stack: ['Power BI', 'SQL', 'ETL'],
 		image: '/icons/javeriana_logo.png',
@@ -106,18 +109,18 @@ export const PROJECTS = [
 	{
 		id: 'medical-dicom-api-thesis',
 		title: 'Tesis: API de Imágenes Médicas DICOM',
-		description: 'API REST para almacenar, consultar y descargar imágenes médicas DICOM, enfocada en estudios transfontanelares de la Fundación Canguro y en el intercambio con terceros/hospitales. Implementa estándares DICOMWeb (STOW-RS, QIDO-RS y WADO-RS) con arquitectura Node.js + Express, SQLite y almacenamiento de archivos en servidor.',
+		description:
+			'API REST para almacenar, consultar y descargar imágenes médicas DICOM, enfocada en estudios transfontanelares de la Fundación Canguro y en el intercambio con terceros/hospitales. Implementa estándares DICOMWeb (STOW-RS, QIDO-RS y WADO-RS) con arquitectura Node.js + Express, SQLite y almacenamiento de archivos en servidor.',
 		highlight: 'API DICOMWeb funcional con flujo completo STOW-QIDO-WADO',
 		stack: ['Node.js', 'Express', 'SQLite', 'DICOMWeb'],
 		image: '/icons/canguro_logo.jpg',
-		links: [
-			{ label: 'GitHub', url: 'https://github.com/JoseJ1709/ATIM.git' }
-		]
+		links: [{ label: 'GitHub', url: 'https://github.com/JoseJ1709/ATIM.git' }]
 	},
 	{
 		id: 'windows98-portfolio',
 		title: 'Windows 98 Portfolio',
-		description: 'Portafolio interactivo con estética nostálgica de Windows 98. Incluye ventanas arrastrables, Paint funcional, Calculadora, Snake y Buscaminas. Arquitectura modular con componentes Svelte.',
+		description:
+			'Portafolio interactivo con estética nostálgica de Windows 98. Incluye ventanas arrastrables, Paint funcional, Calculadora, Snake y Buscaminas. Arquitectura modular con componentes Svelte.',
 		highlight: 'Experiencia de usuario única y memorable',
 		stack: ['Svelte', 'SvelteKit', 'JavaScript', 'CSS'],
 		image: '/icons/windows_logo.jpg',
@@ -129,7 +132,8 @@ export const PROJECTS = [
 	{
 		id: 'pawcare',
 		title: 'PawCare - Sistema Veterinario',
-		description: 'Sistema integral para gestión veterinaria con roles diferenciados. Incluye CRUDs completos, dashboards analíticos, autenticación JWT y administración de citas y servicios.',
+		description:
+			'Sistema integral para gestión veterinaria con roles diferenciados. Incluye CRUDs completos, dashboards analíticos, autenticación JWT y administración de citas y servicios.',
 		highlight: 'Arquitectura fullstack escalable',
 		stack: ['Angular', 'Spring Boot', 'TypeScript', 'Bootstrap'],
 		image: '/icons/pawcare_logo.jpg',
@@ -141,13 +145,12 @@ export const PROJECTS = [
 	{
 		id: 'walkypet-mobile',
 		title: 'WalkyPet - App Móvil para Paseos',
-		description: 'Aplicación móvil enfocada en mejorar la experiencia de paseo con mascotas. Permite crear rutas, realizar seguimiento durante recorridos y explorar puntos de interés para dueños de mascotas.',
+		description:
+			'Aplicación móvil enfocada en mejorar la experiencia de paseo con mascotas. Permite crear rutas, realizar seguimiento durante recorridos y explorar puntos de interés para dueños de mascotas.',
 		highlight: 'Proyecto móvil colaborativo con enfoque en rutas y geolocalización',
 		stack: ['Kotlin', 'Firebase', 'OpenStreetMap', 'Android'],
 		image: '/icons/walkypet_logo.png',
-		links: [
-			{ label: 'GitHub', url: 'https://github.com/PUJ-ICM-13190/Walkypet.git' }
-		]
+		links: [{ label: 'GitHub', url: 'https://github.com/PUJ-ICM-13190/Walkypet.git' }]
 	}
 ];
 
@@ -162,7 +165,8 @@ export const EXPERIENCES = [
 		company: 'Pontificia Universidad Javeriana - Departamento de Proyectos Sociales Universitarios',
 		dates: 'Agosto 2025 - Noviembre 2025',
 		duration: '4 meses',
-		description: 'Análisis y limpieza de base de datos de practicantes. Creación de dashboard interactivo en Power BI para visualización histórica de participación de practicantes.',
+		description:
+			'Análisis y limpieza de base de datos de practicantes. Creación de dashboard interactivo en Power BI para visualización histórica de participación de practicantes.',
 		achievements: [
 			'Reduje base de datos de 114 registros a 21 registros válidos (81.6% de datos limpios)',
 			'Creé dashboard interactivo en Power BI con análisis de practicantes desde 2008 hasta 2025',
@@ -196,7 +200,13 @@ export const PROFESSIONAL_INTERESTS = {
 	roles: ['Fullstack Development', 'Backend Development', 'Frontend Development'],
 	focus: 'construir soluciones end‑to‑end con buenas prácticas de ingeniería',
 	openTo: ['Full-time', 'Proyectos', 'Colaboraciones'],
-	interests: ['Full-stack development', 'Backend/APIs', 'Frontend/UI', 'DevOps básico', 'Automatización']
+	interests: [
+		'Full-stack development',
+		'Backend/APIs',
+		'Frontend/UI',
+		'DevOps básico',
+		'Automatización'
+	]
 };
 
 // ─────────────────────────────────────────────────────────────────────────

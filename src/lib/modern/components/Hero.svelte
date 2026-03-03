@@ -60,35 +60,63 @@
 				</div>
 			</div>
 			<p class="hero-description">
-				Desarrollador <span class="highlight">full‑stack junior</span> enfocado en <span class="highlight">backend</span> y soluciones <span class="highlight">end‑to‑end</span>.
-				Cuento con experiencia en <span class="highlight">backend</span>, <span class="highlight">frontend</span> y despliegue.
-				He construido aplicaciones con <span class="highlight">Java/Spring Boot</span>, <span class="highlight">Angular</span> y <span class="highlight">Svelte</span>, integrando APIs y bases de datos.
-				Me enfoco en crear soluciones completas con buenas prácticas de ingeniería.
+				Desarrollador <span class="highlight">full‑stack junior</span> enfocado en
+				<span class="highlight">backend</span>
+				y soluciones <span class="highlight">end‑to‑end</span>. Cuento con experiencia en
+				<span class="highlight">backend</span>, <span class="highlight">frontend</span> y
+				despliegue. He construido aplicaciones con <span class="highlight">Java/Spring Boot</span>,
+				<span class="highlight">Angular</span>
+				y <span class="highlight">Svelte</span>, integrando APIs y bases de datos. Me enfoco en
+				crear soluciones completas con buenas prácticas de ingeniería.
 			</p>
 			<div class="cta-buttons">
-				<a href="/cv.pdf" target="_blank" rel="noopener" class="btn btn-secondary">
-					Ver CV
-				</a>
-				<a href="#projects" class="btn btn-primary">
-					Ver proyectos
-				</a>
-				<a href="#contact" class="btn btn-secondary">
-					Contactarme
-				</a>
+				<a href="/cv.pdf" target="_blank" rel="noopener" class="btn btn-secondary"> Ver CV </a>
+				<a href="#projects" class="btn btn-primary"> Ver proyectos </a>
+				<a href="#contact" class="btn btn-secondary"> Contactarme </a>
 			</div>
 			<div class="hero-social" aria-label="Redes sociales">
-				<a href={SOCIAL_LINKS.github} target="_blank" rel="noopener" class="social-link github" title="GitHub" aria-label="GitHub">
+				<a
+					href={SOCIAL_LINKS.github}
+					target="_blank"
+					rel="noopener"
+					class="social-link github"
+					title="GitHub"
+					aria-label="GitHub"
+				>
 					<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-						<path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+						<path
+							d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
+						/>
 					</svg>
 				</a>
-				<a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener" class="social-link linkedin" title="LinkedIn" aria-label="LinkedIn">
+				<a
+					href={SOCIAL_LINKS.linkedin}
+					target="_blank"
+					rel="noopener"
+					class="social-link linkedin"
+					title="LinkedIn"
+					aria-label="LinkedIn"
+				>
 					<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-						<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.474-2.237-1.668-2.237-.909 0-1.45.613-1.687 1.207-.087.216-.11.517-.11.819v5.78h-3.554s.047-9.38 0-10.354h3.554v1.468c.457-.704 1.274-1.707 3.102-1.707 2.267 0 3.967 1.482 3.967 4.667v5.926zM5.337 9.433c-1.144 0-1.915-.758-1.915-1.707 0-.955.771-1.71 1.958-1.71 1.187 0 1.914.755 1.938 1.71 0 .949-.751 1.707-1.981 1.707zm1.946 11.019H3.39V8.598h3.893v11.854zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z" />
+						<path
+							d="M20.447 20.452h-3.554v-5.569c0-1.328-.474-2.237-1.668-2.237-.909 0-1.45.613-1.687 1.207-.087.216-.11.517-.11.819v5.78h-3.554s.047-9.38 0-10.354h3.554v1.468c.457-.704 1.274-1.707 3.102-1.707 2.267 0 3.967 1.482 3.967 4.667v5.926zM5.337 9.433c-1.144 0-1.915-.758-1.915-1.707 0-.955.771-1.71 1.958-1.71 1.187 0 1.914.755 1.938 1.71 0 .949-.751 1.707-1.981 1.707zm1.946 11.019H3.39V8.598h3.893v11.854zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"
+						/>
 					</svg>
 				</a>
-				<a href="mailto:{PERSONAL_INFO.email}" class="social-link email" title="Email" aria-label="Email">
-					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+				<a
+					href="mailto:{PERSONAL_INFO.email}"
+					class="social-link email"
+					title="Email"
+					aria-label="Email"
+				>
+					<svg
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
 						<rect x="2" y="4" width="20" height="16" rx="2"></rect>
 						<path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
 					</svg>
@@ -223,7 +251,9 @@
 		border-radius: 50%;
 		background: rgba(255, 255, 255, 0.2);
 		transform: translate(-50%, -50%);
-		transition: width var(--transition-slow), height var(--transition-slow);
+		transition:
+			width var(--transition-slow),
+			height var(--transition-slow);
 	}
 
 	.btn:hover::before {
@@ -329,7 +359,6 @@
 		border-color: var(--primary);
 	}
 
-
 	@keyframes fadeInUp {
 		from {
 			opacity: 0;
@@ -375,7 +404,8 @@
 	}
 
 	@keyframes pulse {
-		0%, 100% {
+		0%,
+		100% {
 			opacity: 1;
 		}
 		50% {
@@ -395,7 +425,8 @@
 	}
 
 	@keyframes glowPulse {
-		0%, 100% {
+		0%,
+		100% {
 			opacity: 0.4;
 		}
 		50% {

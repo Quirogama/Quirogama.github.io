@@ -8,13 +8,16 @@
 	let skillsAnimated = $state(false);
 
 	onMount(() => {
-		const observer = new IntersectionObserver((entries) => {
-			entries.forEach(entry => {
-				if (entry.isIntersecting && !skillsAnimated) {
-					skillsAnimated = true;
-				}
-			});
-		}, { threshold: 0.3 });
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting && !skillsAnimated) {
+						skillsAnimated = true;
+					}
+				});
+			},
+			{ threshold: 0.3 }
+		);
 
 		const skillsSection = document.querySelector('.skills-container');
 		if (skillsSection) {
@@ -31,8 +34,11 @@
 		<div class="about-grid">
 			<div class="about-text">
 				<p>{PERSONAL_INFO.aboutMe}</p>
-				<p>Me interesa trabajar en <strong>{portfolioData.interests.focus}</strong>, creando soluciones completas desde la lógica de negocio hasta la interfaz.</p>
-				
+				<p>
+					Me interesa trabajar en <strong>{portfolioData.interests.focus}</strong>, creando
+					soluciones completas desde la lógica de negocio hasta la interfaz.
+				</p>
+
 				<h3 class="subsection-title">Habilidades Blandas</h3>
 				<div class="soft-skills-grid">
 					{#each SOFT_SKILLS as skill}
@@ -53,8 +59,8 @@
 								<span class="skill-percentage">{skill.level}%</span>
 							</div>
 							<div class="skill-bar-container">
-								<div 
-									class="skill-bar-fill" 
+								<div
+									class="skill-bar-fill"
 									class:animated={skillsAnimated}
 									style="--skill-level: {skill.level}%"
 								></div>
@@ -206,7 +212,7 @@
 	.skill-bar-fill {
 		height: 100%;
 		width: 0;
-		background: linear-gradient(90deg, var(--primary), #F4E5B7);
+		background: linear-gradient(90deg, var(--primary), #f4e5b7);
 		border-radius: var(--radius-full);
 		transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
 		position: relative;

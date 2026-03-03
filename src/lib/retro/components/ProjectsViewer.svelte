@@ -1,6 +1,6 @@
 <script>
 	let { projects = [] } = $props();
-	
+
 	// Mapeo de iconos emoji por título de proyecto
 	const projectIcons = {
 		'Analytics Dashboard': '📊',
@@ -32,7 +32,7 @@
 					<div class="project-header">
 						<h3 class="project-title">{project.title}</h3>
 					</div>
-					
+
 					<div class="detail-sections">
 						{#if project.problem}
 							<div class="detail-section">
@@ -67,7 +67,12 @@
 								<strong class="detail-label">Links:</strong>
 								<div class="links-group">
 									{#each project.links as link}
-										<a href={link.url} target="_blank" rel="noopener noreferrer" class="project-link">
+										<a
+											href={link.url}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="project-link"
+										>
 											{link.label}
 										</a>
 									{/each}
@@ -130,7 +135,16 @@
 	.image-placeholder {
 		width: 100%;
 		height: 100%;
-		background: linear-gradient(135deg, #008080 25%, #000080 25%, #000080 50%, #008080 50%, #008080 75%, #000080 75%, #000080);
+		background: linear-gradient(
+			135deg,
+			#008080 25%,
+			#000080 25%,
+			#000080 50%,
+			#008080 50%,
+			#008080 75%,
+			#000080 75%,
+			#000080
+		);
 		background-size: 20px 20px;
 		display: flex;
 		flex-direction: column;
@@ -259,6 +273,3 @@
 		}
 	}
 </style>
-
-
-

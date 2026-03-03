@@ -1,17 +1,18 @@
 <script>
-  // Esta ruta no renderiza el escritorio; el UI principal está en +layout.svelte
-  // Aquí dejamos solo contenido semántico adicional si se requiere.
+	// Esta ruta no renderiza el escritorio; el UI principal está en +layout.svelte
+	// Aquí dejamos solo contenido semántico adicional si se requiere.
 </script>
 
 <!-- Contenido accesible para IAs y SEO (visualmente oculto) -->
 <div class="sr-only" aria-hidden="false">
 	<h1>Quirogama - Portafolio de Desarrollador Full-Stack Junior</h1>
-	
+
 	<section>
 		<h2>Sobre mí</h2>
 		<p>
-			Desarrollador full‑stack junior con experiencia en backend, frontend y construcción de aplicaciones web. 
-			Apasionado por crear soluciones completas con buenas prácticas de ingeniería.
+			Desarrollador full‑stack junior con experiencia en backend, frontend y construcción de
+			aplicaciones web. Apasionado por crear soluciones completas con buenas prácticas de
+			ingeniería.
 		</p>
 	</section>
 
@@ -36,8 +37,6 @@
 		<p>GitHub: <a href="https://github.com/Quirogama">github.com/Quirogama</a></p>
 	</section>
 </div>
-
-
 
 <style>
 	/* Screen reader only - visible para IAs pero oculto visualmente */

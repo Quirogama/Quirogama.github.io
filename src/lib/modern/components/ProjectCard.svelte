@@ -15,7 +15,6 @@
 </script>
 
 <div class="project-card glass-card">
-	
 	<!-- Imagen del proyecto o placeholder con gradiente -->
 	<div class="project-image" style="background: {projectGradient}">
 		{#if project.image}
@@ -42,7 +41,7 @@
 				</div>
 			{/if}
 		</div>
-		
+
 		<p class="project-description">{project.description}</p>
 
 		<div class="project-stack">

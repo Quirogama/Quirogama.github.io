@@ -18,7 +18,7 @@ export const aboutText = ABOUT_TEXT_RETRO;
 export const projects = PROJECTS;
 export const experiences = EXPERIENCES;
 
-// Tamaños por defecto de cada ventana 
+// Tamaños por defecto de cada ventana
 // Tamaños por defecto de cada ventana según tipo de app
 export const WINDOW_SIZES = {
 	about: { width: 850, height: 580 },

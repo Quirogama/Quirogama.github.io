@@ -1,18 +1,13 @@
 <script>
 	let { src = '' } = $props();
-	
+
 	// Ensure src is a string
 	const pdfUrl = String(src || '');
 </script>
 
 <div class="pdf-container">
 	{#if pdfUrl}
-		<iframe
-			title="PDF Viewer"
-			src={pdfUrl}
-			width="100%"
-			height="100%"
-		></iframe>
+		<iframe title="PDF Viewer" src={pdfUrl} width="100%" height="100%"></iframe>
 	{:else}
 		<div style="padding: 20px;">
 			<p>No PDF file specified.</p>
@@ -33,4 +28,3 @@
 		display: block;
 	}
 </style>
-

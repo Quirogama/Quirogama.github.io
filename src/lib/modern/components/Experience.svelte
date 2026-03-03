@@ -17,18 +17,18 @@
 							<h3 class="timeline-position">{exp.position}</h3>
 							<p class="timeline-company">{exp.company}</p>
 							<p class="timeline-period">{exp.dates}</p>
-						{#if exp.achievements && exp.achievements.length > 0}
-							<ul class="timeline-achievements">
-								{#each exp.achievements as achievement}
-									<li class="achievement-item">
-										<span class="achievement-bullet">▹</span>
-										{achievement}
-									</li>
-								{/each}
-							</ul>
-						{:else}
-							<p class="timeline-description">{exp.description}</p>
-						{/if}
+							{#if exp.achievements && exp.achievements.length > 0}
+								<ul class="timeline-achievements">
+									{#each exp.achievements as achievement}
+										<li class="achievement-item">
+											<span class="achievement-bullet">▹</span>
+											{achievement}
+										</li>
+									{/each}
+								</ul>
+							{:else}
+								<p class="timeline-description">{exp.description}</p>
+							{/if}
 							<div class="timeline-tech">
 								{#each exp.technologies as tech}
 									<span class="timeline-tech-badge">{tech}</span>

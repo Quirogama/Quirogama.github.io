@@ -3,12 +3,22 @@
 	import Desktop from '$lib/retro/components/Desktop.svelte';
 	import Taskbar from '$lib/retro/components/Taskbar.svelte';
 	import ModernLanding from '$lib/modern/components/ModernLanding.svelte';
-	import { aboutTitle, aboutText, projects, WINDOW_SIZES, WINDOW_OFFSET, WINDOW_INITIAL_X, WINDOW_INITIAL_Y, APPS, CONTACT_TEXT } from '$lib/retro/windowsConfig.js';
+	import {
+		aboutTitle,
+		aboutText,
+		projects,
+		WINDOW_SIZES,
+		WINDOW_OFFSET,
+		WINDOW_INITIAL_X,
+		WINDOW_INITIAL_Y,
+		APPS,
+		CONTACT_TEXT
+	} from '$lib/retro/windowsConfig.js';
 	import { onMount } from 'svelte';
 	import '../global.css';
 
 	let { children } = $props();
-	
+
 	// Estado para toggle entre modern y retro
 	let mode = $state('modern'); // 'modern' o 'retro'
 	let isTransitioning = $state(false);
@@ -35,8 +45,12 @@
 			appLabel: 'Sobre Mí',
 			icon: '/icons/sobremi.png',
 			hiddenInTaskbar: true,
-			get left() { return centerLeft; },
-			get top() { return centerTop; },
+			get left() {
+				return centerLeft;
+			},
+			get top() {
+				return centerTop;
+			},
 			content: aboutText,
 			componentType: 'about',
 			componentProps: { content: aboutText }
@@ -58,26 +72,20 @@
 	// Click en una tarea: restaura, minimiza o trae al frente según estado
 	function handleTaskClick(event) {
 		const { id } = event.detail;
-		const window = windows.find(w => w.id === id);
+		const window = windows.find((w) => w.id === id);
 		if (!window) return;
 
 		if (window.minimized) {
 			// Restaura la ventana y la trae al frente
-			const newZ = Math.max(...windows.map(w => w.z ?? 0)) + 1;
-			windows = windows.map(w => 
-				w.id === id ? { ...w, minimized: false, z: newZ } : w
-			);
+			const newZ = Math.max(...windows.map((w) => w.z ?? 0)) + 1;
+			windows = windows.map((w) => (w.id === id ? { ...w, minimized: false, z: newZ } : w));
 		} else if (id === activeWindowId) {
 			// Si ya está activa, minimiza
-			windows = windows.map(w => 
-				w.id === id ? { ...w, minimized: true } : w
-			);
+			windows = windows.map((w) => (w.id === id ? { ...w, minimized: true } : w));
 		} else {
 			// Si está visible pero no activa, la trae al frente
-			const newZ = Math.max(...windows.map(w => w.z ?? 0)) + 1;
-			windows = windows.map(w => 
-				w.id === id ? { ...w, z: newZ } : w
-			);
+			const newZ = Math.max(...windows.map((w) => w.z ?? 0)) + 1;
+			windows = windows.map((w) => (w.id === id ? { ...w, z: newZ } : w));
 		}
 	}
 
@@ -123,7 +131,7 @@
 		// Crear nueva ventana
 		const newId = Date.now();
 		const offset = windows.length * WINDOW_OFFSET;
-		const newZ = Math.max(...windows.map(w => w.z ?? 0), 0) + 1;
+		const newZ = Math.max(...windows.map((w) => w.z ?? 0), 0) + 1;
 
 		windows = [
 			...windows,
@@ -174,7 +182,12 @@
 {#if mode === 'modern'}
 	<!-- MODO MODERNO -->
 	<div class="mode-switcher">
-		<button class="switch-btn retro-btn" onclick={() => switchMode('retro')} title="Cambiar a versión retro" disabled={isTransitioning}>
+		<button
+			class="switch-btn retro-btn"
+			onclick={() => switchMode('retro')}
+			title="Cambiar a versión retro"
+			disabled={isTransitioning}
+		>
 			<span>↻</span> Ver Portafolio Retro
 		</button>
 	</div>
@@ -182,13 +195,23 @@
 {:else}
 	<!-- MODO RETRO (Windows 98) -->
 	<div class="mode-switcher">
-		<button class="switch-btn modern-btn" onclick={() => switchMode('modern')} title="Cambiar a versión moderna" disabled={isTransitioning}>
+		<button
+			class="switch-btn modern-btn"
+			onclick={() => switchMode('modern')}
+			title="Cambiar a versión moderna"
+			disabled={isTransitioning}
+		>
 			<span>↻</span> Ver Versión Moderna
 		</button>
 	</div>
 	<div class="shell-root">
 		<Desktop bind:windows />
-		<Taskbar {tasks} {activeWindowId} on:taskclick={handleTaskClick} on:menuselect={handleMenuSelect} />
+		<Taskbar
+			{tasks}
+			{activeWindowId}
+			on:taskclick={handleTaskClick}
+			on:menuselect={handleMenuSelect}
+		/>
 	</div>
 {/if}
 
@@ -200,7 +223,12 @@
 				<!-- Revelar Retro debajo del escaneo -->
 				<div class="shell-root">
 					<Desktop bind:windows />
-					<Taskbar {tasks} {activeWindowId} on:taskclick={handleTaskClick} on:menuselect={handleMenuSelect} />
+					<Taskbar
+						{tasks}
+						{activeWindowId}
+						on:taskclick={handleTaskClick}
+						on:menuselect={handleMenuSelect}
+					/>
 				</div>
 			{:else}
 				<!-- Revelar Moderno debajo del escaneo -->
@@ -208,7 +236,7 @@
 			{/if}
 		</div>
 	</div>
-	
+
 	<!-- Scan Overlay encima de todo -->
 	<div class="scan-overlay">
 		<div class="scan-lines"></div>
@@ -420,4 +448,3 @@
 		padding: 0;
 	}
 </style>
-

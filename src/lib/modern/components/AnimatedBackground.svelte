@@ -3,9 +3,18 @@
 </script>
 
 <div class="bg-animation">
-	<div class="gradient-orb orb-1" style="transform: translate({mouseX * 0.02}px, {mouseY * 0.02}px)"></div>
-	<div class="gradient-orb orb-2" style="transform: translate({mouseX * -0.015}px, {mouseY * 0.015}px)"></div>
-	<div class="gradient-orb orb-3" style="transform: translate({mouseX * 0.01}px, {mouseY * -0.01}px)"></div>
+	<div
+		class="gradient-orb orb-1"
+		style="transform: translate({mouseX * 0.02}px, {mouseY * 0.02}px)"
+	></div>
+	<div
+		class="gradient-orb orb-2"
+		style="transform: translate({mouseX * -0.015}px, {mouseY * 0.015}px)"
+	></div>
+	<div
+		class="gradient-orb orb-3"
+		style="transform: translate({mouseX * 0.01}px, {mouseY * -0.01}px)"
+	></div>
 	<div class="noise-overlay"></div>
 </div>
 
@@ -68,7 +77,8 @@
 	}
 
 	@keyframes float {
-		0%, 100% {
+		0%,
+		100% {
 			transform: translate(0, 0) scale(1);
 		}
 		33% {

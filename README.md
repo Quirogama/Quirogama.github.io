@@ -35,6 +35,20 @@ npm install
 npm run dev
 ```
 
+Opcional: crea `.env` desde `.env.example` para configurar `VITE_FORMSPREE_ID` sin editar código.
+
+## ✅ Tests
+
+```bash
+npm run test
+```
+
+Modo interactivo (re-ejecuta al guardar):
+
+```bash
+npm run test:watch
+```
+
 ---
 
 ## 📫 Contacto
@@ -43,4 +57,4 @@ npm run dev
 
 ---
 
-*Transformando datos en decisiones* 📊
+_Transformando datos en decisiones_ 📊
