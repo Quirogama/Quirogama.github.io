@@ -32,7 +32,7 @@ jobs:
         if: github.event_name == 'push'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'chore(ci): format with prettier'
+          commit_message: 'chore(ci): format with prettier [skip ci]'
 
       - name: Lint
         run: npm run lint
@@ -42,3 +42,10 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Auto-commit built docs
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          file_pattern: docs/**
+          commit_message: 'chore(ci): build docs [skip ci]'
