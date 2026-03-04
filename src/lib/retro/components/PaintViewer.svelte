@@ -1,8 +1,12 @@
 <script>
 	import { onMount } from 'svelte';
 	let canvasEl;
+	let canvasAreaEl;
 	let ctx;
 	let { width = 535, height = 290 } = $props();
+	let canvasWidth = $state(width);
+	let canvasHeight = $state(height);
+	let resizeObserver;
 
 	let tool = $state('pencil');
 	let color1 = $state('#000000');
@@ -44,40 +48,82 @@
 	let start = $state({ x: 0, y: 0 });
 	let last = $state({ x: 0, y: 0 });
 	let snapshot = $state(null);
-	let wasDrawingOnLeave = $state(false);
 
-	// Inicializa el canvas con fondo blanco al montar
 	onMount(() => {
 		ctx = canvasEl.getContext('2d');
-		resizeCanvas();
+		resizeCanvas({ preserve: false, fitToContainer: true });
 		ctx.fillStyle = '#FFFFFF';
-		ctx.fillRect(0, 0, canvasEl.width, canvasEl.height);
+		ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+		resizeObserver = new ResizeObserver(() => {
+			resizeCanvas({ preserve: true, fitToContainer: true });
+		});
+
+		if (canvasAreaEl) {
+			resizeObserver.observe(canvasAreaEl);
+		}
+
+		return () => {
+			resizeObserver?.disconnect();
+		};
 	});
 
-	// Ajusta el canvas considerando el pixel ratio de pantallas de alta densidad
-	function resizeCanvas() {
+	function resizeCanvas({ preserve = false, fitToContainer = false } = {}) {
+		const previousWidthPx = canvasEl?.width || 0;
+		const previousHeightPx = canvasEl?.height || 0;
+		let previousBitmap = null;
+
+		if (preserve && previousWidthPx > 0 && previousHeightPx > 0) {
+			previousBitmap = document.createElement('canvas');
+			previousBitmap.width = previousWidthPx;
+			previousBitmap.height = previousHeightPx;
+			const previousCtx = previousBitmap.getContext('2d');
+			previousCtx.drawImage(canvasEl, 0, 0);
+		}
+
+		if (fitToContainer && canvasAreaEl) {
+			const style = getComputedStyle(canvasAreaEl);
+			const padX = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+			const padY = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+			const availableWidth = Math.max(120, Math.floor(canvasAreaEl.clientWidth - padX + 10));
+			const availableHeight = Math.max(80, Math.floor(canvasAreaEl.clientHeight - padY + 10));
+			canvasWidth = Math.max(width, availableWidth);
+			canvasHeight = Math.max(height, availableHeight);
+		}
+
 		const dpr = window.devicePixelRatio || 1;
-		canvasEl.width = width * dpr;
-		canvasEl.height = height * dpr;
-		canvasEl.style.width = width + 'px';
-		canvasEl.style.height = height + 'px';
+		canvasEl.width = Math.floor(canvasWidth * dpr);
+		canvasEl.height = Math.floor(canvasHeight * dpr);
+		canvasEl.style.width = `${canvasWidth}px`;
+		canvasEl.style.height = `${canvasHeight}px`;
+
 		ctx = canvasEl.getContext('2d');
 		ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+		if (previousBitmap) {
+			ctx.drawImage(previousBitmap, 0, 0, previousWidthPx / dpr, previousHeightPx / dpr);
+		}
 	}
 
-	// Convierte coordenadas del mouse a coordenadas locales del canvas
 	function toLocal(e) {
 		const rect = canvasEl.getBoundingClientRect();
 		const xClient = e.clientX - rect.left;
 		const yClient = e.clientY - rect.top;
-		const dpr = window.devicePixelRatio || 1;
-		const scaleX = canvasEl.width / dpr / rect.width;
-		const scaleY = canvasEl.height / dpr / rect.height;
+		const scaleX = canvasWidth / rect.width;
+		const scaleY = canvasHeight / rect.height;
 		return { x: xClient * scaleX, y: yClient * scaleY };
 	}
 
-	// Inicia el dibujo: activa herramienta según el tool seleccionado
+	function toBitmap(x, y) {
+		const dpr = window.devicePixelRatio || 1;
+		return {
+			x: Math.round(x * dpr),
+			y: Math.round(y * dpr)
+		};
+	}
+
 	function pointerDown(e) {
+		e.currentTarget?.setPointerCapture?.(e.pointerId);
 		const p = toLocal(e);
 		drawing = true;
 		start = { ...p };
@@ -95,7 +141,6 @@
 		}
 	}
 
-	// Maneja el movimiento del puntero: dibuja líneas, formas o borra según la herramienta
 	function pointerMove(e) {
 		if (e && typeof e.buttons !== 'undefined' && e.buttons === 0) {
 			if (drawing) {
@@ -134,8 +179,8 @@
 		}
 	}
 
-	// Finaliza el dibujo: renderiza formas finales (líneas, rectángulos, elipses)
 	function pointerUp(e) {
+		e.currentTarget?.releasePointerCapture?.(e.pointerId);
 		if (!drawing) return;
 		drawing = false;
 		const p = toLocal(e);
@@ -185,37 +230,19 @@
 		snapshot = null;
 	}
 
-	// Detiene el dibujo al salir del canvas, guarda estado si se estaba dibujando
 	function pointerLeave(e) {
-		if (drawing && e && typeof e.buttons !== 'undefined' && e.buttons !== 0) {
-			wasDrawingOnLeave = true;
-		} else {
-			wasDrawingOnLeave = false;
+		if (e && typeof e.buttons !== 'undefined' && e.buttons === 0) {
+			drawing = false;
+			snapshot = null;
 		}
+	}
+
+	function pointerCancel(e) {
+		e.currentTarget?.releasePointerCapture?.(e.pointerId);
 		drawing = false;
 		snapshot = null;
 	}
 
-	// Retoma el dibujo al volver a entrar al canvas con el botón presionado
-	function pointerEnter(e) {
-		if (wasDrawingOnLeave && e && typeof e.buttons !== 'undefined' && e.buttons !== 0) {
-			const p = toLocal(e);
-			ctx.beginPath();
-			ctx.moveTo(p.x, p.y);
-			drawing = true;
-			wasDrawingOnLeave = false;
-			start = { ...p };
-			last = { ...p };
-			return;
-		}
-		if (drawing) drawing = false;
-		wasDrawingOnLeave = false;
-		snapshot = null;
-		start = { x: 0, y: 0 };
-		last = { x: 0, y: 0 };
-	}
-
-	// Redibuja preview de formas (línea/rectángulo/elipse) mientras se arrastra
 	function redrawPreview(p) {
 		if (!snapshot) return;
 		ctx.putImageData(snapshot, 0, 0);
@@ -260,7 +287,6 @@
 		}
 	}
 
-	// Guarda snapshot del canvas para herramientas de forma (permite preview)
 	function beginPreview() {
 		if (
 			tool === 'line' ||
@@ -273,13 +299,11 @@
 		}
 	}
 
-	// Limpia el canvas con fondo blanco
 	function clearCanvas() {
 		ctx.fillStyle = '#FFFFFF';
-		ctx.fillRect(0, 0, canvasEl.width, canvasEl.height);
+		ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 	}
 
-	// Descarga el canvas como PNG
 	function savePNG() {
 		const link = document.createElement('a');
 		link.download = 'paint.png';
@@ -287,9 +311,9 @@
 		link.click();
 	}
 
-	// Selector: captura el color del pixel clickeado
 	function pickColor(x, y) {
-		const img = ctx.getImageData(x, y, 1, 1);
+		const p = toBitmap(x, y);
+		const img = ctx.getImageData(p.x, p.y, 1, 1);
 		const d = img.data;
 		const r = d[0].toString(16).padStart(2, '0');
 		const g = d[1].toString(16).padStart(2, '0');
@@ -297,18 +321,21 @@
 		color1 = `#${r}${g}${b}`;
 	}
 
-	// Relleno por inundación: pinta área contigua del mismo color usando stack
 	function bucketFill(x, y) {
 		const img = ctx.getImageData(0, 0, canvasEl.width, canvasEl.height);
 		const w = img.width;
 		const h = img.height;
 		const d = img.data;
-		const targetOffset = (y * w + x) * 4;
+		const p = toBitmap(x, y);
+		const startX = Math.max(0, Math.min(w - 1, p.x));
+		const startY = Math.max(0, Math.min(h - 1, p.y));
+		const targetOffset = (startY * w + startX) * 4;
 		const targetR = d[targetOffset];
 		const targetG = d[targetOffset + 1];
 		const targetB = d[targetOffset + 2];
 		const targetA = d[targetOffset + 3];
 		const fillColor = hexToRgba(color1);
+
 		if (
 			targetR === fillColor[0] &&
 			targetG === fillColor[1] &&
@@ -317,7 +344,7 @@
 		)
 			return;
 
-		const stack = [[x, y]];
+		const stack = [[startX, startY]];
 		while (stack.length) {
 			const [cx, cy] = stack.pop();
 			if (cx < 0 || cy < 0 || cx >= w || cy >= h) continue;
@@ -341,7 +368,6 @@
 		ctx.putImageData(img, 0, 0);
 	}
 
-	// Convierte color hexadecimal a array RGBA
 	function hexToRgba(hex) {
 		const c = hex.replace('#', '');
 		const bigint = parseInt(
@@ -381,7 +407,7 @@
 					class="tool-btn"
 					class:active={tool === 'fill'}
 					onclick={() => (tool = 'fill')}
-					title="Relleno (F)">🪣</button
+					title="Relleno (F)">▧</button
 				>
 				<button
 					class="tool-btn"
@@ -445,7 +471,7 @@
 		</div>
 
 		<!-- Área del canvas -->
-		<div class="canvas-area">
+		<div class="canvas-area" bind:this={canvasAreaEl}>
 			<canvas
 				bind:this={canvasEl}
 				onpointerdown={(e) => {
@@ -455,7 +481,7 @@
 				onpointermove={pointerMove}
 				onpointerup={pointerUp}
 				onpointerleave={pointerLeave}
-				onpointerenter={pointerEnter}
+				onpointercancel={pointerCancel}
 			></canvas>
 		</div>
 	</div>
@@ -470,22 +496,32 @@
 		</div>
 
 		<div class="palette">
-			{#each palette.slice(0, 14) as c}
-				<button
-					class="color-swatch"
-					class:selected={color1 === c}
-					style="background:{c};"
-					onclick={() => (color1 = c)}
-					title={c}
-				></button>
-			{/each}
-			<div class="palette-row2">
+			<div class="palette-row">
+				{#each palette.slice(0, 14) as c}
+					<button
+						class="color-swatch"
+						class:selected={color1 === c}
+						style="background:{c};"
+						onclick={() => (color1 = c)}
+						oncontextmenu={(e) => {
+							e.preventDefault();
+							color2 = c;
+						}}
+						title={c}
+					></button>
+				{/each}
+			</div>
+			<div class="palette-row">
 				{#each palette.slice(14) as c}
 					<button
 						class="color-swatch"
 						class:selected={color1 === c}
 						style="background:{c};"
 						onclick={() => (color1 = c)}
+						oncontextmenu={(e) => {
+							e.preventDefault();
+							color2 = c;
+						}}
 						title={c}
 					></button>
 				{/each}
@@ -606,7 +642,7 @@
 		background: #ffffff;
 		border: 2px solid;
 		border-color: #808080 #dfdfdf #dfdfdf #808080;
-		overflow: auto;
+		overflow: hidden;
 		display: flex;
 		align-items: flex-start;
 		justify-content: flex-start;
@@ -671,17 +707,26 @@
 	.palette {
 		flex: 1;
 		display: flex;
-		flex-wrap: wrap;
-		gap: 2px;
+		flex-direction: column;
+		gap: 1px;
 		max-width: 420px;
+		padding: 2px;
+		background: #c0c0c0;
+		border: 2px solid;
+		border-color: #808080 #dfdfdf #dfdfdf #808080;
+	}
+
+	.palette-row {
+		display: flex;
+		gap: 1px;
 	}
 
 	.color-swatch {
-		width: 18px;
-		height: 18px;
+		width: 17px;
+		height: 17px;
 		aspect-ratio: 1 / 1;
-		border: 2px solid;
-		border-color: #dfdfdf #808080 #808080 #dfdfdf;
+		border: 1px solid;
+		border-color: #808080 #ffffff #ffffff #808080;
 		padding: 0;
 		margin: 0;
 		cursor: pointer;
@@ -693,22 +738,20 @@
 		align-items: center;
 		justify-content: center;
 		line-height: 0;
+		box-shadow:
+			inset 1px 1px 0 #000000,
+			inset -1px -1px 0 #c0c0c0;
 	}
 
 	.color-swatch:hover {
-		border-color: #ffffff #000000 #000000 #ffffff;
+		filter: brightness(1.04);
 	}
 
 	.color-swatch.selected {
 		border-color: #000000 #dfdfdf #dfdfdf #000000;
-		box-shadow: inset 1px 1px #808080;
-	}
-
-	.palette-row2 {
-		display: flex;
-		width: 100%;
-		flex-wrap: wrap;
-		gap: 2px;
+		box-shadow:
+			inset 1px 1px 0 #808080,
+			inset -1px -1px 0 #ffffff;
 	}
 
 	/* Botones de acción */

@@ -5,7 +5,7 @@ on:
   pull_request:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   quality:
@@ -24,6 +24,15 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Format
+        run: npm run format
+
+      - name: Auto-commit formatting changes
+        if: github.event_name == 'push'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'chore(ci): format with prettier'
 
       - name: Lint
         run: npm run lint
