@@ -1,4 +1,6 @@
 <script>
+	import { playUiClick, playUiOpen } from '../retroAudio.js';
+
 	let {
 		icon = '/icons/cv.svg',
 		label = 'Item',
@@ -17,10 +19,12 @@
 		clickCount++;
 		clearTimeout(clickTimer);
 		if (clickCount === 1) {
+			playUiClick();
 			onselect();
 		}
 		clickTimer = setTimeout(() => (clickCount = 0), 400);
 		if (clickCount === 2) {
+			playUiOpen();
 			onopen();
 			clickCount = 0;
 		}
@@ -30,6 +34,7 @@
 	function handleKeyDown(e) {
 		if (e.key === 'Enter' || e.key === ' ') {
 			e.preventDefault();
+			playUiOpen();
 			onopen();
 		}
 	}

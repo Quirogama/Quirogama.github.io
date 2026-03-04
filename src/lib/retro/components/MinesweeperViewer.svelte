@@ -1,5 +1,11 @@
 <script>
 	import { onMount } from 'svelte';
+	import {
+		playMinesweeperFlag,
+		playMinesweeperLose,
+		playMinesweeperWin,
+		playUiClick
+	} from '../retroAudio.js';
 
 	let rows = 9;
 	let cols = 9;
@@ -95,6 +101,8 @@
 		if (gameOver || gameWon) return;
 		if (board[row][col].isFlagged) return;
 
+		playUiClick();
+
 		if (firstClick) {
 			placeMines(row, col);
 			firstClick = false;
@@ -103,6 +111,7 @@
 
 		if (board[row][col].isMine) {
 			// Game over
+			playMinesweeperLose();
 			gameOver = true;
 			clearInterval(timerInterval);
 			revealAllMines();
@@ -120,6 +129,7 @@
 		if (board[row][col].isRevealed) return;
 
 		board[row][col].isFlagged = !board[row][col].isFlagged;
+		playMinesweeperFlag(board[row][col].isFlagged);
 		flagsPlaced += board[row][col].isFlagged ? 1 : -1;
 		board = board;
 	}
@@ -147,6 +157,7 @@
 
 		if (revealedCount === rows * cols - mineCount) {
 			gameWon = true;
+			playMinesweeperWin();
 			clearInterval(timerInterval);
 		}
 	}
@@ -160,6 +171,7 @@
 	}
 
 	function reset() {
+		playUiClick();
 		initBoard();
 	}
 

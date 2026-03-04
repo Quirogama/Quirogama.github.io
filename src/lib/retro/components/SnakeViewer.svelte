@@ -1,5 +1,6 @@
 <script>
 	import { onMount, onDestroy } from 'svelte';
+	import { playSnakeCrash, playSnakeEat, playUiClick } from '../retroAudio.js';
 
 	// Configuración del juego
 	const GRID_SIZE = 14;
@@ -42,6 +43,7 @@
 	}
 
 	function startGame() {
+		playUiClick();
 		snake = [
 			{ x: 7, y: 7 },
 			{ x: 6, y: 7 },
@@ -64,6 +66,7 @@
 
 	function togglePause() {
 		if (gameOver || !gameStarted) return;
+		playUiClick();
 		isPaused = !isPaused;
 	}
 
@@ -95,6 +98,7 @@
 		snake = [head, ...snake];
 
 		if (head.x === food.x && head.y === food.y) {
+			playSnakeEat();
 			score++;
 			food = generateFood();
 
@@ -107,6 +111,7 @@
 	}
 
 	function endGame() {
+		playSnakeCrash();
 		gameOver = true;
 		if (score > highScore) {
 			highScore = score;

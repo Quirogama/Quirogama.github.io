@@ -173,37 +173,37 @@
 			isTransitioning = false;
 		}, 1200);
 	}
+
+	function toggleMode() {
+		switchMode(mode === 'modern' ? 'retro' : 'modern');
+	}
 </script>
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
+<div class="mode-switcher">
+	<button
+		class="slider-switch"
+		class:is-retro={mode === 'retro'}
+		onclick={toggleMode}
+		title="Cambiar entre versión moderna y retro"
+		disabled={isTransitioning}
+		aria-label="Cambiar entre modo moderno y retro"
+	>
+		<span class="slider-track">
+			<span class="slider-thumb"></span>
+		</span>
+		<span class="slider-text">{mode === 'modern' ? 'Moderno' : 'Retro'}</span>
+	</button>
+</div>
+
 {#if mode === 'modern'}
 	<!-- MODO MODERNO -->
-	<div class="mode-switcher">
-		<button
-			class="switch-btn retro-btn"
-			onclick={() => switchMode('retro')}
-			title="Cambiar a versión retro"
-			disabled={isTransitioning}
-		>
-			<span>↻</span> Ver Portafolio Retro
-		</button>
-	</div>
 	<ModernLanding shouldAnimate={isFirstModernView} />
 {:else}
 	<!-- MODO RETRO (Windows 98) -->
-	<div class="mode-switcher">
-		<button
-			class="switch-btn modern-btn"
-			onclick={() => switchMode('modern')}
-			title="Cambiar a versión moderna"
-			disabled={isTransitioning}
-		>
-			<span>↻</span> Ver Versión Moderna
-		</button>
-	</div>
 	<div class="shell-root">
 		<Desktop bind:windows />
 		<Taskbar
@@ -367,60 +367,82 @@
 		animation: fadeInDown 0.4s ease-out;
 	}
 
-	.switch-btn {
-		padding: 10px 16px;
-		border: none;
-		border-radius: 6px;
-		font-weight: 600;
-		cursor: pointer;
-		transition: all 0.3s ease;
-		font-size: 0.9rem;
-		display: flex;
+	.slider-switch {
+		display: inline-flex;
 		align-items: center;
-		gap: 6px;
+		gap: 14px;
+		padding: 10px 18px 10px 12px;
+		border: 1px solid rgba(212, 175, 55, 0.45);
+		border-radius: 999px;
+		background: rgba(7, 8, 31, 0.88);
+		color: #f2f2f2;
+		font-size: 1.10rem;
+		font-weight: 700;
+		cursor: pointer;
+		transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 		backdrop-filter: blur(10px);
 	}
 
-	.switch-btn:disabled {
+	.slider-switch:disabled {
 		opacity: 0.6;
 		cursor: not-allowed;
 	}
 
-	.modern-btn {
-		background: rgba(255, 255, 255, 0.9);
-		color: #1a1a1a;
-		border: 2px solid #2563eb;
+	.slider-switch:hover:not(:disabled) {
+		border-color: #d4af37;
+		box-shadow: 0 0 16px rgba(212, 175, 55, 0.35);
+		transform: translateY(-1px);
 	}
 
-	.modern-btn:hover:not(:disabled) {
-		background: white;
-		box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
-		transform: translateY(-2px);
+	.slider-track {
+		position: relative;
+		width: 68px;
+		height: 36px;
+		border-radius: 999px;
+		background: rgba(212, 175, 55, 0.18);
+		box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.4);
 	}
 
-	.retro-btn {
-		background: rgba(192, 192, 192, 0.95);
-		color: #000080;
-		border: 2px outset #dfdfdf;
-		font-family: 'MS Sans Serif', Tahoma, sans-serif;
-		font-size: 11px;
+	.slider-thumb {
+		position: absolute;
+		top: 4px;
+		left: 4px;
+		width: 28px;
+		height: 28px;
+		border-radius: 50%;
+		background: #d4af37;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+		transition: transform 0.3s ease;
 	}
 
-	.retro-btn:active:not(:disabled) {
-		border-style: inset;
+	.slider-text {
+		min-width: 76px;
+		text-align: left;
+		color: #d4af37;
 	}
 
-	.retro-btn:hover:not(:disabled) {
-		background: rgba(255, 255, 255, 0.95);
+	.slider-switch.is-retro .slider-thumb {
+		transform: translateX(32px);
 	}
 
-	.switch-btn span {
-		display: inline-block;
-		animation: spin 1s linear infinite;
+	.slider-switch.is-retro .slider-track {
+		background: rgba(134, 239, 172, 0.22);
+		box-shadow: inset 0 0 0 1px rgba(134, 239, 172, 0.45);
 	}
 
-	.switch-btn:hover:not(:disabled) span {
-		animation: spin 0.6s linear infinite;
+	.slider-switch.is-retro .slider-thumb {
+		background: #86efac;
+	}
+
+	.slider-switch.is-retro .slider-text {
+		color: #86efac;
+	}
+
+	@media (max-width: 860px) {
+		.slider-switch {
+			font-size: 1rem;
+			padding-right: 14px;
+		}
 	}
 
 	@keyframes fadeInDown {
@@ -431,15 +453,6 @@
 		to {
 			opacity: 1;
 			transform: translateY(0);
-		}
-	}
-
-	@keyframes spin {
-		from {
-			transform: rotate(0deg);
-		}
-		to {
-			transform: rotate(360deg);
 		}
 	}
 

@@ -1,5 +1,6 @@
 <script>
 	import { onMount, onDestroy } from 'svelte';
+	import { playUiClick, playUiClose } from '../retroAudio.js';
 
 	// Props principales de la ventana (posiciones bindables para drag/resize)
 	let {
@@ -37,10 +38,12 @@
 	const MIN_H = 120; // alto mínimo de la ventana
 
 	function close() {
+		playUiClose();
 		onclose();
 	}
 
 	function minimize() {
+		playUiClick();
 		onminimize();
 	}
 

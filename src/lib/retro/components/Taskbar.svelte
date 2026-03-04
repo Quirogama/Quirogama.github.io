@@ -1,6 +1,7 @@
 <script>
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 	import { APPS } from '../windowsConfig.js';
+	import { playUiClick, playUiOpen } from '../retroAudio.js';
 
 	// Props: lista de tareas visibles y ventana activa
 	let { tasks = [], activeWindowId = null } = $props();
@@ -16,6 +17,7 @@
 
 	// Maneja el click en una tarea para activarla
 	function handleTaskClick(taskId) {
+		playUiClick();
 		dispatch('taskclick', { id: taskId });
 	}
 
@@ -37,11 +39,17 @@
 	function toggleStart() {
 		startMenuOpen = !startMenuOpen;
 		startPressed = startMenuOpen;
+		if (startMenuOpen) {
+			playUiOpen();
+		} else {
+			playUiClick();
+		}
 	}
 
 	// Selecciona un elemento del menú y cierra el menú
 	function selectMenuItem(item) {
 		if (item.separator) return;
+		playUiOpen();
 		startMenuOpen = false;
 		startPressed = false;
 		dispatch('menuselect', item);
