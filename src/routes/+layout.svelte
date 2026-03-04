@@ -376,10 +376,13 @@
 		border-radius: 999px;
 		background: rgba(7, 8, 31, 0.88);
 		color: #f2f2f2;
-		font-size: 1.10rem;
+		font-size: 1.1rem;
 		font-weight: 700;
 		cursor: pointer;
-		transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+		transition:
+			border-color 0.25s ease,
+			box-shadow 0.25s ease,
+			transform 0.25s ease;
 		backdrop-filter: blur(10px);
 	}
 
