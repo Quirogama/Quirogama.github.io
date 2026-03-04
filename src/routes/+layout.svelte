@@ -19,7 +19,7 @@
 
 	let { children } = $props();
 
-	// Estado para toggle entre modern y retro
+	// Estado para toggle entre moderno y retro
 	let mode = $state('modern'); // 'modern' o 'retro'
 	let isTransitioning = $state(false);
 	let isFirstModernView = $state(true); // Para controlar animaciones solo en primera visita
