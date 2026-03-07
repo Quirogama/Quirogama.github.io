@@ -2,10 +2,9 @@ name: CI
 
 on:
   push:
+    branches:
+      - main
   pull_request:
-
-permissions:
-  contents: write
 
 jobs:
   quality:
@@ -25,15 +24,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Format
-        run: npm run format
-
-      - name: Auto-commit formatting changes
-        if: github.event_name == 'push'
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: 'chore(ci): format with prettier [skip ci]'
-
       - name: Lint
         run: npm run lint
 
@@ -41,11 +31,4 @@ jobs:
         run: npm run test
 
       - name: Build
-        run: npm run build
-
-      - name: Auto-commit built docs
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          file_pattern: docs/**
-          commit_message: 'chore(ci): build docs [skip ci]'
+        run: npm run build:check
