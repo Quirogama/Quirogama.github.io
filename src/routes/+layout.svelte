@@ -20,6 +20,7 @@
 	let mode = $state('modern'); // 'modern' o 'retro'
 	let isTransitioning = $state(false);
 	let isFirstModernView = $state(true); // Para controlar animaciones solo en primera visita
+	let showModeHint = $state(false);
 
 	// Calcula la posición centrada para la ventana inicial
 	let centerLeft = $state(300);
@@ -111,6 +112,7 @@
 	// Al montar: centra la ventana "Sobre mí" en la pantalla
 	onMount(() => {
 		updateInitialWindowPosition();
+		showModeHint = localStorage.getItem('modeHintSeen') !== '1';
 		const handleResize = () => updateInitialWindowPosition();
 		window.addEventListener('resize', handleResize);
 
@@ -265,7 +267,19 @@
 	}
 
 	function toggleMode() {
+		markModeHintAsSeen();
 		switchMode(mode === 'modern' ? 'retro' : 'modern');
+	}
+
+	function markModeHintAsSeen() {
+		if (!showModeHint) return;
+		showModeHint = false;
+		localStorage.setItem('modeHintSeen', '1');
+	}
+
+	function openRetroFromHint() {
+		markModeHintAsSeen();
+		switchMode('retro');
 	}
 </script>
 
@@ -276,17 +290,33 @@
 <div class="mode-switcher">
 	<button
 		class="slider-switch"
+		class:attention={mode === 'modern' && showModeHint}
 		class:is-retro={mode === 'retro'}
 		onclick={toggleMode}
-		title="Cambiar entre versión moderna y retro"
+		title="Cambiar entre portafolio profesional y laboratorio retro"
 		disabled={isTransitioning}
-		aria-label="Cambiar entre modo moderno y retro"
+		aria-label="Cambiar entre portafolio principal y laboratorio retro"
 	>
 		<span class="slider-track">
 			<span class="slider-thumb"></span>
 		</span>
-		<span class="slider-text">{mode === 'modern' ? 'Moderno' : 'Retro'}</span>
+		<span class="slider-text">{mode === 'modern' ? 'Portafolio' : 'Lab retro'}</span>
 	</button>
+
+	{#if mode === 'modern' && showModeHint}
+		<div class="mode-hint" role="status" aria-live="polite">
+			<p>
+				Este sitio tiene <strong>dos versiones</strong>: portafolio profesional y laboratorio
+				Windows 98.
+			</p>
+			<div class="mode-hint-actions">
+				<button class="mode-hint-cta" onclick={openRetroFromHint}>Probar Windows 98</button>
+				<button class="mode-hint-dismiss" onclick={markModeHintAsSeen} aria-label="Cerrar aviso">
+					Ahora no
+				</button>
+			</div>
+		</div>
+	{/if}
 </div>
 
 {#if mode === 'modern'}
@@ -455,6 +485,10 @@
 		right: 20px;
 		z-index: 9999;
 		animation: fadeInDown 0.4s ease-out;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		gap: 10px;
 	}
 
 	.slider-switch {
@@ -485,6 +519,10 @@
 		border-color: #d4af37;
 		box-shadow: 0 0 16px rgba(212, 175, 55, 0.35);
 		transform: translateY(-1px);
+	}
+
+	.slider-switch.attention {
+		animation: switchPulse 1.8s ease-in-out infinite;
 	}
 
 	.slider-track {
@@ -531,10 +569,59 @@
 		color: #86efac;
 	}
 
+	.mode-hint {
+		max-width: 340px;
+		padding: 12px;
+		border-radius: 12px;
+		border: 1px solid rgba(212, 175, 55, 0.45);
+		background: rgba(8, 10, 34, 0.95);
+		box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+		backdrop-filter: blur(8px);
+	}
+
+	.mode-hint p {
+		margin: 0;
+		font-size: 0.94rem;
+		line-height: 1.45;
+		color: #f2f2f2;
+	}
+
+	.mode-hint-actions {
+		display: flex;
+		gap: 8px;
+		margin-top: 10px;
+	}
+
+	.mode-hint-cta,
+	.mode-hint-dismiss {
+		border: 1px solid rgba(212, 175, 55, 0.4);
+		border-radius: 8px;
+		padding: 7px 10px;
+		font-size: 0.86rem;
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	.mode-hint-cta {
+		background: #d4af37;
+		color: #1a1a2e;
+	}
+
+	.mode-hint-dismiss {
+		background: transparent;
+		color: #f2f2f2;
+	}
+
+	.mode-hint-cta:hover,
+	.mode-hint-dismiss:hover {
+		transform: translateY(-1px);
+	}
+
 	@media (max-width: 860px) {
 		.mode-switcher {
 			top: 10px;
 			right: 10px;
+			max-width: calc(100vw - 20px);
 		}
 
 		.slider-switch {
@@ -548,6 +635,8 @@
 			top: 8px;
 			right: 8px;
 			z-index: 2000;
+			left: 8px;
+			align-items: stretch;
 		}
 
 		.slider-switch {
@@ -576,6 +665,24 @@
 		.slider-text {
 			min-width: auto;
 			font-size: 0.85rem;
+		}
+
+		.mode-hint {
+			max-width: 100%;
+		}
+
+		.mode-hint-actions {
+			flex-wrap: wrap;
+		}
+	}
+
+	@keyframes switchPulse {
+		0%,
+		100% {
+			box-shadow: 0 0 0 rgba(212, 175, 55, 0);
+		}
+		50% {
+			box-shadow: 0 0 0 8px rgba(212, 175, 55, 0.16);
 		}
 	}
 

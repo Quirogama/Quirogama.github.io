@@ -12,7 +12,7 @@
 						<div class="timeline-dot"></div>
 					</div>
 					<div class="timeline-content">
-						<div class="timeline-year">2025</div>
+						<div class="timeline-year">{exp.dates?.slice(-4) || 'Actual'}</div>
 						<div class="timeline-card">
 							<h3 class="timeline-position">{exp.position}</h3>
 							<p class="timeline-company">{exp.company}</p>

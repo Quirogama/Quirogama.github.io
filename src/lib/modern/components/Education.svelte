@@ -59,10 +59,12 @@
 		display: flex;
 		flex-direction: column;
 		gap: 24px;
+		align-items: center;
 	}
 
 	.education-item {
-		padding: 32px;
+		width: min(100%, 640px);
+		padding: 28px;
 		background: var(--glass-bg);
 		backdrop-filter: blur(20px);
 		border-radius: 12px;
@@ -162,6 +164,7 @@
 		}
 
 		.education-item {
+			width: 100%;
 			padding: 18px;
 		}
 

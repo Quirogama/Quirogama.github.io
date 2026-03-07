@@ -66,8 +66,9 @@
 				<span class="highlight">backend</span>, <span class="highlight">frontend</span> y
 				despliegue. He construido aplicaciones con <span class="highlight">Java/Spring Boot</span>,
 				<span class="highlight">Angular</span>
-				y <span class="highlight">Svelte</span>, integrando APIs y bases de datos. Me enfoco en
-				crear soluciones completas con buenas prácticas de ingeniería.
+				y <span class="highlight">Svelte</span>, integrando APIs y bases de datos. Mi foco actual es
+				convertir proyectos académicos y de producto en experiencia de ingeniería cada vez más
+				medible.
 			</p>
 			<div class="cta-buttons">
 				<a href="/cv.pdf" target="_blank" rel="noopener" class="btn btn-secondary"> Ver CV </a>

@@ -1,31 +1,18 @@
 <script>
-	import { onMount } from 'svelte';
 	import { portfolioData } from '$lib/config/portfolioData.js';
+	import { SKILLS } from '$lib/config/portfolioData.js';
 	import { PERSONAL_INFO, SOFT_SKILLS } from '$lib/config/portfolioData.js';
 
 	let { shouldAnimate = true } = $props();
 
-	let skillsAnimated = $state(false);
-
-	onMount(() => {
-		const observer = new IntersectionObserver(
-			(entries) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting && !skillsAnimated) {
-						skillsAnimated = true;
-					}
-				});
-			},
-			{ threshold: 0.3 }
-		);
-
-		const skillsSection = document.querySelector('.skills-container');
-		if (skillsSection) {
-			observer.observe(skillsSection);
-		}
-
-		return () => observer.disconnect();
-	});
+	const SKILL_AREAS = [
+		{ title: 'Lenguajes', items: SKILLS.languages },
+		{ title: 'Frontend', items: SKILLS.frontend },
+		{ title: 'Backend', items: SKILLS.backend },
+		{ title: 'Datos y BI', items: SKILLS.dataTools },
+		{ title: 'Bases de Datos', items: SKILLS.databases },
+		{ title: 'Herramientas', items: SKILLS.tools }
+	];
 </script>
 
 <section class="about" data-reveal id="about" class:animate={shouldAnimate}>
@@ -50,20 +37,15 @@
 				</div>
 			</div>
 			<div class="skills-container">
-				<h3 class="skills-title">Habilidades Técnicas</h3>
-				<div class="skills-list">
-					{#each portfolioData.skillsWithLevels as skill}
-						<div class="skill-item">
-							<div class="skill-header">
-								<span class="skill-name">{skill.name}</span>
-								<span class="skill-percentage">{skill.level}%</span>
-							</div>
-							<div class="skill-bar-container">
-								<div
-									class="skill-bar-fill"
-									class:animated={skillsAnimated}
-									style="--skill-level: {skill.level}%"
-								></div>
+				<h3 class="skills-title">Stack Técnico Aplicado</h3>
+				<div class="skills-area-list">
+					{#each SKILL_AREAS as area}
+						<div class="skills-area">
+							<h4 class="skills-area-title">{area.title}</h4>
+							<div class="skills-tags">
+								{#each area.items as item}
+									<span class="skill-tag">{item}</span>
+								{/each}
 							</div>
 						</div>
 					{/each}
@@ -113,8 +95,9 @@
 
 	.about-grid {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
 		gap: 60px;
+		align-items: start;
 	}
 
 	.about-text {
@@ -160,87 +143,52 @@
 	.skills-container {
 		display: flex;
 		flex-direction: column;
-		gap: var(--space-6);
+		gap: 12px;
+		padding-top: 4px;
 	}
 
 	.skills-title {
 		font-size: 1.5rem;
 		font-weight: 700;
 		color: var(--primary);
-		margin: 0 0 20px 0;
+		margin: 0;
 	}
 
-	.skills-list {
+	.skills-area-list {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 12px;
+	}
+
+	.skills-area {
+		background: rgba(26, 26, 46, 0.35);
+		border: 1px solid var(--glass-border);
+		border-radius: var(--radius-md);
+		padding: 12px;
+	}
+
+	.skills-area-title {
+		margin: 0 0 8px 0;
+		font-size: 1.12rem;
+		font-weight: 700;
+		color: var(--primary-light);
+	}
+
+	.skills-tags {
 		display: flex;
-		flex-direction: column;
-		gap: var(--space-5);
+		flex-wrap: wrap;
+		gap: 8px;
 	}
 
-	.skill-item {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-2);
-	}
-
-	.skill-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-
-	.skill-name {
-		font-size: 1.5rem;
-		font-weight: 500;
+	.skill-tag {
+		padding: 6px 10px;
+		border-radius: 999px;
+		border: 1px solid var(--glass-border);
+		background: rgba(212, 175, 55, 0.08);
 		color: var(--text);
-	}
-
-	.skill-percentage {
-		font-size: var(--text-sm);
-		font-weight: 600;
-		color: var(--primary);
-	}
-
-	.skill-bar-container {
-		width: 100%;
-		height: 8px;
-		background: rgba(26, 26, 46, 0.6);
-		border-radius: var(--radius-full);
-		overflow: hidden;
-		position: relative;
-	}
-
-	.skill-bar-fill {
-		height: 100%;
-		width: 0;
-		background: linear-gradient(90deg, var(--primary), #f4e5b7);
-		border-radius: var(--radius-full);
-		transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-		position: relative;
-		overflow: hidden;
-	}
-
-	.skill-bar-fill::after {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: -100%;
-		width: 100%;
-		height: 100%;
-		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-		animation: shimmer 2s infinite;
-	}
-
-	.skill-bar-fill.animated {
-		width: var(--skill-level);
-	}
-
-	@keyframes shimmer {
-		0% {
-			left: -100%;
-		}
-		100% {
-			left: 200%;
-		}
+		font-size: 1rem;
+		font-weight: 500;
+		line-height: 1.2;
 	}
 
 	@keyframes fadeIn {
@@ -268,8 +216,7 @@
 
 		.about-text,
 		.about-text p,
-		.soft-skill-item,
-		.skill-name {
+		.soft-skill-item {
 			font-size: 1.4rem;
 		}
 
@@ -279,6 +226,10 @@
 
 		.skills-title {
 			font-size: 1.4rem;
+		}
+
+		.skills-area-list {
+			grid-template-columns: 1fr;
 		}
 	}
 
@@ -300,7 +251,7 @@
 		.about-text,
 		.about-text p,
 		.soft-skill-item,
-		.skill-name {
+		.skill-tag {
 			font-size: 1.1rem;
 			line-height: 1.55;
 		}
@@ -320,8 +271,9 @@
 			margin-top: 12px;
 		}
 
-		.skills-list {
+		.skills-area-list {
 			gap: 10px;
+			grid-template-columns: 1fr;
 		}
 	}
 
@@ -329,7 +281,7 @@
 		.about-text,
 		.about-text p,
 		.soft-skill-item,
-		.skill-name {
+		.skill-tag {
 			font-size: 1rem;
 		}
 
