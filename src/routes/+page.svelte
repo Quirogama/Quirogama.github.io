@@ -22,7 +22,7 @@
 			<li>Backend: Java, Spring Boot, REST APIs</li>
 			<li>Frontend: Angular, Svelte, HTML, CSS, JavaScript</li>
 			<li>Bases de Datos: PostgreSQL, SQL Server</li>
-			<li>DevOps/Tools: Docker, Git, GitHub Actions</li>
+			<li>DevOps/Tools: Docker, Git, GitHub</li>
 			<li>Otros: Python, Firebase, Google Maps SDK</li>
 		</ul>
 	</section>
