@@ -299,13 +299,23 @@
 			padding: 60px 20px;
 		}
 
+		.section-title {
+			font-size: clamp(2rem, 8vw, 2.5rem);
+			margin: 0 0 34px 0;
+		}
+
+		.timeline {
+			padding: 20px 0 8px;
+		}
+
 		.timeline::before {
 			left: 20px;
 		}
 
 		.timeline-item {
 			flex-direction: column !important;
-			gap: 20px;
+			gap: 12px;
+			margin-bottom: 28px;
 		}
 
 		.timeline-item:nth-child(even) {
@@ -323,11 +333,59 @@
 		}
 
 		.timeline-content {
-			padding: 0 0 0 60px;
+			padding: 0 0 0 52px;
 		}
 
 		.timeline-year {
+			font-size: 1rem;
+			margin-bottom: 8px;
+		}
+
+		.timeline-card {
+			padding: 18px;
+		}
+
+		.timeline-position {
+			font-size: 1.18rem;
+		}
+
+		.timeline-company,
+		.timeline-period,
+		.timeline-description,
+		.achievement-item {
+			font-size: 1.02rem;
+			line-height: 1.5;
+		}
+
+		.timeline-achievements {
+			margin-bottom: 12px;
+		}
+
+		.achievement-item {
+			margin-bottom: 8px;
+			gap: 8px;
+		}
+
+		.timeline-tech-badge {
+			font-size: 0.95rem;
+			padding: 5px 9px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.timeline-position {
 			font-size: 1.1rem;
+		}
+
+		.timeline-company,
+		.timeline-period,
+		.timeline-description,
+		.achievement-item {
+			font-size: 0.96rem;
+		}
+
+		.timeline-content {
+			padding: 0 0 0 46px;
 		}
 	}
 </style>

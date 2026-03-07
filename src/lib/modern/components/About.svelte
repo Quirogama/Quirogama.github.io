@@ -287,9 +287,55 @@
 			padding: 60px 20px;
 		}
 
+		.section-title {
+			font-size: clamp(2rem, 8vw, 2.5rem);
+			margin: 0 0 34px 0;
+		}
+
 		.about-grid {
 			grid-template-columns: 1fr;
-			gap: 40px;
+			gap: 28px;
+		}
+
+		.about-text,
+		.about-text p,
+		.soft-skill-item,
+		.skill-name {
+			font-size: 1.1rem;
+			line-height: 1.55;
+		}
+
+		.about-text p {
+			margin: 0 0 14px 0;
+		}
+
+		.subsection-title,
+		.skills-title {
+			font-size: 1.2rem;
+			margin: 20px 0 14px 0;
+		}
+
+		.soft-skills-grid {
+			gap: 10px 14px;
+			margin-top: 12px;
+		}
+
+		.skills-list {
+			gap: 10px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.about-text,
+		.about-text p,
+		.soft-skill-item,
+		.skill-name {
+			font-size: 1rem;
+		}
+
+		.subsection-title,
+		.skills-title {
+			font-size: 1.12rem;
 		}
 	}
 </style>

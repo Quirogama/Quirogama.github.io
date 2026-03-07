@@ -152,9 +152,50 @@
 			padding: 60px 20px;
 		}
 
+		.section-title {
+			font-size: clamp(2rem, 8vw, 2.5rem);
+			margin: 0 0 34px 0;
+		}
+
+		.education-list {
+			gap: 14px;
+		}
+
+		.education-item {
+			padding: 18px;
+		}
+
 		.edu-header {
 			flex-direction: column;
 			align-items: flex-start;
+			gap: 4px;
+			margin-bottom: 6px;
+		}
+
+		.edu-degree {
+			font-size: 1.25rem;
+		}
+
+		.edu-period,
+		.edu-institution,
+		.edu-details {
+			font-size: 1.05rem;
+		}
+
+		.edu-details {
+			line-height: 1.5;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.edu-degree {
+			font-size: 1.15rem;
+		}
+
+		.edu-period,
+		.edu-institution,
+		.edu-details {
+			font-size: 0.98rem;
 		}
 	}
 </style>

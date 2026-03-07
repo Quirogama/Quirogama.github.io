@@ -637,5 +637,96 @@
 		.contact {
 			padding: 60px 20px;
 		}
+
+		.section-title {
+			font-size: clamp(2rem, 8vw, 2.5rem);
+			margin: 0 0 30px 0;
+		}
+
+		.contact-grid {
+			gap: 24px;
+		}
+
+		.contact-cards {
+			gap: 10px;
+			height: auto;
+			grid-template-rows: repeat(3, auto);
+		}
+
+		.contact-card {
+			padding: 14px 14px 7px;
+			gap: 10px;
+			height: auto;
+		}
+
+		.contact-icon {
+			width: 34px;
+			height: 34px;
+		}
+
+		.contact-icon :global(svg) {
+			width: 16px;
+			height: 16px;
+		}
+
+		.contact-card h3 {
+			font-size: 1.14rem;
+		}
+
+		.contact-detail {
+			font-size: 1.1rem;
+		}
+
+		.contact-disclaimer {
+			font-size: 0.9rem;
+		}
+
+		.contact-form {
+			padding: 20px 16px;
+			gap: 10px;
+		}
+
+		.form-input,
+		.form-textarea,
+		.form-submit,
+		.submit-message {
+			font-size: 1.06rem;
+		}
+
+		.form-input,
+		.form-textarea,
+		.form-submit {
+			padding: 10px 11px;
+		}
+
+		.form-textarea {
+			min-height: 110px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.contact {
+			padding: 56px 16px;
+		}
+
+		.contact-card {
+			padding: 12px 12px 5px;
+		}
+
+		.contact-card h3 {
+			font-size: 1.06rem;
+		}
+
+		.contact-detail {
+			font-size: 1rem;
+		}
+
+		.contact-disclaimer {
+			font-size: 0.84rem;
+		}
+
+		.contact-form {
+			padding: 16px 14px;
+		}
 	}
 </style>

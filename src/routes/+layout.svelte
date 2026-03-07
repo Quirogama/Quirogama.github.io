@@ -442,9 +442,50 @@
 	}
 
 	@media (max-width: 860px) {
+		.mode-switcher {
+			top: 10px;
+			right: 10px;
+		}
+
 		.slider-switch {
 			font-size: 1rem;
 			padding-right: 14px;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.mode-switcher {
+			top: 8px;
+			right: 8px;
+			z-index: 2000;
+		}
+
+		.slider-switch {
+			padding: 6px 10px;
+			gap: 8px;
+			font-size: 0.86rem;
+			border-radius: 999px;
+		}
+
+		.slider-track {
+			width: 48px;
+			height: 26px;
+		}
+
+		.slider-thumb {
+			top: 3px;
+			left: 3px;
+			width: 20px;
+			height: 20px;
+		}
+
+		.slider-switch.is-retro .slider-thumb {
+			transform: translateX(22px);
+		}
+
+		.slider-text {
+			min-width: auto;
+			font-size: 0.85rem;
 		}
 	}
 

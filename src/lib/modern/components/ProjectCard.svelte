@@ -242,7 +242,7 @@
 	/* Mobile responsive */
 	@media (max-width: 768px) {
 		.project-image {
-			aspect-ratio: 21 / 9;
+			aspect-ratio: 2 / 1;
 		}
 
 		.image-placeholder-text {
@@ -254,30 +254,32 @@
 		}
 
 		.project-title {
-			font-size: 1.4rem;
+			font-size: 1.28rem;
 		}
 
 		.project-highlight {
-			font-size: 1.1rem;
+			font-size: 0.98rem;
 			padding: 4px 10px;
 		}
 
 		.project-description {
-			font-size: 1.05rem;
+			font-size: 0.98rem;
 			display: -webkit-box;
 			line-clamp: 4;
-			-webkit-line-clamp: 4;
+			-webkit-line-clamp: 3;
 			-webkit-box-orient: vertical;
 			overflow: hidden;
+			line-height: 1.55;
+			margin-bottom: 14px;
 		}
 
 		.stack-tag {
-			font-size: 1.05rem;
+			font-size: 0.94rem;
 			padding: 3px 8px;
 		}
 
 		.project-link {
-			font-size: 1.05rem;
+			font-size: 0.95rem;
 		}
 	}
 

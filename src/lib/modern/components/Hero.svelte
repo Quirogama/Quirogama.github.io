@@ -474,16 +474,25 @@
 
 	@media (max-width: 768px) {
 		.hero-content {
-			gap: 28px;
+			gap: 20px;
 		}
 
 		.hero {
-			padding: 72px 20px;
-			gap: 32px;
+			padding: 58px 20px 44px;
+			gap: 22px;
 		}
 
 		.hero-title {
-			font-size: 2.4rem;
+			font-size: 2.12rem;
+		}
+
+		.hero-subtitle {
+			font-size: 1.65rem;
+		}
+
+		.hero-description {
+			font-size: 1.2rem;
+			line-height: 1.45;
 		}
 
 		.hero-header {
@@ -497,11 +506,38 @@
 
 		.cta-buttons {
 			flex-direction: column;
+			gap: 12px;
+			margin-top: 12px;
 		}
 
 		.btn {
 			width: 100%;
 			text-align: center;
+			font-size: 1.2rem;
+			padding: 12px 16px;
+		}
+
+		.hero-social {
+			gap: 12px;
+		}
+
+		.social-link {
+			width: 42px;
+			height: 42px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.hero-title {
+			font-size: 1.95rem;
+		}
+
+		.hero-subtitle {
+			font-size: 1.45rem;
+		}
+
+		.hero-description {
+			font-size: 1.08rem;
 		}
 	}
 </style>
