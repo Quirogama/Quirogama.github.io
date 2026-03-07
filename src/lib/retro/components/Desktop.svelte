@@ -17,8 +17,6 @@
 		experiences,
 		WINDOW_SIZES,
 		WINDOW_OFFSET,
-		WINDOW_INITIAL_X,
-		WINDOW_INITIAL_Y,
 		APPS,
 		CONTACT_TEXT,
 		SOCIAL_LINKS
@@ -52,6 +50,10 @@
 	const ICON_H = 96; // alto del slot del icono
 	const MARGIN_X = 16; // margen izquierdo
 	const MARGIN_Y = 16; // margen superior
+	const TASKBAR_H = 52;
+	const TOP_SAFE = 56;
+	const MIN_WINDOW_W = 260;
+	const MIN_WINDOW_H = 260;
 
 	// Modo de layout: 'column' para vertical (de arriba a abajo)
 	let layoutMode = $state('column');
@@ -78,6 +80,46 @@
 			y = MARGIN_Y + row * ICON_H;
 			return { ...ic, x, y };
 		});
+	}
+
+	function getIconAreaRight() {
+		if (!icons.length) return MARGIN_X + ICON_W;
+		return Math.max(...icons.map((ic) => ic.x + ICON_W));
+	}
+
+	function getSafeWindowPosition(windowWidth, windowHeight, index = 0) {
+		const vw = window.innerWidth;
+		const vh = window.innerHeight;
+		const iconAreaRight = getIconAreaRight();
+
+		const leftMinRaw = iconAreaRight + 24;
+		const leftMaxRaw = vw - windowWidth - 24;
+		const topMaxRaw = vh - windowHeight - TASKBAR_H - 10;
+
+		const leftMin = Math.max(18, Math.min(leftMinRaw, Math.max(18, leftMaxRaw)));
+		const leftMax = Math.max(leftMin, leftMaxRaw);
+		const topMin = TOP_SAFE;
+		const topMax = Math.max(topMin, topMaxRaw);
+
+		const left = leftMin + index * WINDOW_OFFSET;
+		const top = topMin + 18 + index * Math.max(16, WINDOW_OFFSET - 6);
+
+		return {
+			left: Math.max(leftMin, Math.min(left, leftMax)),
+			top: Math.max(topMin, Math.min(top, topMax))
+		};
+	}
+
+	function fitWindowSize(baseWidth, baseHeight) {
+		const iconAreaRight = getIconAreaRight();
+		const leftMin = iconAreaRight + 24;
+		const maxWidth = Math.max(MIN_WINDOW_W, window.innerWidth - leftMin - 24);
+		const maxHeight = Math.max(MIN_WINDOW_H, window.innerHeight - TASKBAR_H - TOP_SAFE - 12);
+
+		return {
+			width: Math.max(MIN_WINDOW_W, Math.min(baseWidth, maxWidth)),
+			height: Math.max(MIN_WINDOW_H, Math.min(baseHeight, maxHeight))
+		};
 	}
 
 	// Al cargar: ajusta layout y abre "Sobre mí" si no hay ventanas
@@ -158,14 +200,13 @@
 
 		// Define tamaños específicos según el tipo de aplicación usando constantes
 		const componentType = icon.componentType;
-		const sizes = WINDOW_SIZES[componentType] || WINDOW_SIZES.default;
-		const width = sizes.width;
-		const height = sizes.height;
+		const baseSizes = WINDOW_SIZES[componentType] || WINDOW_SIZES.default;
+		const fittedSizes = fitWindowSize(baseSizes.width, baseSizes.height);
+		const width = fittedSizes.width;
+		const height = fittedSizes.height;
 
 		// Posiciona la nueva ventana con un pequeño offset respecto a la anterior
-		const offset = windows.length * WINDOW_OFFSET;
-		const left = WINDOW_INITIAL_X + offset;
-		const top = WINDOW_INITIAL_Y + offset;
+		const spawn = getSafeWindowPosition(width, height, windows.length);
 
 		zCounter = zCounter + 1;
 		const newWindow = {
@@ -173,8 +214,8 @@
 			title,
 			width,
 			height,
-			left,
-			top,
+			left: spawn.left,
+			top: spawn.top,
 			z: zCounter,
 			content: icon.id === 'about' ? aboutText : icon.content || null,
 			minimized: false,

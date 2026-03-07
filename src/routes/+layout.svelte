@@ -8,9 +8,6 @@
 		aboutText,
 		projects,
 		WINDOW_SIZES,
-		WINDOW_OFFSET,
-		WINDOW_INITIAL_X,
-		WINDOW_INITIAL_Y,
 		APPS,
 		CONTACT_TEXT
 	} from '$lib/retro/windowsConfig.js';
@@ -27,11 +24,99 @@
 	// Calcula la posición centrada para la ventana inicial
 	let centerLeft = $state(300);
 	let centerTop = $state(80);
+	let aboutWindowSize = $state({
+		width: WINDOW_SIZES.about.width,
+		height: WINDOW_SIZES.about.height
+	});
+
+	const ICON_SLOT_W = 104;
+	const ICON_SIZE_W = 96;
+	const ICON_MARGIN_X = 16;
+	const ICON_SLOT_H = 96;
+	const TASKBAR_H = 52;
+	const TOP_SAFE = 56;
+	const MIN_WINDOW_W = 260;
+	const MIN_WINDOW_H = 260;
+
+	function getSafeLeftMin(viewportHeight = window.innerHeight) {
+		const iconColumns = getDesktopIconColumns(viewportHeight);
+		const iconAreaWidth = ICON_MARGIN_X + (iconColumns - 1) * ICON_SLOT_W + ICON_SIZE_W + 12;
+		return iconAreaWidth + 24;
+	}
+
+	function fitWindowSize(baseWidth, baseHeight) {
+		const leftMin = getSafeLeftMin(window.innerHeight);
+		const maxWidth = Math.max(MIN_WINDOW_W, window.innerWidth - leftMin - 24);
+		const maxHeight = Math.max(MIN_WINDOW_H, window.innerHeight - TASKBAR_H - TOP_SAFE - 12);
+
+		return {
+			width: Math.max(MIN_WINDOW_W, Math.min(baseWidth, maxWidth)),
+			height: Math.max(MIN_WINDOW_H, Math.min(baseHeight, maxHeight))
+		};
+	}
+
+	function getDesktopIconColumns(viewportHeight) {
+		const desktopIconCount = Object.values(APPS).filter((app) => app.showInDesktop).length;
+		const maxPerColumn = Math.max(1, Math.floor((viewportHeight - 100) / ICON_SLOT_H));
+		return Math.max(1, Math.ceil(desktopIconCount / maxPerColumn));
+	}
+
+	function getSafeBounds(windowWidth, windowHeight) {
+		const vw = window.innerWidth;
+		const vh = window.innerHeight;
+
+		const leftMinRaw = getSafeLeftMin(vh);
+		const leftMaxRaw = vw - windowWidth - 24;
+		const topMaxRaw = vh - windowHeight - TASKBAR_H - 10;
+
+		const leftMin = Math.max(18, Math.min(leftMinRaw, Math.max(18, leftMaxRaw)));
+		const leftMax = Math.max(leftMin, leftMaxRaw);
+		const topMin = TOP_SAFE;
+		const topMax = Math.max(topMin, topMaxRaw);
+
+		return { leftMin, leftMax, topMin, topMax };
+	}
+
+	function getCenteredSafePosition(windowWidth, windowHeight) {
+		const bounds = getSafeBounds(windowWidth, windowHeight);
+		const safeAreaWidth = Math.max(0, window.innerWidth - bounds.leftMin - 24);
+		const centeredLeft = bounds.leftMin + Math.max(0, (safeAreaWidth - windowWidth) / 2);
+		const centeredTop = (window.innerHeight - TASKBAR_H - windowHeight) / 2;
+
+		return {
+			left: Math.max(bounds.leftMin, Math.min(centeredLeft, bounds.leftMax)),
+			top: Math.max(bounds.topMin, Math.min(centeredTop, bounds.topMax))
+		};
+	}
+
+	function getSpawnSafePosition(windowWidth, windowHeight, index = 0) {
+		const bounds = getSafeBounds(windowWidth, windowHeight);
+		const left = bounds.leftMin + index * 26;
+		const top = bounds.topMin + 18 + index * 20;
+
+		return {
+			left: Math.max(bounds.leftMin, Math.min(left, bounds.leftMax)),
+			top: Math.max(bounds.topMin, Math.min(top, bounds.topMax))
+		};
+	}
+
+	function updateInitialWindowPosition() {
+		if (typeof window === 'undefined') return;
+		aboutWindowSize = fitWindowSize(WINDOW_SIZES.about.width, WINDOW_SIZES.about.height);
+		const pos = getCenteredSafePosition(aboutWindowSize.width, aboutWindowSize.height);
+		centerLeft = pos.left;
+		centerTop = pos.top;
+	}
 
 	// Al montar: centra la ventana "Sobre mí" en la pantalla
 	onMount(() => {
-		centerLeft = Math.max(50, (window.innerWidth - WINDOW_SIZES.about.width) / 2);
-		centerTop = Math.max(50, (window.innerHeight - WINDOW_SIZES.about.height - 100) / 2); // -100 para la taskbar
+		updateInitialWindowPosition();
+		const handleResize = () => updateInitialWindowPosition();
+		window.addEventListener('resize', handleResize);
+
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
 	});
 
 	// Estado global de ventanas: arranca con "Sobre mí" ya abierta
@@ -39,8 +124,12 @@
 		{
 			id: 1,
 			title: aboutTitle,
-			width: WINDOW_SIZES.about.width,
-			height: WINDOW_SIZES.about.height,
+			get width() {
+				return aboutWindowSize.width;
+			},
+			get height() {
+				return aboutWindowSize.height;
+			},
 			z: 2,
 			appLabel: 'Sobre Mí',
 			icon: '/icons/sobremi.png',
@@ -109,7 +198,8 @@
 		}
 
 		// Obtener tamaño
-		const sizes = WINDOW_SIZES[app.componentType] || WINDOW_SIZES.default;
+		const baseSizes = WINDOW_SIZES[app.componentType] || WINDOW_SIZES.default;
+		const sizes = fitWindowSize(baseSizes.width, baseSizes.height);
 
 		// Construir título según la app
 		let title = app.label;
@@ -130,7 +220,7 @@
 
 		// Crear nueva ventana
 		const newId = Date.now();
-		const offset = windows.length * WINDOW_OFFSET;
+		const spawn = getSpawnSafePosition(sizes.width, sizes.height, windows.length);
 		const newZ = Math.max(...windows.map((w) => w.z ?? 0), 0) + 1;
 
 		windows = [
@@ -141,8 +231,8 @@
 				content,
 				width: sizes.width,
 				height: sizes.height,
-				left: WINDOW_INITIAL_X + offset,
-				top: WINDOW_INITIAL_Y + offset,
+				left: spawn.left,
+				top: spawn.top,
 				z: newZ,
 				appLabel: app.label,
 				icon: app.icon,
