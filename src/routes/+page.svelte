@@ -30,8 +30,8 @@
 	<section>
 		<h2>Proyectos Destacados</h2>
 		<p>
-			Este sitio presenta primero mi perfil profesional y casos de estudio técnicos. El modo
-			Windows 98 funciona como laboratorio interactivo de UX y creatividad.
+			Este sitio presenta primero mi perfil profesional y casos de estudio técnicos. El modo Windows
+			98 funciona como laboratorio interactivo de UX y creatividad.
 		</p>
 	</section>
 
