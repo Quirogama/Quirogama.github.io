@@ -243,6 +243,15 @@
 </script>
 
 <div class="snake-container">
+	<div class="hud-row">
+		<span class="score-display">Puntos: {score}</span>
+		{#if isPaused}
+			<span class="paused-text">PAUSA</span>
+		{:else if !gameStarted}
+			<span class="start-hint">Flechas para comenzar</span>
+		{/if}
+	</div>
+
 	<div class="game-board-wrapper">
 		<div
 			class="game-board"
@@ -285,50 +294,34 @@
 			{/if}
 		</div>
 	</div>
-
-	<div class="score-row">
-		<span class="score-display">{score}</span>
-	</div>
-
-	<div class="status-bar">
-		{#if !gameStarted}
-			<span class="start-hint">Pulsa cualquier flecha para comenzar</span>
-		{:else if isPaused}
-			<span class="paused-text">PAUSA</span>
-		{/if}
-	</div>
 </div>
 
 <style>
 	.snake-container {
-		padding: 8px;
+		padding: 6px 8px 4px;
 		background: var(--win98-face, #c0c0c0);
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 8px;
+		gap: 6px;
 		user-select: none;
 	}
 
-	.status-bar {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		gap: 8px;
-	}
-
-	.score-row {
+	.hud-row {
 		width: 100%;
 		display: flex;
-		justify-content: center;
+		justify-content: space-between;
+		align-items: center;
+		gap: 6px;
+		min-height: 24px;
 	}
 
 	.score-display {
-		font-size: 17px;
+		font-size: 13px;
 		font-weight: bold;
-		font-family: 'Courier New', monospace;
+		font-family: var(--win98-font-family, 'MS Sans Serif', sans-serif);
 		color: #000;
-		padding: 4px 8px;
+		padding: 3px 8px;
 		display: inline-block;
 		line-height: 1;
 		border: 2px solid;
@@ -337,20 +330,20 @@
 	}
 
 	.paused-text {
-		font-size: 16px;
+		font-size: 12px;
 		font-weight: bold;
 		color: #c00;
-		padding: 6px 12px;
+		padding: 3px 8px;
 		background: var(--win98-face, #c0c0c0);
 		border: 2px solid;
 		border-color: #fff #808080 #808080 #fff;
 	}
 
 	.start-hint {
-		font-size: 14px;
+		font-size: 11px;
 		font-weight: bold;
 		color: #003b8c;
-		padding: 6px 12px;
+		padding: 3px 8px;
 		background: var(--win98-face, #c0c0c0);
 		border: 2px solid;
 		border-color: #fff #808080 #808080 #fff;
@@ -358,7 +351,7 @@
 	}
 
 	.game-board-wrapper {
-		padding: 14px;
+		padding: 12px;
 		background: #9eb99e;
 		border: 2px solid #808080;
 		border-top-color: #000;

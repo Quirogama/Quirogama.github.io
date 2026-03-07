@@ -28,7 +28,7 @@ export const WINDOW_SIZES = {
 	contact: { width: 720, height: 500 },
 	paint: { width: 640, height: 410 },
 	calc: { width: 260, height: 390 },
-	snake: { width: 430, height: 555 },
+	snake: { width: 430, height: 500 },
 	minesweeper: { width: 300, height: 420 },
 	default: { width: 510, height: 360 }
 };

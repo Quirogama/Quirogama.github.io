@@ -145,10 +145,10 @@
 	}
 
 	.timeline-year {
-		font-size: 1.5rem;
+		font-size: 1.4rem;
 		font-weight: 800;
 		color: var(--primary);
-		margin-bottom: 12px;
+		margin-bottom: 10px;
 		text-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
 	}
 
@@ -157,7 +157,7 @@
 		backdrop-filter: blur(20px);
 		border: 2px solid var(--glass-border);
 		border-radius: 12px;
-		padding: 32px;
+		padding: 28px;
 		transition: all 0.3s ease;
 	}
 
@@ -168,44 +168,44 @@
 	}
 
 	.timeline-position {
-		font-size: 1.6rem;
+		font-size: 1.5rem;
 		font-weight: 700;
 		margin: 0 0 8px 0;
 		color: var(--accent);
 	}
 
 	.timeline-company {
-		margin: 0 0 8px 0;
+		margin: 0 0 6px 0;
 		color: var(--primary);
 		font-weight: 600;
-		font-size: 1.5rem;
+		font-size: 1.42rem;
 	}
 
 	.timeline-period {
-		margin: 0 0 12px 0;
+		margin: 0 0 10px 0;
 		color: var(--text-dim);
-		font-size: 1.5rem;
+		font-size: 1.42rem;
 		font-weight: 500;
 	}
 
 	.timeline-description {
-		margin: 0 0 16px 0;
+		margin: 0 0 14px 0;
 		color: var(--text);
-		line-height: 1.7;
-		font-size: 1.5rem;
+		line-height: 1.6;
+		font-size: 1.42rem;
 	}
 
 	.timeline-achievements {
-		margin: 0 0 16px 0;
+		margin: 0 0 14px 0;
 		padding: 0;
 		list-style: none;
 	}
 
 	.achievement-item {
 		color: var(--text);
-		font-size: 1.5rem;
-		line-height: 1.7;
-		margin-bottom: 10px;
+		font-size: 1.42rem;
+		line-height: 1.6;
+		margin-bottom: 8px;
 		display: flex;
 		gap: 12px;
 	}
@@ -228,7 +228,7 @@
 		background: rgba(212, 175, 55, 0.1);
 		color: var(--primary);
 		border-radius: var(--radius-sm);
-		font-size: var(--text-base);
+		font-size: 1.05rem;
 		font-weight: var(--font-weight-semibold);
 		transition: all 0.3s ease;
 		border: 1px solid var(--glass-border);
