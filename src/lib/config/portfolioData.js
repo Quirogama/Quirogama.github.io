@@ -192,6 +192,27 @@ export const EDUCATION = [
 	}
 ];
 
+export const CERTIFICATIONS = [
+	{
+		id: 'daxus-powerbi-ia-2025',
+		name: 'Acelerador de Carrera con Power BI + IA',
+		issuer: 'Daxus LATAM',
+		year: 'Noviembre 2025',
+		duration: '8 horas',
+		credentialType: 'Certificado de participación',
+		url: '/certificados/Certificado%20Power%20BI.pdf'
+	},
+	{
+		id: 'iddi-liderazgo-filosofico-2026',
+		name: 'Liderazgo Filosófico',
+		issuer: 'IDDI - International Lean Six Sigma Group',
+		year: 'Abril 2026',
+		duration: '3 horas',
+		credentialType: 'Certificado de culminación',
+		url: '/certificados/Certificado%20Liderazgo%20Lean%20Sigma.pdf'
+	}
+];
+
 // ─────────────────────────────────────────────────────────────────────────
 // INTERESES & GOALS PROFESIONALES
 // ─────────────────────────────────────────────────────────────────────────
@@ -295,6 +316,7 @@ export const portfolioData = {
 	projects: PROJECTS,
 	experiences: EXPERIENCES,
 	education: EDUCATION,
+	certifications: CERTIFICATIONS,
 	stats: STATS,
 	interests: PROFESSIONAL_INTERESTS,
 	aboutRetro: ABOUT_TEXT_RETRO,

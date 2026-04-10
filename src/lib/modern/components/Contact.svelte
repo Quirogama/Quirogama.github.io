@@ -355,20 +355,23 @@
 
 	.form-submit {
 		padding: 16px 32px;
-		background: var(--primary);
-		color: var(--secondary);
-		border: none;
-		border-radius: var(--radius-md);
+		background: var(--button-bg);
+		color: var(--button-text);
+		border: 1px solid var(--button-border);
+		border-radius: var(--radius-full);
 		font-size: 1.5rem;
 		font-weight: 600;
 		cursor: pointer;
 		transition: all 0.3s ease;
+		box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 	}
 
 	.form-submit:hover:not(:disabled) {
-		background: #f4e5b7;
+		background: var(--button-bg-hover);
+		color: var(--button-text-hover);
+		border-color: var(--button-border-hover);
 		transform: translateY(-2px);
-		box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
+		box-shadow: 0 14px 28px rgba(0, 0, 0, 0.24), 0 0 0 1px rgba(212, 175, 55, 0.18);
 	}
 
 	.form-submit:disabled {

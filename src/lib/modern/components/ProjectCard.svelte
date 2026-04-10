@@ -53,9 +53,38 @@
 		{#if project.links.length > 0}
 			<div class="project-links">
 				{#each project.links as link}
-					<a href={link.url} target="_blank" rel="noopener" class="project-link">
-						{link.label} (externo)
-						<span class="arrow">→</span>
+					<a href={link.url} target="_blank" rel="noopener" class="project-link action-button action-button--large action-button--centered">
+						<span class="action-button__icon" aria-hidden="true">
+							{#if link.label.toLowerCase().includes('github') || link.url.toLowerCase().includes('github.com')}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
+									<path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.39 3.39 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.76c0 5.42 3.3 6.61 6.44 7A3.39 3.39 0 0 0 9 18.13V22" />
+								</svg>
+							{:else}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
+									<path d="M14 3h7v7" />
+									<path d="M10 14 21 3" />
+									<path d="M21 14v7h-7" />
+									<path d="M3 10V3h7" />
+									<path d="M14 10 3 21" />
+								</svg>
+							{/if}
+						</span>
+						<span class="action-button__label">{link.label}</span>
+						<span class="action-button__arrow" aria-hidden="true">→</span>
 					</a>
 				{/each}
 			</div>
@@ -201,35 +230,17 @@
 	.project-links {
 		display: flex;
 		flex-direction: column;
-		gap: 8px;
+		align-items: center;
+		gap: 12px;
 		margin-top: 12px;
-		padding-top: 12px;
+		padding-top: 16px;
 		border-top: 1px solid var(--glass-border);
 	}
 
 	.project-link {
-		color: var(--primary);
-		text-decoration: none;
-		font-weight: 600;
-		font-size: 1.25rem;
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		transition: all 0.3s ease;
-	}
-
-	.project-link:hover {
-		gap: 12px;
-		text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
-	}
-
-	.arrow {
-		display: inline-block;
-		transition: transform 0.3s ease;
-	}
-
-	.project-link:hover .arrow {
-		transform: translateX(4px);
+		width: min(100%, 18rem);
+		font-size: 1rem;
+		letter-spacing: 0.01em;
 	}
 
 	.glass-card {

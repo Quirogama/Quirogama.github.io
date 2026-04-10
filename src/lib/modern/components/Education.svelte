@@ -1,5 +1,5 @@
 <script>
-	import { EDUCATION } from '$lib/config/portfolioData.js';
+	import { CERTIFICATIONS, EDUCATION } from '$lib/config/portfolioData.js';
 </script>
 
 <section class="education" data-reveal id="education">
@@ -16,6 +16,61 @@
 					<p class="edu-details">{edu.details}</p>
 				</div>
 			{/each}
+		</div>
+
+		<div class="certifications" aria-label="Certificados">
+			<h3 class="certifications-title">Certificados</h3>
+			{#if CERTIFICATIONS.length > 0}
+				<div class="certifications-grid">
+					{#each CERTIFICATIONS as cert (cert.id)}
+						<article class="certification-item">
+							<div class="cert-meta">
+								<h4 class="cert-name">{cert.name}</h4>
+								<p class="cert-issuer">{cert.issuer}</p>
+								{#if cert.credentialType}
+									<p class="cert-type">{cert.credentialType}</p>
+								{/if}
+								{#if cert.duration}
+									<p class="cert-duration">Duración: {cert.duration}</p>
+								{/if}
+								<p class="cert-year">{cert.year}</p>
+							</div>
+							{#if cert.url}
+								<a
+									href={cert.url}
+									target="_blank"
+									rel="noopener noreferrer"
+										class="cert-link action-button action-button--compact"
+								>
+										<span class="action-button__icon" aria-hidden="true">
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke-width="2"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											>
+												<path d="M14 3h7v7" />
+												<path d="M10 14 21 3" />
+												<path d="M21 14v7h-7" />
+												<path d="M3 10V3h7" />
+												<path d="M14 10 3 21" />
+											</svg>
+										</span>
+										<span class="action-button__label">Ver certificado</span>
+										<span class="action-button__arrow" aria-hidden="true">→</span>
+								</a>
+							{/if}
+						</article>
+					{/each}
+				</div>
+			{:else}
+				<p class="cert-empty">
+					Actualmente estoy consolidando esta sección. Pronto añadiré mis certificados
+					verificables.
+				</p>
+			{/if}
 		</div>
 	</div>
 </section>
@@ -115,6 +170,71 @@
 		line-height: 1.6;
 	}
 
+	.certifications {
+		margin-top: 36px;
+	}
+
+	.certifications-title {
+		font-size: 1.9rem;
+		font-weight: 700;
+		margin: 0 0 16px 0;
+		color: var(--accent);
+	}
+
+	.certifications-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: 14px;
+	}
+
+	.certification-item {
+		background: var(--glass-bg);
+		border: 2px solid var(--glass-border);
+		border-left: 4px solid var(--primary);
+		border-radius: 12px;
+		padding: 16px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		transition: border-color 0.2s ease, transform 0.2s ease;
+	}
+
+	.certification-item:hover {
+		border-color: var(--primary);
+		transform: translateY(-2px);
+	}
+
+	.cert-name {
+		margin: 0;
+		font-size: 1.2rem;
+		color: var(--accent);
+	}
+
+	.cert-issuer,
+	.cert-type,
+	.cert-duration,
+	.cert-year {
+		margin: 0;
+		font-size: 1rem;
+		color: var(--text-dim);
+	}
+
+	.cert-link {
+		align-self: flex-start;
+		margin-top: 2px;
+	}
+
+	.cert-empty {
+		margin: 0;
+		font-size: 1.05rem;
+		line-height: 1.6;
+		color: var(--text-dim);
+		background: var(--glass-bg);
+		border: 2px dashed var(--glass-border);
+		border-radius: 12px;
+		padding: 16px;
+	}
+
 	@keyframes fadeIn {
 		from {
 			opacity: 0;
@@ -146,6 +266,10 @@
 		.edu-institution,
 		.edu-details {
 			font-size: 1.4rem;
+		}
+
+		.certifications-title {
+			font-size: 1.75rem;
 		}
 	}
 
@@ -187,6 +311,39 @@
 
 		.edu-details {
 			line-height: 1.5;
+		}
+
+		.certifications {
+			margin-top: 24px;
+		}
+
+		.certifications-title {
+			font-size: 1.3rem;
+			margin-bottom: 10px;
+		}
+
+		.certifications-grid {
+			grid-template-columns: 1fr;
+			gap: 10px;
+		}
+
+		.certification-item {
+			padding: 14px;
+		}
+
+		.cert-name {
+			font-size: 1.05rem;
+		}
+
+		.cert-issuer,
+		.cert-year,
+		.cert-link,
+		.cert-empty {
+			font-size: 0.95rem;
+		}
+
+		.cert-link {
+			font-size: 0.9rem;
 		}
 	}
 

@@ -1,18 +1,105 @@
 <script>
 	import { portfolioData } from '$lib/config/portfolioData.js';
-	import { SKILLS } from '$lib/config/portfolioData.js';
 	import { PERSONAL_INFO, SOFT_SKILLS } from '$lib/config/portfolioData.js';
+	import * as SimpleIcons from 'simple-icons/icons';
 
 	let { shouldAnimate = true } = $props();
 
-	const SKILL_AREAS = [
-		{ title: 'Lenguajes', items: SKILLS.languages },
-		{ title: 'Frontend', items: SKILLS.frontend },
-		{ title: 'Backend', items: SKILLS.backend },
-		{ title: 'Datos y BI', items: SKILLS.dataTools },
-		{ title: 'Bases de Datos', items: SKILLS.databases },
-		{ title: 'Herramientas', items: SKILLS.tools }
+	const TECH_SECTIONS = [
+		{
+			title: 'Lenguajes',
+			subtitle: 'Base de lógica, scripting y análisis.',
+			leadIcon: 'siPython',
+			items: [
+				{ label: 'Python', icon: 'siPython' },
+				{ label: 'Java', icon: 'siJava' },
+				{ label: 'JavaScript', icon: 'siJavascript' },
+				{ label: 'SQL', icon: null }
+			]
+		},
+		{
+			title: 'Frontend',
+			subtitle: 'Interfaces, presentación y experiencia.',
+			leadIcon: 'siSvelte',
+			items: [
+				{ label: 'Svelte', icon: 'siSvelte' },
+				{ label: 'HTML / CSS', icon: 'siHtml5' },
+				{ label: 'JavaScript', icon: 'siJavascript' },
+				{ label: 'Bootstrap', icon: 'siBootstrap' }
+			]
+		},
+		{
+			title: 'Backend',
+			subtitle: 'APIs, lógica y servicios.',
+			leadIcon: 'siNodedotjs',
+			items: [
+				{ label: 'Node.js', icon: 'siNodedotjs' },
+				{ label: 'Java', icon: 'siJava' },
+				{ label: 'Python', icon: 'siPython' },
+				{ label: 'Express', icon: 'siExpress' }
+			]
+		},
+		{
+			title: 'Datos y BI',
+			subtitle: 'Análisis, limpieza y visualización.',
+			leadIcon: 'siJupyter',
+			items: [
+				{ label: 'Power BI', icon: null },
+				{ label: 'Pandas', icon: 'siPandas' },
+				{ label: 'Matplotlib', icon: null },
+				{ label: 'Seaborn', icon: null },
+				{ label: 'Jupyter', icon: 'siJupyter' }
+			]
+		},
+		{
+			title: 'Bases de Datos',
+			subtitle: 'Persistencia relacional y NoSQL.',
+			leadIcon: 'siPostgresql',
+			items: [
+				{ label: 'PostgreSQL', icon: 'siPostgresql' },
+				{ label: 'MongoDB', icon: 'siMongodb' },
+				{ label: 'SQL Server', icon: null },
+				{ label: 'SQLite', icon: 'siSqlite' }
+			]
+		},
+		{
+			title: 'Herramientas',
+			subtitle: 'Versionado, despliegue y soporte.',
+			leadIcon: 'siGit',
+			items: [
+				{ label: 'Git', icon: 'siGit' },
+				{ label: 'GitHub', icon: 'siGithub' },
+				{ label: 'AWS', icon: 'siAmazonaws' },
+				{ label: 'Docker', icon: 'siDocker' },
+				{ label: 'Excel', icon: null }
+			]
+		}
 	];
+
+	function resolveIcon(iconName) {
+		if (!iconName) return null;
+		return SimpleIcons[iconName] ?? null;
+	}
+
+	function initials(label) {
+		return label
+			.split(/\s|\//)
+			.filter(Boolean)
+			.slice(0, 2)
+			.map((part) => part[0])
+			.join('')
+			.toUpperCase();
+	}
+
+	const skillAreas = TECH_SECTIONS.map((section) => ({
+		...section,
+		lead: resolveIcon(section.leadIcon),
+		items: section.items.map((item) => ({
+			...item,
+			iconData: resolveIcon(item.icon),
+			fallback: initials(item.label)
+		}))
+	}));
 </script>
 
 <section class="about" data-reveal id="about" class:animate={shouldAnimate}>
@@ -25,7 +112,8 @@
 					Me interesa trabajar en <strong>{portfolioData.interests.focus}</strong>, creando
 					soluciones completas desde la lógica de negocio hasta la interfaz.
 				</p>
-
+			</div>
+			<div class="skills-column">
 				<h3 class="subsection-title">Habilidades Blandas</h3>
 				<div class="soft-skills-grid">
 					{#each SOFT_SKILLS as skill}
@@ -36,18 +124,45 @@
 					{/each}
 				</div>
 			</div>
+
 			<div class="skills-container">
 				<h3 class="skills-title">Stack Técnico Aplicado</h3>
+				<p class="skills-caption">Vista visual de las tecnologías que uso para construir productos, APIs, interfaces y análisis de datos.</p>
 				<div class="skills-area-list">
-					{#each SKILL_AREAS as area}
-						<div class="skills-area">
-							<h4 class="skills-area-title">{area.title}</h4>
+					{#each skillAreas as area}
+						<article class="skills-area">
+							<div class="skills-area-header">
+								<div class="skills-area-mark" aria-hidden="true">
+									{#if area.lead}
+										<svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+											<path d={area.lead.path} fill={`#${area.lead.hex}`}></path>
+										</svg>
+									{:else}
+										<span>{initials(area.title)}</span>
+									{/if}
+								</div>
+								<div>
+									<h4 class="skills-area-title">{area.title}</h4>
+									<p class="skills-area-subtitle">{area.subtitle}</p>
+								</div>
+							</div>
 							<div class="skills-tags">
 								{#each area.items as item}
-									<span class="skill-tag">{item}</span>
+									<span class="skill-tag">
+										<span class="skill-tag-icon" aria-hidden="true">
+											{#if item.iconData}
+												<svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+													<path d={item.iconData.path} fill={`#${item.iconData.hex}`}></path>
+												</svg>
+											{:else}
+												<span>{item.fallback}</span>
+											{/if}
+										</span>
+										<span>{item.label}</span>
+									</span>
 								{/each}
 							</div>
-						</div>
+						</article>
 					{/each}
 				</div>
 			</div>
@@ -96,14 +211,24 @@
 	.about-grid {
 		display: grid;
 		grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-		gap: 60px;
+		grid-template-areas:
+			'intro soft'
+			'tech tech';
+		gap: 40px 56px;
 		align-items: start;
 	}
 
 	.about-text {
+		grid-area: intro;
 		font-size: 1.5rem;
 		color: var(--text);
 		line-height: 1.8;
+	}
+
+	.skills-column {
+		grid-area: soft;
+		padding-top: 0;
+		margin-top: -65px;
 	}
 
 	.about-text p {
@@ -141,10 +266,11 @@
 	}
 
 	.skills-container {
+		grid-area: tech;
 		display: flex;
 		flex-direction: column;
-		gap: 12px;
-		padding-top: 4px;
+		gap: 16px;
+		padding-top: 8px;
 	}
 
 	.skills-title {
@@ -154,22 +280,78 @@
 		margin: 0;
 	}
 
+	.skills-caption {
+		margin: 0;
+		color: var(--text-dim);
+		font-size: 1rem;
+		line-height: 1.6;
+		max-width: 52ch;
+	}
+
 	.skills-area-list {
 		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 12px;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 16px;
 	}
 
 	.skills-area {
-		background: rgba(26, 26, 46, 0.35);
-		border: 1px solid var(--glass-border);
-		border-radius: var(--radius-md);
-		padding: 12px;
+		background: linear-gradient(180deg, rgba(26, 26, 46, 0.84), rgba(20, 20, 34, 0.92));
+		border: 1px solid rgba(212, 175, 55, 0.16);
+		border-radius: var(--radius-lg);
+		padding: 16px;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+		transition:
+			transform var(--transition-base),
+			border-color var(--transition-base),
+			box-shadow var(--transition-base);
+	}
+
+	.skills-area:hover {
+		transform: translateY(-3px);
+		border-color: rgba(212, 175, 55, 0.45);
+		box-shadow: 0 14px 32px rgba(0, 0, 0, 0.24);
+	}
+
+	.skills-area-header {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		margin-bottom: 14px;
+	}
+
+	.skills-area-mark {
+		width: 44px;
+		height: 44px;
+		border-radius: 14px;
+		background: rgba(212, 175, 55, 0.12);
+		border: 1px solid rgba(212, 175, 55, 0.22);
+		display: grid;
+		place-items: center;
+		flex-shrink: 0;
+		color: var(--primary-light);
+	}
+
+	.skills-area-mark svg {
+		width: 24px;
+		height: 24px;
+	}
+
+	.skills-area-mark span {
+		font-size: 0.9rem;
+		font-weight: 800;
+		letter-spacing: 0.06em;
+	}
+
+	.skills-area-subtitle {
+		margin: 4px 0 0 0;
+		color: var(--text-dim);
+		font-size: 0.95rem;
+		line-height: 1.4;
 	}
 
 	.skills-area-title {
-		margin: 0 0 8px 0;
-		font-size: 1.12rem;
+		margin: 0;
+		font-size: 1.1rem;
 		font-weight: 700;
 		color: var(--primary-light);
 	}
@@ -177,18 +359,54 @@
 	.skills-tags {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 8px;
+		gap: 10px;
 	}
 
 	.skill-tag {
-		padding: 6px 10px;
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 8px 12px;
 		border-radius: 999px;
-		border: 1px solid var(--glass-border);
+		border: 1px solid rgba(212, 175, 55, 0.22);
 		background: rgba(212, 175, 55, 0.08);
 		color: var(--text);
-		font-size: 1rem;
-		font-weight: 500;
+		font-size: 0.98rem;
+		font-weight: 600;
 		line-height: 1.2;
+		transition:
+			transform var(--transition-fast),
+			border-color var(--transition-fast),
+			background var(--transition-fast);
+	}
+
+	.skill-tag:hover {
+		transform: translateY(-1px);
+		border-color: rgba(212, 175, 55, 0.45);
+		background: rgba(212, 175, 55, 0.14);
+	}
+
+	.skill-tag-icon {
+		width: 18px;
+		height: 18px;
+		border-radius: 50%;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		color: var(--primary-light);
+	}
+
+	.skill-tag-icon svg {
+		width: 100%;
+		height: 100%;
+	}
+
+	.skill-tag-icon span {
+		font-size: 0.58rem;
+		font-weight: 800;
+		letter-spacing: 0.04em;
+		color: var(--primary-light);
 	}
 
 	@keyframes fadeIn {
@@ -228,8 +446,12 @@
 			font-size: 1.4rem;
 		}
 
+		.skills-caption {
+			font-size: 0.95rem;
+		}
+
 		.skills-area-list {
-			grid-template-columns: 1fr;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
 	}
 
@@ -245,7 +467,15 @@
 
 		.about-grid {
 			grid-template-columns: 1fr;
+			grid-template-areas:
+				'intro'
+				'soft'
+				'tech';
 			gap: 28px;
+		}
+
+		.skills-column {
+			margin-top: 0;
 		}
 
 		.about-text,
@@ -274,6 +504,20 @@
 		.skills-area-list {
 			gap: 10px;
 			grid-template-columns: 1fr;
+		}
+
+		.skills-area {
+			padding: 14px;
+		}
+
+		.skills-area-mark {
+			width: 40px;
+			height: 40px;
+		}
+
+		.skill-tag {
+			font-size: 0.92rem;
+			padding: 7px 10px;
 		}
 	}
 
