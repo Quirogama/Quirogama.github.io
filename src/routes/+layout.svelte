@@ -1,7 +1,5 @@
 <script>
 	import favicon from '$lib/assets/favicon.svg';
-	import Desktop from '$lib/retro/components/Desktop.svelte';
-	import Taskbar from '$lib/retro/components/Taskbar.svelte';
 	import ModernLanding from '$lib/modern/components/ModernLanding.svelte';
 	import {
 		aboutTitle,
@@ -21,6 +19,24 @@
 	let isTransitioning = $state(false);
 	let isFirstModernView = $state(true); // Para controlar animaciones solo en primera visita
 	let showModeHint = $state(false);
+	let RetroDesktop = $state(null);
+	let RetroTaskbar = $state(null);
+	let retroComponentsPromise = null;
+
+	async function ensureRetroComponentsLoaded() {
+		if (RetroDesktop && RetroTaskbar) return;
+		if (!retroComponentsPromise) {
+			retroComponentsPromise = Promise.all([
+				import('$lib/retro/components/Desktop.svelte'),
+				import('$lib/retro/components/Taskbar.svelte')
+			]).then(([desktopModule, taskbarModule]) => {
+				RetroDesktop = desktopModule.default;
+				RetroTaskbar = taskbarModule.default;
+			});
+		}
+
+		await retroComponentsPromise;
+	}
 
 	// Calcula la posición centrada para la ventana inicial
 	let centerLeft = $state(300);
@@ -254,6 +270,11 @@
 	// Función para cambiar de modo con animación de escaneo
 	function switchMode(newMode) {
 		isTransitioning = true;
+		if (newMode === 'retro') {
+			ensureRetroComponentsLoaded().catch(() => {
+				// El fallback visual se encarga de comunicar que está cargando.
+			});
+		}
 		// Si cambiamos a moderno desde retro, ya no es la primera vez
 		if (newMode === 'modern' && mode === 'retro') {
 			isFirstModernView = false;
@@ -324,15 +345,16 @@
 	<ModernLanding shouldAnimate={isFirstModernView} />
 {:else}
 	<!-- MODO RETRO (Windows 98) -->
-	<div class="shell-root">
-		<Desktop bind:windows />
-		<Taskbar
-			{tasks}
-			{activeWindowId}
-			on:taskclick={handleTaskClick}
-			on:menuselect={handleMenuSelect}
-		/>
-	</div>
+	{#if RetroDesktop && RetroTaskbar}
+		<div class="shell-root">
+			<RetroDesktop bind:windows />
+			<RetroTaskbar {tasks} {activeWindowId} on:taskclick={handleTaskClick} on:menuselect={handleMenuSelect} />
+		</div>
+	{:else}
+		<div class="retro-loading" role="status" aria-live="polite">
+			Cargando laboratorio retro...
+		</div>
+	{/if}
 {/if}
 
 <!-- Reveal Overlay - Revela el nuevo contenido con cortina -->
@@ -341,15 +363,16 @@
 		<div class="reveal-content">
 			{#if mode === 'modern'}
 				<!-- Revelar Retro debajo del escaneo -->
-				<div class="shell-root">
-					<Desktop bind:windows />
-					<Taskbar
-						{tasks}
-						{activeWindowId}
-						on:taskclick={handleTaskClick}
-						on:menuselect={handleMenuSelect}
-					/>
-				</div>
+				{#if RetroDesktop && RetroTaskbar}
+					<div class="shell-root">
+						<RetroDesktop bind:windows />
+						<RetroTaskbar {tasks} {activeWindowId} on:taskclick={handleTaskClick} on:menuselect={handleMenuSelect} />
+					</div>
+				{:else}
+					<div class="retro-loading" role="status" aria-live="polite">
+						Cargando laboratorio retro...
+					</div>
+				{/if}
 			{:else}
 				<!-- Revelar Moderno debajo del escaneo -->
 				<ModernLanding shouldAnimate={false} />
@@ -377,6 +400,17 @@
 		z-index: 9998;
 		pointer-events: none;
 		overflow: hidden;
+	}
+
+	.retro-loading {
+		min-height: 100vh;
+		display: grid;
+		place-items: center;
+		background: #008080;
+		color: #ffffff;
+		font-size: 1.05rem;
+		font-weight: 700;
+		letter-spacing: 0.02em;
 	}
 
 	.reveal-content {

@@ -16,14 +16,23 @@
 	let mouseY = $state(0);
 
 	onMount(() => {
+		const prefersCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+		if (prefersCoarsePointer) return;
+
+		let rafId = null;
 		// Mouse tracking para efectos parallax
 		const handleMouseMove = (e) => {
-			mouseX = e.clientX;
-			mouseY = e.clientY;
+			if (rafId) return;
+			rafId = requestAnimationFrame(() => {
+				mouseX = e.clientX;
+				mouseY = e.clientY;
+				rafId = null;
+			});
 		};
 		window.addEventListener('mousemove', handleMouseMove);
 
 		return () => {
+			if (rafId) cancelAnimationFrame(rafId);
 			window.removeEventListener('mousemove', handleMouseMove);
 		};
 	});
@@ -54,18 +63,19 @@
 		--secondary: #1a1a2e;
 		--secondary-light: #2d2d44;
 		--accent: #ffffff;
-		--text: #e8e8e8;
-		--text-dim: #a0a0a0;
+		--text: #f3f5ff;
+		--text-dim: #c2c6dd;
 		--bg: #0f0f1e;
 		--bg-elevated: #1a1a2e;
-		--glass-bg: rgba(26, 26, 46, 0.6);
-		--glass-border: rgba(212, 175, 55, 0.2);
+		--glass-bg: rgba(16, 19, 40, 0.82);
+		--glass-border: rgba(212, 175, 55, 0.34);
 	}
 
 	.modern-container {
 		background: var(--bg);
 		color: var(--text);
 		min-height: 100vh;
+		font-size: 16px;
 		font-family:
 			'Inter',
 			-apple-system,

@@ -11,17 +11,17 @@
 	--secondary: #1a1a2e;
 	--secondary-light: #2d2d44;
 	--accent: #ffffff;
-	--text: #e8e8e8;
-	--text-dim: #a0a0a0;
+	--text: #f3f5ff;
+	--text-dim: #c2c6dd;
 	--bg: #0f0f1e;
 	--bg-elevated: #1a1a2e;
-	--glass-bg: rgba(26, 26, 46, 0.6);
-	--glass-border: rgba(212, 175, 55, 0.2);
+	--glass-bg: rgba(16, 19, 40, 0.82);
+	--glass-border: rgba(212, 175, 55, 0.34);
 	--button-bg: linear-gradient(180deg, rgba(212, 175, 55, 0.18), rgba(212, 175, 55, 0.08));
 	--button-bg-hover: linear-gradient(180deg, rgba(212, 175, 55, 0.28), rgba(212, 175, 55, 0.12));
 	--button-border: rgba(212, 175, 55, 0.38);
 	--button-border-hover: rgba(212, 175, 55, 0.72);
-	--button-text: var(--primary-light);
+	--button-text: var(--accent);
 	--button-text-hover: var(--accent);
 
 	/* ─── TIPOGRAFÍA ESCALA ─── */
@@ -83,6 +83,8 @@
 @media (max-width: 768px) {
 	:root {
 		/* Reducir escalas en mobile */
+		--text-sm: 1.05rem;
+		--text-base: 1.12rem;
 		--text-4xl: 2.44rem;
 		--text-5xl: 3.05rem;
 		--text-6xl: 3.81rem;

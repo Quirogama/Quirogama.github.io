@@ -12,6 +12,8 @@
 
 	const projectIndex = project.id ? project.id.split('-')[0].length % gradients.length : 0;
 	const projectGradient = gradients[projectIndex];
+	const visibleStack = (project.stack || []).slice(0, 3);
+	const hiddenStackCount = Math.max(0, (project.stack || []).length - visibleStack.length);
 </script>
 
 <div class="project-card glass-card">
@@ -22,6 +24,8 @@
 				src={project.image}
 				alt={project.title}
 				class="project-image-asset"
+				loading="lazy"
+				decoding="async"
 				class:white-logo={project.id === 'analytics-dashboard'}
 			/>
 		{:else}
@@ -45,9 +49,12 @@
 		<p class="project-description">{project.description}</p>
 
 		<div class="project-stack">
-			{#each project.stack as tech}
+			{#each visibleStack as tech}
 				<span class="stack-tag">{tech}</span>
 			{/each}
+			{#if hiddenStackCount > 0}
+				<span class="stack-tag stack-tag-more">+{hiddenStackCount} más</span>
+			{/if}
 		</div>
 
 		{#if project.links.length > 0}
@@ -211,14 +218,18 @@
 	}
 
 	.stack-tag {
-		padding: 4px 10px;
+		padding: 4px 9px;
 		background: rgba(212, 175, 55, 0.1);
 		color: var(--primary);
-		border-radius: 4px;
-		font-size: 1.25rem;
+		border-radius: 999px;
+		font-size: 1rem;
 		font-weight: 500;
 		border: 1px solid var(--glass-border);
 		transition: all 0.3s ease;
+	}
+
+	.stack-tag-more {
+		opacity: 0.85;
 	}
 
 	.stack-tag:hover {
@@ -285,7 +296,7 @@
 		}
 
 		.stack-tag {
-			font-size: 0.94rem;
+			font-size: 0.84rem;
 			padding: 3px 8px;
 		}
 

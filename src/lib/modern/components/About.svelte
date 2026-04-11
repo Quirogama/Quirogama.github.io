@@ -1,7 +1,23 @@
 <script>
 	import { portfolioData } from '$lib/config/portfolioData.js';
 	import { PERSONAL_INFO, SOFT_SKILLS } from '$lib/config/portfolioData.js';
-	import * as SimpleIcons from 'simple-icons/icons';
+	import {
+		siBootstrap,
+		siDocker,
+		siExpress,
+		siGit,
+		siGithub,
+		siHtml5,
+		siJavascript,
+		siJupyter,
+		siMongodb,
+		siNodedotjs,
+		siPandas,
+		siPostgresql,
+		siPython,
+		siSqlite,
+		siSvelte
+	} from 'simple-icons';
 
 	let { shouldAnimate = true } = $props();
 
@@ -12,7 +28,7 @@
 			leadIcon: 'siPython',
 			items: [
 				{ label: 'Python', icon: 'siPython' },
-				{ label: 'Java', icon: 'siJava' },
+				{ label: 'Java', icon: null },
 				{ label: 'JavaScript', icon: 'siJavascript' },
 				{ label: 'SQL', icon: null }
 			]
@@ -34,7 +50,7 @@
 			leadIcon: 'siNodedotjs',
 			items: [
 				{ label: 'Node.js', icon: 'siNodedotjs' },
-				{ label: 'Java', icon: 'siJava' },
+				{ label: 'Java', icon: null },
 				{ label: 'Python', icon: 'siPython' },
 				{ label: 'Express', icon: 'siExpress' }
 			]
@@ -69,16 +85,34 @@
 			items: [
 				{ label: 'Git', icon: 'siGit' },
 				{ label: 'GitHub', icon: 'siGithub' },
-				{ label: 'AWS', icon: 'siAmazonaws' },
+				{ label: 'AWS', icon: null },
 				{ label: 'Docker', icon: 'siDocker' },
 				{ label: 'Excel', icon: null }
 			]
 		}
 	];
 
+	const ICONS = {
+		siBootstrap,
+		siDocker,
+		siExpress,
+		siGit,
+		siGithub,
+		siHtml5,
+		siJavascript,
+		siJupyter,
+		siMongodb,
+		siNodedotjs,
+		siPandas,
+		siPostgresql,
+		siPython,
+		siSqlite,
+		siSvelte
+	};
+
 	function resolveIcon(iconName) {
 		if (!iconName) return null;
-		return SimpleIcons[iconName] ?? null;
+		return ICONS[iconName] ?? null;
 	}
 
 	function initials(label) {

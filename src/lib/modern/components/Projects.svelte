@@ -1,16 +1,45 @@
 <script>
 	import { portfolioData } from '$lib/config/portfolioData.js';
 	import ProjectCard from './ProjectCard.svelte';
+
+	let showAllProjects = $state(false);
+
+	const featuredProjects = portfolioData.projects.slice(0, 3);
+	const secondaryProjects = portfolioData.projects.slice(3);
+	const hasSecondaryProjects = secondaryProjects.length > 0;
+
+	function toggleProjects() {
+		showAllProjects = !showAllProjects;
+	}
 </script>
 
 <section class="projects" data-reveal id="projects">
 	<div class="section-content">
 		<h2 class="section-title">Proyectos Destacados</h2>
-		<div class="projects-grid">
-			{#each portfolioData.projects as project (project.id)}
+		<div class="projects-grid featured-grid">
+			{#each featuredProjects as project (project.id)}
 				<ProjectCard {project} />
 			{/each}
 		</div>
+
+		{#if hasSecondaryProjects}
+			<div class="projects-actions">
+				<button class="show-more-button" onclick={toggleProjects} aria-expanded={showAllProjects}>
+					{showAllProjects ? 'Mostrar solo destacados' : `Ver ${secondaryProjects.length} proyecto(s) más`}
+				</button>
+			</div>
+
+			{#if showAllProjects}
+				<div class="more-projects">
+					<h3 class="more-projects-title">Más proyectos</h3>
+					<div class="projects-grid secondary-grid">
+						{#each secondaryProjects as project (project.id)}
+							<ProjectCard {project} />
+						{/each}
+					</div>
+				</div>
+			{/if}
+		{/if}
 	</div>
 </section>
 
@@ -54,6 +83,48 @@
 		display: grid;
 		grid-template-columns: repeat(6, minmax(0, 1fr));
 		gap: 32px;
+	}
+
+	.secondary-grid {
+		margin-top: 28px;
+	}
+
+	.more-projects {
+		margin-top: 28px;
+	}
+
+	.more-projects-title {
+		font-size: 1.5rem;
+		font-weight: 700;
+		color: var(--primary-light);
+		margin: 0;
+	}
+
+	.projects-actions {
+		display: flex;
+		justify-content: center;
+		margin-top: 28px;
+	}
+
+	.show-more-button {
+		border: 1px solid rgba(212, 175, 55, 0.5);
+		background: rgba(212, 175, 55, 0.12);
+		color: var(--primary-light);
+		border-radius: 999px;
+		padding: 10px 18px;
+		font-size: 1rem;
+		font-weight: 700;
+		cursor: pointer;
+		transition:
+			background var(--transition-base),
+			border-color var(--transition-base),
+			transform var(--transition-base);
+	}
+
+	.show-more-button:hover {
+		background: rgba(212, 175, 55, 0.2);
+		border-color: rgba(212, 175, 55, 0.8);
+		transform: translateY(-2px);
 	}
 
 	.projects-grid > :global(.project-card) {
