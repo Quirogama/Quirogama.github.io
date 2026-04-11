@@ -194,15 +194,6 @@ export const EDUCATION = [
 
 export const CERTIFICATIONS = [
 	{
-		id: 'daxus-powerbi-ia-2025',
-		name: 'Acelerador de Carrera con Power BI + IA',
-		issuer: 'Daxus LATAM',
-		year: 'Noviembre 2025',
-		duration: '8 horas',
-		credentialType: 'Certificado de participación',
-		url: '/certificados/Certificado%20Power%20BI.pdf'
-	},
-	{
 		id: 'iddi-liderazgo-filosofico-2026',
 		name: 'Liderazgo Filosófico',
 		issuer: 'IDDI - International Lean Six Sigma Group',
@@ -210,6 +201,24 @@ export const CERTIFICATIONS = [
 		duration: '3 horas',
 		credentialType: 'Certificado de culminación',
 		url: '/certificados/Certificado%20Liderazgo%20Lean%20Sigma.pdf'
+	},
+	{
+		id: 'bigschool-ciberseguridad-hacking-etico-2026',
+		name: 'Ciberseguridad y Hacking Ético',
+		issuer: 'BIG school',
+		year: 'Abril 2026',
+		duration: '6 horas',
+		credentialType: 'Certificado de asistencia',
+		url: '/certificados/Certificado%20Ciberseguridad.pdf'
+	},
+	{
+		id: 'daxus-powerbi-ia-2025',
+		name: 'Acelerador de Carrera con Power BI + IA',
+		issuer: 'Daxus LATAM',
+		year: 'Noviembre 2025',
+		duration: '8 horas',
+		credentialType: 'Certificado de participación',
+		url: '/certificados/Certificado%20Power%20BI.pdf'
 	}
 ];
 
