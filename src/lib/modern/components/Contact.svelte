@@ -57,9 +57,9 @@
 	}
 </script>
 
-<section class="contact" data-reveal id="contact">
-	<div class="section-content">
-		<h2 class="section-title">Contacto</h2>
+<section class="contact section-shell" data-reveal id="contact">
+	<div class="section-content section-content-shell">
+		<h2 class="section-title section-title-shell">Contacto</h2>
 		<div class="contact-grid">
 			<div class="contact-info">
 				<div class="contact-cards">
@@ -191,21 +191,20 @@
 	.contact {
 		background: linear-gradient(135deg, var(--secondary) 0%, #000000 100%);
 		color: var(--text);
-		padding: 120px 40px;
 		animation: fadeIn 0.6s ease-out;
 		position: relative;
 		z-index: 1;
 	}
 
 	.section-content {
-		max-width: 1200px;
+		max-width: var(--section-max-width);
 		margin: 0 auto;
 	}
 
 	.section-title {
-		font-size: clamp(2.5rem, 6vw, 3.5rem);
+		font-size: var(--section-title-size);
 		font-weight: 700;
-		margin: 0 0 60px 0;
+		margin: 0 0 var(--section-title-gap) 0;
 		letter-spacing: -0.01em;
 		position: relative;
 		display: inline-block;
@@ -422,10 +421,6 @@
 
 	/* Desktop mediano: 1600x900 / 1536x864 / 1440x900 / 1350x800 aprox */
 	@media (min-width: 1281px) and (max-width: 1600px), (min-width: 1281px) and (max-height: 900px) {
-		.contact {
-			padding: 96px 32px;
-		}
-
 		.section-content {
 			max-width: 1120px;
 		}
@@ -505,10 +500,6 @@
 
 	/* Desktop pequeno: 1366x768 / 1280x720 aprox */
 	@media (min-width: 1201px) and (max-width: 1280px), (min-width: 1201px) and (max-height: 760px) {
-		.contact {
-			padding: 84px 28px;
-		}
-
 		.section-content {
 			max-width: 1040px;
 		}
@@ -590,17 +581,8 @@
 	}
 
 	@media (max-width: 1200px) {
-		.contact {
-			padding: 96px 32px;
-		}
-
 		.section-content {
 			max-width: 1080px;
-		}
-
-		.section-title {
-			font-size: clamp(2.3rem, 5vw, 3.2rem);
-			margin: 0 0 50px 0;
 		}
 
 		.contact-grid {
@@ -637,15 +619,6 @@
 	}
 
 	@media (max-width: 768px) {
-		.contact {
-			padding: 60px 20px;
-		}
-
-		.section-title {
-			font-size: clamp(2rem, 8vw, 2.5rem);
-			margin: 0 0 30px 0;
-		}
-
 		.contact-grid {
 			gap: 24px;
 		}
@@ -708,10 +681,6 @@
 	}
 
 	@media (max-width: 480px) {
-		.contact {
-			padding: 56px 16px;
-		}
-
 		.contact-card {
 			padding: 12px 12px 5px;
 		}

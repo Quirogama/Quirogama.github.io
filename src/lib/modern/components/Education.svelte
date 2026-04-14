@@ -2,9 +2,9 @@
 	import { CERTIFICATIONS, EDUCATION } from '$lib/config/portfolioData.js';
 </script>
 
-<section class="education" data-reveal id="education">
-	<div class="section-content">
-		<h2 class="section-title">Educación</h2>
+<section class="education section-shell section-shell--soft" data-reveal id="education">
+	<div class="section-content section-content-shell">
+		<h2 class="section-title section-title-shell">Educación</h2>
 		<div class="education-list">
 			{#each EDUCATION as edu (edu.degree)}
 				<div class="education-item">
@@ -78,21 +78,20 @@
 <style>
 	.education {
 		background: rgba(0, 0, 0, 0.2);
-		padding: 120px 40px;
 		animation: fadeIn 0.6s ease-out;
 		position: relative;
 		z-index: 1;
 	}
 
 	.section-content {
-		max-width: 1200px;
+		max-width: var(--section-max-width);
 		margin: 0 auto;
 	}
 
 	.section-title {
-		font-size: clamp(2.5rem, 6vw, 3.5rem);
+		font-size: var(--section-title-size);
 		font-weight: 700;
-		margin: 0 0 60px 0;
+		margin: 0 0 var(--section-title-gap) 0;
 		letter-spacing: -0.01em;
 		position: relative;
 		display: inline-block;
@@ -245,17 +244,8 @@
 	}
 
 	@media (max-width: 1200px) {
-		.education {
-			padding: 96px 32px;
-		}
-
 		.section-content {
 			max-width: 1080px;
-		}
-
-		.section-title {
-			font-size: clamp(2.3rem, 5vw, 3.2rem);
-			margin: 0 0 50px 0;
 		}
 
 		.edu-degree {
@@ -274,15 +264,6 @@
 	}
 
 	@media (max-width: 768px) {
-		.education {
-			padding: 60px 20px;
-		}
-
-		.section-title {
-			font-size: clamp(2rem, 8vw, 2.5rem);
-			margin: 0 0 34px 0;
-		}
-
 		.education-list {
 			gap: 14px;
 		}

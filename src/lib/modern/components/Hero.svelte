@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import { PERSONAL_INFO, SOCIAL_LINKS } from '$lib/config/portfolioData.js';
+	import { CONTENT_SECTIONS, PERSONAL_INFO, SOCIAL_LINKS } from '$lib/config/portfolioData.js';
 
 	let { shouldAnimate = true } = $props();
 
@@ -9,6 +9,24 @@
 
 	const fullTitle = PERSONAL_INFO.name;
 	const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+	const highlightTerms = [
+		'full‑stack junior',
+		'backend',
+		'end‑to‑end',
+		'frontend',
+		'Java/Spring Boot',
+		'Angular',
+		'Svelte'
+	];
+
+	function escapeRegExp(value) {
+		return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+	}
+
+	const highlightedHeroLead = highlightTerms.reduce((acc, term) => {
+		const pattern = new RegExp(escapeRegExp(term), 'g');
+		return acc.replace(pattern, `<span class="hero-highlight">${term}</span>`);
+	}, CONTENT_SECTIONS.hero.lead);
 
 	// Text scramble effect
 	function scrambleText() {
@@ -44,8 +62,8 @@
 	});
 </script>
 
-<section class="hero" data-reveal id="hero" class:animate={shouldAnimate}>
-	<div class="hero-content">
+<section class="hero section-shell" data-reveal id="hero" class:animate={shouldAnimate}>
+	<div class="hero-content section-content-shell">
 		<div class="hero-main">
 			<div class="hero-header">
 				<div class="hero-image-wrapper hero-avatar">
@@ -59,17 +77,7 @@
 					<p class="hero-subtitle">{PERSONAL_INFO.title}</p>
 				</div>
 			</div>
-			<p class="hero-description">
-				Desarrollador <span class="highlight">full‑stack junior</span> enfocado en
-				<span class="highlight">backend</span>
-				y soluciones <span class="highlight">end‑to‑end</span>. Cuento con experiencia en
-				<span class="highlight">backend</span>, <span class="highlight">frontend</span> y
-				despliegue. He construido aplicaciones con <span class="highlight">Java/Spring Boot</span>,
-				<span class="highlight">Angular</span>
-				y <span class="highlight">Svelte</span>, integrando APIs y bases de datos. Mi foco actual es
-				convertir proyectos académicos y de producto en experiencia de ingeniería cada vez más
-				medible.
-			</p>
+			<p class="hero-description">{@html highlightedHeroLead}</p>
 			<div class="cta-buttons">
 				<a href="/cv.pdf" target="_blank" rel="noopener" class="btn btn-secondary"> Ver CV </a>
 				<a href="#projects" class="btn btn-primary"> Ver proyectos </a>
@@ -131,7 +139,8 @@
 	.hero {
 		display: flex;
 		align-items: center;
-		padding: clamp(80px, 10vh, 140px) 40px clamp(140px, 16vh, 220px);
+		padding-top: clamp(72px, 10vh, 140px);
+		padding-bottom: clamp(104px, 14vh, 180px);
 		position: relative;
 		z-index: 1;
 		flex-direction: column;
@@ -144,8 +153,6 @@
 	}
 
 	.hero-content {
-		max-width: 1200px;
-		margin: 0 auto;
 		display: flex;
 		flex-direction: column;
 		gap: 32px;
@@ -211,7 +218,7 @@
 		margin-top: var(--space-xs);
 	}
 
-	.highlight {
+	:global(.hero-highlight) {
 		color: var(--primary);
 		font-weight: var(--font-weight-bold);
 		text-shadow: 0 0 20px rgba(212, 175, 55, 0.2);

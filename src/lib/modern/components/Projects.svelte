@@ -13,9 +13,9 @@
 	}
 </script>
 
-<section class="projects" data-reveal id="projects">
-	<div class="section-content">
-		<h2 class="section-title">Proyectos Destacados</h2>
+<section class="projects section-shell section-shell--soft" data-reveal id="projects">
+	<div class="section-content section-content-shell">
+		<h2 class="section-title section-title-shell">Proyectos Destacados</h2>
 		<div class="projects-grid featured-grid">
 			{#each featuredProjects as project (project.id)}
 				<ProjectCard {project} />
@@ -46,21 +46,21 @@
 <style>
 	.projects {
 		background: rgba(0, 0, 0, 0.2);
-		padding: 120px 40px;
 		animation: fadeIn 0.6s ease-out;
 		position: relative;
 		z-index: 1;
+		--section-max-width: 1400px;
 	}
 
 	.section-content {
-		max-width: 1400px;
+		max-width: var(--section-max-width);
 		margin: 0 auto;
 	}
 
 	.section-title {
-		font-size: clamp(2.5rem, 6vw, 3.5rem);
+		font-size: var(--section-title-size);
 		font-weight: 700;
-		margin: 0 0 60px 0;
+		margin: 0 0 var(--section-title-gap) 0;
 		letter-spacing: -0.01em;
 		position: relative;
 		display: inline-block;
@@ -152,17 +152,8 @@
 	}
 
 	@media (max-width: 1200px) {
-		.projects {
-			padding: 96px 32px;
-		}
-
 		.section-content {
 			max-width: 1080px;
-		}
-
-		.section-title {
-			font-size: clamp(2.3rem, 5vw, 3.2rem);
-			margin: 0 0 50px 0;
 		}
 
 		.projects-grid {
@@ -196,10 +187,6 @@
 	}
 
 	@media (max-width: 768px) {
-		.projects {
-			padding: 48px 16px;
-		}
-
 		.section-title {
 			margin: 0 0 40px 0;
 		}
@@ -215,8 +202,8 @@
 	}
 
 	@media (max-width: 480px) {
-		.projects {
-			padding: 40px 14px;
+		.section-title {
+			margin: 0 0 28px 0;
 		}
 	}
 </style>

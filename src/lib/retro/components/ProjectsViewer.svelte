@@ -34,24 +34,17 @@
 					</div>
 
 					<div class="detail-sections">
-						{#if project.problem}
+						{#if project.highlight}
 							<div class="detail-section">
-								<strong class="detail-label">Problema:</strong>
-								<p class="detail-text">{project.problem}</p>
+								<strong class="detail-label">Logro clave:</strong>
+								<p class="detail-text impact-text">{project.highlight}</p>
 							</div>
 						{/if}
 
-						{#if project.solution}
+						{#if project.description}
 							<div class="detail-section">
-								<strong class="detail-label">Solución:</strong>
-								<p class="detail-text">{project.solution}</p>
-							</div>
-						{/if}
-
-						{#if project.impact}
-							<div class="detail-section impact-section">
-								<strong class="detail-label">Impacto:</strong>
-								<p class="detail-text impact-text">{project.impact}</p>
+								<strong class="detail-label">Descripción:</strong>
+								<p class="detail-text">{project.description}</p>
 							</div>
 						{/if}
 

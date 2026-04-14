@@ -77,6 +77,13 @@
 	--line-height-tight: 1.1;
 	--line-height-normal: 1.6;
 	--line-height-relaxed: 1.8;
+
+	/* ─── SECTION SYSTEM (arquitectura compartida) ─── */
+	--section-max-width: 1200px;
+	--section-padding-y: clamp(56px, 8vw, 120px);
+	--section-padding-x: clamp(16px, 4vw, 40px);
+	--section-title-size: clamp(2rem, 6vw, 3.5rem);
+	--section-title-gap: clamp(28px, 5vw, 60px);
 }
 
 /* ─── MEDIA QUERIES BREAKPOINTS ─── */
@@ -90,7 +97,50 @@
 		--text-6xl: 3.81rem;
 
 		--space-3xl: 3rem;
+		--section-padding-y: clamp(44px, 10vw, 64px);
+		--section-title-gap: clamp(24px, 8vw, 40px);
 	}
+}
+
+/* ============================================
+   SECTION ARCHITECTURE (SHARED)
+   ============================================ */
+
+.section-shell {
+	padding: var(--section-padding-y) var(--section-padding-x);
+	position: relative;
+	z-index: 1;
+}
+
+.section-shell--soft {
+	background: rgba(0, 0, 0, 0.2);
+}
+
+.section-content-shell {
+	max-width: var(--section-max-width);
+	margin: 0 auto;
+	width: 100%;
+}
+
+.section-title-shell {
+	font-size: var(--section-title-size);
+	font-weight: 700;
+	margin: 0 0 var(--section-title-gap) 0;
+	letter-spacing: -0.01em;
+	position: relative;
+	display: inline-block;
+	color: var(--accent);
+}
+
+.section-title-shell::after {
+	content: '';
+	position: absolute;
+	bottom: -12px;
+	left: 0;
+	width: 60px;
+	height: 4px;
+	background: linear-gradient(90deg, var(--primary), transparent);
+	border-radius: 2px;
 }
 
 /* ============================================
@@ -418,27 +468,6 @@
 	color: var(--secondary);
 	transform: translateY(-2px);
 	box-shadow: var(--shadow-gold);
-}
-
-.section-title {
-	font-size: clamp(3rem, 8vw, 5.5rem);
-	font-weight: var(--font-weight-bold);
-	margin: 0 0 var(--space-xl) 0;
-	letter-spacing: -0.01em;
-	position: relative;
-	display: inline-block;
-	color: var(--accent);
-}
-
-.section-title::after {
-	content: '';
-	position: absolute;
-	bottom: -12px;
-	left: 0;
-	width: 60px;
-	height: 4px;
-	background: linear-gradient(90deg, var(--primary), transparent);
-	border-radius: 2px;
 }
 
 /* ============================================

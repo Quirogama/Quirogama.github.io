@@ -1,6 +1,5 @@
 <script>
-	import { portfolioData } from '$lib/config/portfolioData.js';
-	import { PERSONAL_INFO, SOFT_SKILLS } from '$lib/config/portfolioData.js';
+	import { CONTENT_SECTIONS, SOFT_SKILLS } from '$lib/config/portfolioData.js';
 	import {
 		siBootstrap,
 		siDocker,
@@ -136,15 +135,14 @@
 	}));
 </script>
 
-<section class="about" data-reveal id="about" class:animate={shouldAnimate}>
-	<div class="section-content">
-		<h2 class="section-title">Sobre Mí</h2>
+<section class="about section-shell section-shell--soft" data-reveal id="about" class:animate={shouldAnimate}>
+	<div class="section-content section-content-shell">
+		<h2 class="section-title section-title-shell">Sobre Mí</h2>
 		<div class="about-grid">
 			<div class="about-text">
-				<p>{PERSONAL_INFO.aboutMe}</p>
+				<p>{CONTENT_SECTIONS.about.intro}</p>
 				<p>
-					Me interesa trabajar en <strong>{portfolioData.interests.focus}</strong>, creando
-					soluciones completas desde la lógica de negocio hasta la interfaz.
+					{CONTENT_SECTIONS.about.focus}
 				</p>
 			</div>
 			<div class="skills-column">
@@ -207,39 +205,12 @@
 <style>
 	.about {
 		background: rgba(0, 0, 0, 0.2);
-		padding: 120px 40px;
 		position: relative;
 		z-index: 1;
 	}
 
 	.about.animate {
 		animation: fadeIn 0.6s ease-out;
-	}
-
-	.section-content {
-		max-width: 1200px;
-		margin: 0 auto;
-	}
-
-	.section-title {
-		font-size: clamp(2.5rem, 6vw, 3.5rem);
-		font-weight: 700;
-		margin: 0 0 60px 0;
-		letter-spacing: -0.01em;
-		position: relative;
-		display: inline-block;
-		color: var(--accent);
-	}
-
-	.section-title::after {
-		content: '';
-		position: absolute;
-		bottom: -12px;
-		left: 0;
-		width: 60px;
-		height: 4px;
-		background: linear-gradient(90deg, var(--primary), transparent);
-		border-radius: 2px;
 	}
 
 	.about-grid {
@@ -453,17 +424,8 @@
 	}
 
 	@media (max-width: 1200px) {
-		.about {
-			padding: 96px 32px;
-		}
-
 		.section-content {
 			max-width: 1080px;
-		}
-
-		.section-title {
-			font-size: clamp(2.3rem, 5vw, 3.2rem);
-			margin: 0 0 50px 0;
 		}
 
 		.about-text,
@@ -490,15 +452,6 @@
 	}
 
 	@media (max-width: 768px) {
-		.about {
-			padding: 60px 20px;
-		}
-
-		.section-title {
-			font-size: clamp(2rem, 8vw, 2.5rem);
-			margin: 0 0 34px 0;
-		}
-
 		.about-grid {
 			grid-template-columns: 1fr;
 			grid-template-areas:

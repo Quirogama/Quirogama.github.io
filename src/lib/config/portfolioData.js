@@ -252,6 +252,24 @@ export const PROFESSIONAL_INTERESTS = {
 	]
 };
 
+export const CONTENT_SECTIONS = {
+	hero: {
+		lead:
+			'Desarrollador full‑stack junior enfocado en backend y soluciones end‑to‑end. Cuento con experiencia en backend, frontend y despliegue. He construido aplicaciones con Java/Spring Boot, Angular y Svelte, integrando APIs y bases de datos. Mi foco actual es convertir proyectos académicos y de producto en experiencia de ingeniería cada vez más medible.'
+	},
+	about: {
+		intro: PERSONAL_INFO.aboutMe,
+		focus:
+			'Me interesa trabajar en construir soluciones end‑to‑end con buenas prácticas de ingeniería, creando soluciones completas desde la lógica de negocio hasta la interfaz.',
+		highlights: [
+			'Desarrollé una plataforma veterinaria full‑stack (Spring Boot + Angular + PostgreSQL) con roles y CRUD',
+			'Construí una app móvil en Kotlin con geolocalización y Google Maps para rutas y ETA',
+			'Creé este portafolio interactivo en Svelte con ventanas, apps retro y estado reactivo',
+			'He trabajado con datos cuando el proyecto lo requiere (dashboards y automatización)'
+		]
+	}
+};
+
 // ─────────────────────────────────────────────────────────────────────────
 // ABOUT TEXT (para versión retro Windows 98)
 // ─────────────────────────────────────────────────────────────────────────
@@ -264,16 +282,13 @@ _____________________________________________________
 
 ¿Quién soy?
 
-${PERSONAL_INFO.bio}
+${CONTENT_SECTIONS.about.intro}
 
 
 _____________________________________________________
 
 Lo que he hecho
-→ Desarrollé una plataforma veterinaria full‑stack (Spring Boot + Angular + PostgreSQL) con roles y CRUD
-→ Construí una app móvil en Kotlin con geolocalización y Google Maps para rutas y ETA
-→ Creé este portafolio interactivo en Svelte con ventanas, apps retro y estado reactivo
-→ He trabajado con datos cuando el proyecto lo requiere (dashboards y automatización)
+${CONTENT_SECTIONS.about.highlights.map((item) => `→ ${item}`).join('\n')}
 
 _____________________________________________________
 
@@ -290,7 +305,7 @@ Intereses: ${PROFESSIONAL_INTERESTS.interests.join(', ')}
 __________________________________________________________________________________
 
 Me interesa
-Roles en ${PROFESSIONAL_INTERESTS.roles.join(', ')} donde pueda ${PROFESSIONAL_INTERESTS.focus}. Abierto a ${PROFESSIONAL_INTERESTS.openTo.join(', ')}.`;
+Roles en ${PROFESSIONAL_INTERESTS.roles.join(', ')} donde pueda ${CONTENT_SECTIONS.about.focus}. Abierto a ${PROFESSIONAL_INTERESTS.openTo.join(', ')}.`;
 
 export const ABOUT_TITLE_RETRO = `${PERSONAL_INFO.name} - ${PERSONAL_INFO.title}`;
 
@@ -341,6 +356,7 @@ export const portfolioData = {
 	certifications: CERTIFICATIONS,
 	stats: STATS,
 	interests: PROFESSIONAL_INTERESTS,
+	contentSections: CONTENT_SECTIONS,
 	aboutRetro: ABOUT_TEXT_RETRO,
 	contactText: CONTACT_TEXT
 };
