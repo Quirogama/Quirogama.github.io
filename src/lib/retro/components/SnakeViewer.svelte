@@ -25,6 +25,7 @@
 	let speed = $state(INITIAL_SPEED);
 	let isPaused = $state(false);
 	let inputQueue = $state([]);
+	let isMobile = $state(false);
 
 	// rAF loop
 	let rafId = null;
@@ -68,6 +69,33 @@
 		if (gameOver || !gameStarted) return;
 		playUiClick();
 		isPaused = !isPaused;
+	}
+
+	function isOpposite(a, b) {
+		return a.x === -b.x && a.y === -b.y;
+	}
+
+	function queueDirection(dir) {
+		if (gameOver) {
+			startGame();
+		}
+
+		if (!gameStarted) {
+			direction = { ...dir };
+			nextDirection = { ...dir };
+			gameStarted = true;
+			if (rafId) cancelAnimationFrame(rafId);
+			rafId = requestAnimationFrame(loop);
+			return;
+		}
+
+		const lastDir = inputQueue.length ? inputQueue[inputQueue.length - 1] : direction;
+		if (isOpposite(dir, lastDir) || (dir.x === lastDir.x && dir.y === lastDir.y)) {
+			return;
+		}
+
+		nextDirection = dir;
+		inputQueue = [...inputQueue, dir].slice(-2);
 	}
 
 	function update() {
@@ -140,32 +168,24 @@
 
 		if (!gameStarted && movementKeys.includes(key)) {
 			e.preventDefault();
-			// Establece la dirección inicial según el input
 			switch (key) {
 				case 'arrowup':
 				case 'w':
-					direction = { x: 0, y: -1 };
-					nextDirection = { x: 0, y: -1 };
+					queueDirection({ x: 0, y: -1 });
 					break;
 				case 'arrowdown':
 				case 's':
-					direction = { x: 0, y: 1 };
-					nextDirection = { x: 0, y: 1 };
+					queueDirection({ x: 0, y: 1 });
 					break;
 				case 'arrowleft':
 				case 'a':
-					direction = { x: -1, y: 0 };
-					nextDirection = { x: -1, y: 0 };
+					queueDirection({ x: -1, y: 0 });
 					break;
 				case 'arrowright':
 				case 'd':
-					direction = { x: 1, y: 0 };
-					nextDirection = { x: 1, y: 0 };
+					queueDirection({ x: 1, y: 0 });
 					break;
 			}
-			gameStarted = true;
-			if (rafId) cancelAnimationFrame(rafId);
-			rafId = requestAnimationFrame(loop);
 			return;
 		}
 
@@ -177,55 +197,38 @@
 
 		if (gameOver) return;
 
-		function isOpposite(a, b) {
-			return a.x === -b.x && a.y === -b.y;
-		}
-
-		const lastDir = inputQueue.length ? inputQueue[inputQueue.length - 1] : direction;
-
 		switch (key) {
 			case 'arrowup':
 			case 'w': {
 				e.preventDefault();
-				const nd = { x: 0, y: -1 };
-				if (!isOpposite(nd, lastDir) && !(nd.x === lastDir.x && nd.y === lastDir.y)) {
-					nextDirection = nd;
-					inputQueue = [...inputQueue, nd].slice(-2);
-				}
+				queueDirection({ x: 0, y: -1 });
 				break;
 			}
 			case 'arrowdown':
 			case 's': {
 				e.preventDefault();
-				const nd = { x: 0, y: 1 };
-				if (!isOpposite(nd, lastDir) && !(nd.x === lastDir.x && nd.y === lastDir.y)) {
-					nextDirection = nd;
-					inputQueue = [...inputQueue, nd].slice(-2);
-				}
+				queueDirection({ x: 0, y: 1 });
 				break;
 			}
 			case 'arrowleft':
 			case 'a': {
 				e.preventDefault();
-				const nd = { x: -1, y: 0 };
-				if (!isOpposite(nd, lastDir) && !(nd.x === lastDir.x && nd.y === lastDir.y)) {
-					nextDirection = nd;
-					inputQueue = [...inputQueue, nd].slice(-2);
-				}
+				queueDirection({ x: -1, y: 0 });
 				break;
 			}
 			case 'arrowright':
 			case 'd': {
 				e.preventDefault();
-				const nd = { x: 1, y: 0 };
-				if (!isOpposite(nd, lastDir) && !(nd.x === lastDir.x && nd.y === lastDir.y)) {
-					nextDirection = nd;
-					inputQueue = [...inputQueue, nd].slice(-2);
-				}
+				queueDirection({ x: 1, y: 0 });
 				break;
 			}
 		}
 	}
+
+		function handleTouchDirection(dir) {
+			playUiClick();
+			queueDirection(dir);
+		}
 
 	function loop(ts) {
 		if (!lastTime) lastTime = ts;
@@ -256,6 +259,7 @@
 	}
 
 	onMount(() => {
+		isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 		window.addEventListener('keydown', handleKeyDown);
 		return () => {
 			window.removeEventListener('keydown', handleKeyDown);
@@ -323,6 +327,18 @@
 			{/if}
 		</div>
 	</div>
+
+	{#if isMobile}
+		<div class="touch-controls" aria-label="Controles táctiles">
+			<button class="touch-btn" onclick={() => handleTouchDirection({ x: 0, y: -1 })}>▲</button>
+			<div class="touch-mid-row">
+				<button class="touch-btn" onclick={() => handleTouchDirection({ x: -1, y: 0 })}>◀</button>
+				<button class="touch-btn center" onclick={togglePause}>{isPaused ? '▶' : '⏸'}</button>
+				<button class="touch-btn" onclick={() => handleTouchDirection({ x: 1, y: 0 })}>▶</button>
+			</div>
+			<button class="touch-btn" onclick={() => handleTouchDirection({ x: 0, y: 1 })}>▼</button>
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -512,5 +528,47 @@
 		border-radius: 50%;
 		border: 2px solid #c00;
 		z-index: 5;
+	}
+
+	.touch-controls {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 4px;
+		margin-top: 4px;
+	}
+
+	.touch-mid-row {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+	}
+
+	.touch-btn {
+		width: 50px;
+		height: 34px;
+		font-size: 18px;
+		font-weight: bold;
+		font-family: var(--win98-font-family, 'MS Sans Serif', sans-serif);
+		background: var(--win98-face, #c0c0c0);
+		border: 2px solid;
+		border-color: #fff #000 #000 #fff;
+		padding: 0;
+		line-height: 1;
+		touch-action: manipulation;
+	}
+
+	.touch-btn.center {
+		font-size: 14px;
+	}
+
+	.touch-btn:active {
+		border-color: #000 #fff #fff #000;
+	}
+
+	@media (min-width: 769px) {
+		.touch-controls {
+			display: none;
+		}
 	}
 </style>

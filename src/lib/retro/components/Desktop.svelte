@@ -414,7 +414,7 @@
 		gap: 6px;
 		border: none;
 		background: transparent;
-		color: inherit;
+		color: #ffffff;
 		padding: 4px;
 		font: inherit;
 	}
@@ -429,6 +429,8 @@
 		font-size: 12px;
 		text-align: center;
 		line-height: 1.1;
+		font-family: 'MS Sans Serif', Tahoma, Verdana, Arial, sans-serif;
+		text-shadow: 1px 1px 0 #000000;
 	}
 
 	.mobile-windows {

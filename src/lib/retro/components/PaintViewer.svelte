@@ -123,6 +123,7 @@
 	}
 
 	function pointerDown(e) {
+		e.preventDefault();
 		e.currentTarget?.setPointerCapture?.(e.pointerId);
 		const p = toLocal(e);
 		drawing = true;
@@ -142,6 +143,9 @@
 	}
 
 	function pointerMove(e) {
+		if (drawing) {
+			e.preventDefault();
+		}
 		if (e && typeof e.buttons !== 'undefined' && e.buttons === 0) {
 			if (drawing) {
 				drawing = false;
@@ -180,6 +184,7 @@
 	}
 
 	function pointerUp(e) {
+		e.preventDefault();
 		e.currentTarget?.releasePointerCapture?.(e.pointerId);
 		if (!drawing) return;
 		drawing = false;
@@ -238,6 +243,7 @@
 	}
 
 	function pointerCancel(e) {
+		e.preventDefault();
 		e.currentTarget?.releasePointerCapture?.(e.pointerId);
 		drawing = false;
 		snapshot = null;
@@ -657,6 +663,7 @@
 		width: auto;
 		height: auto;
 		flex: 0 0 auto;
+		touch-action: none;
 	}
 
 	/* Panel inferior */
@@ -772,5 +779,115 @@
 
 	.action-btn:active {
 		border-color: #000000 #ffffff #ffffff #000000;
+	}
+
+	@media (max-width: 768px) {
+		.paint-root {
+			padding-bottom: 56px;
+			box-sizing: border-box;
+		}
+
+		.paint-container {
+			flex-direction: column;
+			gap: 4px;
+			padding: 4px;
+		}
+
+		.canvas-area {
+			order: 1;
+			flex: 1 1 auto;
+			min-height: 220px;
+			align-items: center;
+			justify-content: center;
+			padding: 3px;
+		}
+
+		.toolbox {
+			order: 2;
+			width: 100%;
+			padding: 4px;
+			gap: 6px;
+		}
+
+		.tool-grid {
+			grid-template-columns: repeat(5, minmax(0, 1fr));
+			gap: 2px;
+		}
+
+		.tool-btn {
+			width: 100%;
+			height: 28px;
+			font-size: 13px;
+		}
+
+		.size-selector {
+			border-top: none;
+			padding-top: 0;
+		}
+
+		.size-title {
+			font-size: 10px;
+			margin-bottom: 2px;
+		}
+
+		.size-options {
+			display: grid;
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+			gap: 2px;
+		}
+
+		.size-btn {
+			height: 24px;
+		}
+
+		.bottom-panel {
+			order: 3;
+			display: grid;
+			grid-template-columns: 34px 1fr;
+			grid-template-areas:
+				'colors palette'
+				'actions actions';
+			align-items: center;
+			gap: 4px;
+			padding: 4px;
+			min-height: 64px;
+		}
+
+		.color-box {
+			grid-area: colors;
+			width: 34px;
+			height: 34px;
+		}
+
+		.palette {
+			grid-area: palette;
+			max-width: none;
+			width: 100%;
+			padding: 1px;
+			gap: 0;
+		}
+
+		.palette-row {
+			justify-content: space-between;
+			gap: 0;
+		}
+
+		.color-swatch {
+			width: 14px;
+			height: 14px;
+		}
+
+		.actions {
+			grid-area: actions;
+			flex-direction: row;
+			justify-content: flex-end;
+			gap: 4px;
+		}
+
+		.action-btn {
+			padding: 2px 10px;
+			font-size: 10px;
+			min-width: 60px;
+		}
 	}
 </style>
