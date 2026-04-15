@@ -103,7 +103,7 @@ export const PROJECTS = [
 			'API REST para almacenar, consultar y descargar imágenes médicas DICOM, enfocada en estudios transfontanelares de la Fundación Canguro y en el intercambio con terceros/hospitales. Implementa estándares DICOMWeb (STOW-RS, QIDO-RS y WADO-RS) con arquitectura Node.js + Express, SQLite y almacenamiento de archivos en servidor.',
 		highlight: 'API DICOMWeb funcional con flujo completo STOW-QIDO-WADO',
 		stack: ['Node.js', 'Express', 'SQLite', 'DICOMWeb'],
-		image: '/proyectos/canguro_logo.jpg',
+		image: '/proyectos/canguro_logo.webp',
 		links: [{ label: 'GitHub', url: 'https://github.com/JoseJ1709/ATIM.git' }]
 	},
 	{
@@ -113,7 +113,7 @@ export const PROJECTS = [
 			'Modelo de machine learning para estimar probabilidad de impago en préstamos. Expone API con FastAPI para scoring y explicaciones por predicción con SHAP, priorizando interpretabilidad y decisiones de crédito más confiables.',
 		highlight: 'AUC 77.6% en test con explicabilidad SHAP por cliente',
 		stack: ['XGBoost', 'SHAP', 'FastAPI', 'Scikit-learn'],
-		image: '/proyectos/credito_logo.png',
+		image: '/proyectos/credito_logo.webp',
 		links: [
 			{ label: 'GitHub', url: 'https://github.com/Quirogama/Riesgo_Credito.git' },
 			{ label: 'Ver Demo', url: 'https://riesgo-credito.onrender.com/demo' }
@@ -126,7 +126,7 @@ export const PROJECTS = [
 			'Portafolio interactivo con estética nostálgica de Windows 98. Incluye ventanas arrastrables, Paint funcional, Calculadora, Snake y Buscaminas. Arquitectura modular con componentes Svelte.',
 		highlight: 'Experiencia de usuario única y memorable',
 		stack: ['Svelte', 'SvelteKit', 'JavaScript', 'CSS'],
-		image: '/proyectos/windows_logo.jpg',
+		image: '/proyectos/windows_logo.webp',
 		links: [
 			{ label: 'GitHub', url: 'https://github.com/Quirogama/Quirogama.github.io' },
 			{ label: 'Ver Demo', url: 'https://quirogama.github.io' }
@@ -139,7 +139,7 @@ export const PROJECTS = [
 			'Sistema integral para gestión veterinaria con roles diferenciados. Incluye CRUDs completos, dashboards analíticos, autenticación JWT y administración de citas y servicios.',
 		highlight: 'Arquitectura fullstack escalable',
 		stack: ['Angular', 'Spring Boot', 'TypeScript', 'Bootstrap'],
-		image: '/proyectos/pawcare_logo.jpg',
+		image: '/proyectos/pawcare_logo.webp',
 		links: [
 			{ label: 'Backend', url: 'https://github.com/Quirogama/PAW-CARE-SPRINGBOOT' },
 			{ label: 'Frontend', url: 'https://github.com/Quirogama/PAW-CARE-ANGULAR' }
@@ -152,7 +152,7 @@ export const PROJECTS = [
 			'Proyecto de análisis de datos en la Pontificia Universidad Javeriana. Incluyó limpieza y depuración de información histórica de practicantes, estructuración de indicadores y construcción de dashboard en Power BI con tendencias 2008-2025, segmentación por variables clave y apoyo a la toma de decisiones del área.',
 		highlight: 'Proyecto aplicado durante 4 meses de experiencia en análisis de datos',
 		stack: ['Power BI', 'SQL', 'ETL'],
-		image: '/proyectos/javeriana_logo.png',
+		image: '/proyectos/javeriana_logo.webp',
 		links: []
 	},
 	{
@@ -162,7 +162,7 @@ export const PROJECTS = [
 			'Aplicación móvil enfocada en mejorar la experiencia de paseo con mascotas. Permite crear rutas, realizar seguimiento durante recorridos y explorar puntos de interés para dueños de mascotas.',
 		highlight: 'Proyecto móvil colaborativo con enfoque en rutas y geolocalización',
 		stack: ['Kotlin', 'Firebase', 'OpenStreetMap', 'Android'],
-		image: '/proyectos/walkypet_logo.png',
+		image: '/proyectos/walkypet_logo.webp',
 		links: [{ label: 'GitHub', url: 'https://github.com/PUJ-ICM-13190/Walkypet.git' }]
 	}
 ];
