@@ -120,27 +120,45 @@
 	}
 
 	function handleKeyDown(e) {
-		if (gameOver && e.key === 'Enter') {
-			startGame();
+		const key = e.key.toLowerCase();
+		const movementKeys = ['arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'w', 'a', 's', 'd'];
+
+		if (gameOver) {
+			if (key === 'enter') {
+				startGame();
+				return;
+			}
+
+			if (movementKeys.includes(key)) {
+				e.preventDefault();
+				startGame();
+				// Reinicia solamente; el siguiente input de dirección inicia la partida.
+			}
+
 			return;
 		}
 
-		if (!gameStarted && e.key.startsWith('Arrow')) {
+		if (!gameStarted && movementKeys.includes(key)) {
+			e.preventDefault();
 			// Establece la dirección inicial según el input
-			switch (e.key) {
-				case 'ArrowUp':
+			switch (key) {
+				case 'arrowup':
+				case 'w':
 					direction = { x: 0, y: -1 };
 					nextDirection = { x: 0, y: -1 };
 					break;
-				case 'ArrowDown':
+				case 'arrowdown':
+				case 's':
 					direction = { x: 0, y: 1 };
 					nextDirection = { x: 0, y: 1 };
 					break;
-				case 'ArrowLeft':
+				case 'arrowleft':
+				case 'a':
 					direction = { x: -1, y: 0 };
 					nextDirection = { x: -1, y: 0 };
 					break;
-				case 'ArrowRight':
+				case 'arrowright':
+				case 'd':
 					direction = { x: 1, y: 0 };
 					nextDirection = { x: 1, y: 0 };
 					break;
@@ -165,8 +183,10 @@
 
 		const lastDir = inputQueue.length ? inputQueue[inputQueue.length - 1] : direction;
 
-		switch (e.key) {
-			case 'ArrowUp': {
+		switch (key) {
+			case 'arrowup':
+			case 'w': {
+				e.preventDefault();
 				const nd = { x: 0, y: -1 };
 				if (!isOpposite(nd, lastDir) && !(nd.x === lastDir.x && nd.y === lastDir.y)) {
 					nextDirection = nd;
@@ -174,7 +194,9 @@
 				}
 				break;
 			}
-			case 'ArrowDown': {
+			case 'arrowdown':
+			case 's': {
+				e.preventDefault();
 				const nd = { x: 0, y: 1 };
 				if (!isOpposite(nd, lastDir) && !(nd.x === lastDir.x && nd.y === lastDir.y)) {
 					nextDirection = nd;
@@ -182,7 +204,9 @@
 				}
 				break;
 			}
-			case 'ArrowLeft': {
+			case 'arrowleft':
+			case 'a': {
+				e.preventDefault();
 				const nd = { x: -1, y: 0 };
 				if (!isOpposite(nd, lastDir) && !(nd.x === lastDir.x && nd.y === lastDir.y)) {
 					nextDirection = nd;
@@ -190,7 +214,9 @@
 				}
 				break;
 			}
-			case 'ArrowRight': {
+			case 'arrowright':
+			case 'd': {
+				e.preventDefault();
 				const nd = { x: 1, y: 0 };
 				if (!isOpposite(nd, lastDir) && !(nd.x === lastDir.x && nd.y === lastDir.y)) {
 					nextDirection = nd;
@@ -245,11 +271,14 @@
 <div class="snake-container">
 	<div class="hud-row">
 		<span class="score-display">Puntos: {score}</span>
-		{#if isPaused}
-			<span class="paused-text">PAUSA</span>
-		{:else if !gameStarted}
-			<span class="start-hint">Flechas para comenzar</span>
-		{/if}
+		<div class="hud-center" aria-live="polite">
+			{#if isPaused}
+				<span class="paused-text">PAUSA</span>
+			{:else if !gameStarted}
+				<span class="start-hint">Flechas o WASD para comenzar</span>
+			{/if}
+		</div>
+		<span class="score-display">Récord: {highScore}</span>
 	</div>
 
 	<div class="game-board-wrapper">
@@ -314,6 +343,14 @@
 		align-items: center;
 		gap: 6px;
 		min-height: 24px;
+	}
+
+	.hud-center {
+		flex: 1 1 auto;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-width: 0;
 	}
 
 	.score-display {

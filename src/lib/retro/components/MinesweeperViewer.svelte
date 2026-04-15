@@ -13,10 +13,14 @@
 	let board = [];
 	let gameOver = false;
 	let gameWon = false;
+	let showGameOverOverlay = false;
 	let flagsPlaced = 0;
 	let timeElapsed = 0;
 	let timerInterval = null;
+	let lossOverlayTimeout = null;
 	let firstClick = true;
+	let explodedMine = null;
+	let mineRevealDelays = {};
 
 	function initBoard() {
 		board = Array(rows)
@@ -33,11 +37,16 @@
 			);
 		gameOver = false;
 		gameWon = false;
+		showGameOverOverlay = false;
 		flagsPlaced = 0;
 		timeElapsed = 0;
 		firstClick = true;
+		explodedMine = null;
+		mineRevealDelays = {};
 		clearInterval(timerInterval);
 		timerInterval = null;
+		clearTimeout(lossOverlayTimeout);
+		lossOverlayTimeout = null;
 	}
 
 	function placeMines(excludeRow, excludeCol) {
@@ -114,7 +123,7 @@
 			playMinesweeperLose();
 			gameOver = true;
 			clearInterval(timerInterval);
-			revealAllMines();
+			revealAllMines(row, col);
 			return;
 		}
 
@@ -134,7 +143,30 @@
 		board = board;
 	}
 
-	function revealAllMines() {
+	function revealAllMines(triggerRow = -1, triggerCol = -1) {
+		explodedMine = triggerRow >= 0 && triggerCol >= 0 ? `${triggerRow}-${triggerCol}` : null;
+		showGameOverOverlay = false;
+
+		const mineCells = [];
+		for (let r = 0; r < rows; r++) {
+			for (let c = 0; c < cols; c++) {
+				if (board[r][c].isMine) {
+					mineCells.push({ r, c });
+				}
+			}
+		}
+
+		mineCells.sort((a, b) => {
+			if (a.r === triggerRow && a.c === triggerCol) return -1;
+			if (b.r === triggerRow && b.c === triggerCol) return 1;
+			return 0;
+		});
+
+		mineRevealDelays = {};
+		mineCells.forEach((m, i) => {
+			mineRevealDelays[`${m.r}-${m.c}`] = i * 80;
+		});
+
 		for (let r = 0; r < rows; r++) {
 			for (let c = 0; c < cols; c++) {
 				if (board[r][c].isMine) {
@@ -143,6 +175,12 @@
 			}
 		}
 		board = board;
+
+		const finalDelay = Math.max(1000, mineCells.length * 80 + 300);
+		clearTimeout(lossOverlayTimeout);
+		lossOverlayTimeout = setTimeout(() => {
+			showGameOverOverlay = true;
+		}, finalDelay);
 	}
 
 	function checkWin() {
@@ -177,10 +215,14 @@
 
 	onMount(() => {
 		initBoard();
-		return () => clearInterval(timerInterval);
+		return () => {
+			clearInterval(timerInterval);
+			clearTimeout(lossOverlayTimeout);
+		};
 	});
 
 	function getCellContent(cell) {
+		if (gameOver && cell.isMine) return '💣';
 		if (cell.isFlagged) return '🚩';
 		if (!cell.isRevealed) return '';
 		if (cell.isMine) return '💣';
@@ -188,10 +230,19 @@
 		return cell.neighborMines;
 	}
 
-	function getCellClass(cell) {
+	function getCellClass(cell, row, col) {
 		if (!cell.isRevealed) return 'cell unrevealed';
-		if (cell.isMine) return 'cell mine';
+		if (cell.isMine) {
+			const key = `${row}-${col}`;
+			if (gameOver && explodedMine === key) return 'cell mine exploded-mine';
+			if (gameOver) return 'cell mine revealed-mine';
+			return 'cell mine';
+		}
 		return 'cell revealed';
+	}
+
+	function getMineRevealDelay(row, col) {
+		return mineRevealDelays[`${row}-${col}`] ?? 0;
 	}
 
 	function getNumberClass(num) {
@@ -221,7 +272,8 @@
 			<div class="row">
 				{#each row as cell, c}
 					<button
-						class={getCellClass(cell)}
+						class={getCellClass(cell, r, c)}
+						style={`--explode-delay:${getMineRevealDelay(r, c)}ms`}
 						on:click={() => handleCellClick(r, c)}
 						on:contextmenu={(e) => handleRightClick(e, r, c)}
 					>
@@ -237,7 +289,7 @@
 			</div>
 		{/each}
 
-		{#if gameOver}
+		{#if gameOver && showGameOverOverlay}
 			<div class="result-overlay game-over-overlay">
 				<div class="result-box">
 					<div class="result-title">💥 Fin de partida</div>
@@ -372,6 +424,22 @@
 		border: 1px solid #808080;
 	}
 
+	.cell.mine.revealed-mine {
+		background: #a40000;
+		animation: mine-reveal 360ms ease-out both;
+		animation-delay: var(--explode-delay, 0ms);
+	}
+
+	.cell.mine.exploded-mine {
+		background: #ff0000;
+		animation:
+			explode-flash 760ms ease-out both,
+			mine-reveal 360ms ease-out both;
+		animation-delay:
+			0ms,
+			var(--explode-delay, 0ms);
+	}
+
 	.number-1 {
 		color: #0000ff;
 	}
@@ -484,6 +552,36 @@
 		}
 		50% {
 			transform: scale(1.05);
+		}
+	}
+
+	@keyframes mine-reveal {
+		0% {
+			transform: scale(0.4);
+			opacity: 0;
+		}
+		70% {
+			transform: scale(1.08);
+			opacity: 1;
+		}
+		100% {
+			transform: scale(1);
+			opacity: 1;
+		}
+	}
+
+	@keyframes explode-flash {
+		0% {
+			box-shadow: 0 0 0 rgba(255, 230, 80, 0);
+			filter: brightness(1);
+		}
+		30% {
+			box-shadow: 0 0 20px rgba(255, 230, 80, 0.95);
+			filter: brightness(1.45);
+		}
+		100% {
+			box-shadow: 0 0 0 rgba(255, 230, 80, 0);
+			filter: brightness(1);
 		}
 	}
 </style>
