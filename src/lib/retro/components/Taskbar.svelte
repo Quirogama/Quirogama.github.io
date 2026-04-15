@@ -186,6 +186,12 @@
 		box-sizing: border-box;
 		overflow: hidden; /* prevent children from expanding the bar */
 	}
+
+	@media (max-width: 768px) {
+		.taskbar {
+			display: none;
+		}
+	}
 	.start {
 		display: flex;
 		align-items: center;

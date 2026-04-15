@@ -10,6 +10,7 @@
 		z = 1,
 		left = $bindable(40),
 		top = $bindable(40),
+		stacked = false,
 		isActive = false,
 		onclose = () => {},
 		onminimize = () => {},
@@ -61,6 +62,7 @@
 
 	// Maneja el inicio del arrastre o redimensionamiento de la ventana
 	function onPointerDown(e) {
+		if (stacked) return;
 		// Inicia arrastre si se presiona la barra de título
 		if (e.target.closest('.title-bar')) {
 			dragging = true;
@@ -89,6 +91,7 @@
 
 	// Maneja el movimiento del puntero para arrastre o redimensionamiento
 	function onPointerMove(e) {
+		if (stacked) return;
 		if (resizing) {
 			// Calcula la diferencia de píxeles desde donde comenzó el redimensionamiento
 			const dx = e.clientX - rStartX;
@@ -137,6 +140,7 @@
 
 	// Maneja el final del arrastre o redimensionamiento
 	function onPointerUp(e) {
+		if (stacked) return;
 		if (resizing) {
 			resizing = false;
 			resizeDir = null;
@@ -155,9 +159,10 @@
 
 <div
 	class="window"
+	class:stacked
 	role="dialog"
 	tabindex="0"
-	style="width: {width}px; height: {height}px; z-index: {z}; left: {left}px; top: {top}px;"
+	style="width: {stacked ? '100%' : `${width}px`}; height: {stacked ? '100%' : `${height}px`}; z-index: {z}; left: {stacked ? '0' : `${left}px`}; top: {stacked ? '0' : `${top}px`};"
 	onpointerdown={onPointerDown}
 	onpointermove={onPointerMove}
 	onpointerup={onPointerUp}
@@ -251,6 +256,27 @@
 		top: 40px;
 		display: flex;
 		flex-direction: column;
+	}
+
+	.window.stacked {
+		position: fixed;
+		inset: 0;
+		width: 100% !important;
+		height: 100% !important;
+		max-width: none;
+		max-height: none;
+		margin: 0;
+		overflow: hidden;
+	}
+
+	.window.stacked .resize-handle {
+		display: none;
+	}
+
+	.window.stacked .window-body {
+		flex: 1 1 auto;
+		min-height: 0;
+		overflow: auto;
 	}
 
 	/* Keep windows inside the viewport and avoid overflow on small screens */

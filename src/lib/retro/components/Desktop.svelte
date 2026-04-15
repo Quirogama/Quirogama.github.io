@@ -24,6 +24,12 @@
 	import { onMount } from 'svelte';
 
 	let { windows = $bindable([]) } = $props();
+	let isMobile = $state(false);
+
+	function updateMobileMode() {
+		if (typeof window === 'undefined') return;
+		isMobile = window.innerWidth <= 768;
+	}
 
 	// Genera iconos del escritorio desde APPS
 	let icons = $state(
@@ -125,14 +131,18 @@
 	// Al cargar: ajusta layout y abre "Sobre mí" si no hay ventanas
 	onMount(() => {
 		updateLayoutMode();
-		const handler = () => updateLayoutMode();
+		updateMobileMode();
+		const handler = () => {
+			updateLayoutMode();
+			updateMobileMode();
+		};
 		if (typeof window !== 'undefined') {
 			window.addEventListener('resize', handler);
 		}
 
 		// Abre automáticamente la ventana "About Me" cuando carga el sitio por primera vez
 		const aboutIcon = icons.find((i) => i.id === 'about');
-		if (aboutIcon && windows.length === 0) {
+		if (!isMobile && aboutIcon && windows.length === 0) {
 			setTimeout(() => {
 				if (windows.length === 0) {
 					openIcon(aboutIcon);
@@ -227,79 +237,150 @@
 
 		windows = [...windows, newWindow];
 	}
+
+	function getMobileWindowSize() {
+		if (typeof window === 'undefined') return { width: 320, height: 420 };
+		return {
+			width: Math.max(280, window.innerWidth - 16),
+			height: Math.max(260, Math.floor(window.innerHeight * 0.62))
+		};
+	}
 </script>
 
-<div class="desktop">
-	<!-- Renderiza todos los iconos del escritorio -->
-	{#each icons as ic}
-		<DesktopIcon
-			icon={ic.icon}
-			label={ic.label}
-			x={ic.x}
-			y={ic.y}
-			selected={selectedIconId === ic.id}
-			onselect={() => (selectedIconId = ic.id)}
-			onopen={() => openIcon(ic)}
-		/>
-	{/each}
+{#if isMobile}
+	<div class="mobile">
+		<div class="mobile-icons">
+			{#each icons as ic}
+				<button class="mobile-icon" onclick={() => openIcon(ic)} aria-label={ic.label}>
+					<img src={ic.icon} alt={ic.label} />
+					<span>{ic.label}</span>
+				</button>
+			{/each}
+		</div>
 
-	<!-- Renderiza todas las ventanas abiertas -->
-	{#each windows as w (w.id)}
-		{#if !w.minimized}
-			<Window
-				title={w.title}
-				width={w.width}
-				height={w.height}
-				left={w.left ?? 40}
-				top={w.top ?? 40}
-				z={w.z}
-				isActive={w.z === Math.max(...windows.map((win) => win.z ?? 0))}
-				onclose={() => {
-					windows = windows.filter((win) => win.id !== w.id);
-				}}
-				onminimize={() => {
-					windows = windows.map((win) => (win.id === w.id ? { ...win, minimized: true } : win));
-				}}
-				onfocus={() => bringToFront(w.id)}
-				onresize={({ width, height, left, top }) => {
-					windows = windows.map((win) =>
-						win.id === w.id ? { ...win, width, height, left, top } : win
-					);
-				}}
-				onmove={({ width, height, left, top }) => {
-					windows = windows.map((win) =>
-						win.id === w.id ? { ...win, width, height, left, top } : win
-					);
-				}}
-			>
-				<!-- Renderiza el componente correspondiente según el tipo de ventana -->
-				{#if w.componentType === 'pdf' && w.componentProps?.src}
-					<PDFViewer src={w.componentProps.src} />
-				{:else if w.componentType === 'projects' && w.componentProps?.projects}
-					<ProjectsViewer projects={w.componentProps.projects} />
-				{:else if w.componentType === 'experience'}
-					<ExperienceViewer {experiences} />
-				{:else if w.componentType === 'about'}
-					<AboutViewer content={w.content} />
-				{:else if w.componentType === 'contact'}
-					<ContactViewer />
-				{:else if w.componentType === 'paint'}
-					<PaintViewer />
-				{:else if w.componentType === 'calc'}
-					<Calculator />
-				{:else if w.componentType === 'snake'}
-					<SnakeViewer />
-				{:else if w.componentType === 'minesweeper'}
-					<MinesweeperViewer />
-				{:else if w.content}
-					<div style="padding:8px">{w.content}</div>
-				{:else}
-					<div style="padding:8px">Loading...</div>
+		<div class="mobile-windows">
+			{#each windows as w (w.id)}
+				{#if !w.minimized}
+					<Window
+						title={w.title}
+						width={getMobileWindowSize().width}
+						height={getMobileWindowSize().height}
+						left={0}
+						top={0}
+						z={w.z}
+						stacked={true}
+						isActive={w.z === Math.max(...windows.map((win) => win.z ?? 0))}
+						onclose={() => {
+							windows = windows.filter((win) => win.id !== w.id);
+						}}
+						onminimize={() => {
+							windows = windows.map((win) =>
+								win.id === w.id ? { ...win, minimized: true } : win
+							);
+						}}
+						onfocus={() => bringToFront(w.id)}
+					>
+						{#if w.componentType === 'pdf' && w.componentProps?.src}
+							<PDFViewer src={w.componentProps.src} />
+						{:else if w.componentType === 'projects' && w.componentProps?.projects}
+							<ProjectsViewer projects={w.componentProps.projects} />
+						{:else if w.componentType === 'experience'}
+							<ExperienceViewer {experiences} />
+						{:else if w.componentType === 'about'}
+							<AboutViewer content={w.content} />
+						{:else if w.componentType === 'contact'}
+							<ContactViewer />
+						{:else if w.componentType === 'paint'}
+							<PaintViewer />
+						{:else if w.componentType === 'calc'}
+							<Calculator />
+						{:else if w.componentType === 'snake'}
+							<SnakeViewer />
+						{:else if w.componentType === 'minesweeper'}
+							<MinesweeperViewer />
+						{:else if w.content}
+							<div style="padding:8px">{w.content}</div>
+						{:else}
+							<div style="padding:8px">Loading...</div>
+						{/if}
+					</Window>
 				{/if}
-			</Window>
-		{/if}
-	{/each}
-</div>
+			{/each}
+		</div>
+	</div>
+{:else}
+	<div class="desktop">
+		<!-- Renderiza todos los iconos del escritorio -->
+		{#each icons as ic}
+			<DesktopIcon
+				icon={ic.icon}
+				label={ic.label}
+				x={ic.x}
+				y={ic.y}
+				selected={selectedIconId === ic.id}
+				onselect={() => (selectedIconId = ic.id)}
+				onopen={() => openIcon(ic)}
+			/>
+		{/each}
+
+		<!-- Renderiza todas las ventanas abiertas -->
+		{#each windows as w (w.id)}
+			{#if !w.minimized}
+				<Window
+					title={w.title}
+					width={w.width}
+					height={w.height}
+					left={w.left ?? 40}
+					top={w.top ?? 40}
+					z={w.z}
+					isActive={w.z === Math.max(...windows.map((win) => win.z ?? 0))}
+					onclose={() => {
+						windows = windows.filter((win) => win.id !== w.id);
+					}}
+					onminimize={() => {
+						windows = windows.map((win) => (win.id === w.id ? { ...win, minimized: true } : win));
+					}}
+					onfocus={() => bringToFront(w.id)}
+					onresize={({ width, height, left, top }) => {
+						windows = windows.map((win) =>
+							win.id === w.id ? { ...win, width, height, left, top } : win
+						);
+					}}
+					onmove={({ width, height, left, top }) => {
+						windows = windows.map((win) =>
+							win.id === w.id ? { ...win, width, height, left, top } : win
+						);
+					}}
+				>
+					<!-- Renderiza el componente correspondiente según el tipo de ventana -->
+					{#if w.componentType === 'pdf' && w.componentProps?.src}
+						<PDFViewer src={w.componentProps.src} />
+					{:else if w.componentType === 'projects' && w.componentProps?.projects}
+						<ProjectsViewer projects={w.componentProps.projects} />
+					{:else if w.componentType === 'experience'}
+						<ExperienceViewer {experiences} />
+					{:else if w.componentType === 'about'}
+						<AboutViewer content={w.content} />
+					{:else if w.componentType === 'contact'}
+						<ContactViewer />
+					{:else if w.componentType === 'paint'}
+						<PaintViewer />
+					{:else if w.componentType === 'calc'}
+						<Calculator />
+					{:else if w.componentType === 'snake'}
+						<SnakeViewer />
+					{:else if w.componentType === 'minesweeper'}
+						<MinesweeperViewer />
+					{:else if w.content}
+						<div style="padding:8px">{w.content}</div>
+					{:else}
+						<div style="padding:8px">Loading...</div>
+					{/if}
+				</Window>
+			{/if}
+		{/each}
+	</div>
+{/if}
 
 <style>
 	/* El escritorio ocupa todo el espacio disponible y maneja el overflow de ventanas */
@@ -309,5 +390,50 @@
 		flex: 1 1 auto;
 		min-height: 0;
 		overflow: hidden;
+	}
+
+	.mobile {
+		width: 100%;
+		min-height: 100%;
+		overflow-y: auto;
+		padding: 12px 12px 24px;
+		box-sizing: border-box;
+	}
+
+	.mobile-icons {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+		gap: 12px 8px;
+		margin-bottom: 16px;
+	}
+
+	.mobile-icon {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 6px;
+		border: none;
+		background: transparent;
+		color: inherit;
+		padding: 4px;
+		font: inherit;
+	}
+
+	.mobile-icon img {
+		width: 48px;
+		height: 48px;
+		display: block;
+	}
+
+	.mobile-icon span {
+		font-size: 12px;
+		text-align: center;
+		line-height: 1.1;
+	}
+
+	.mobile-windows {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
 	}
 </style>
