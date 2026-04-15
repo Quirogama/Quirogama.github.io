@@ -396,7 +396,7 @@
 		width: 100%;
 		min-height: 100%;
 		overflow-y: auto;
-		padding: 12px 12px 24px;
+		padding: 12px 12px calc(74px + env(safe-area-inset-bottom));
 		box-sizing: border-box;
 	}
 

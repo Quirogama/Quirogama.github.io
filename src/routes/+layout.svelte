@@ -19,9 +19,49 @@
 	let isTransitioning = $state(false);
 	let isFirstModernView = $state(true); // Para controlar animaciones solo en primera visita
 	let showModeHint = $state(false);
+	let isMobileViewport = $state(false);
+	let mobileStartOpen = $state(false);
+	let mobileStartMenuEl = $state(null);
+	let mobileStartButtonEl = $state(null);
+	let mobileClock = $state('');
+	let mobileClockTimer;
 	let RetroDesktop = $state(null);
 	let RetroTaskbar = $state(null);
 	let retroComponentsPromise = null;
+
+	const mobileStartItems = Object.values(APPS).filter((app) => app.showInStartMenu);
+
+	function updateMobileViewport() {
+		if (typeof window === 'undefined') return;
+		isMobileViewport = window.innerWidth <= 768;
+	}
+
+	function updateMobileClock() {
+		const d = new Date();
+		let hours = d.getHours();
+		const minutes = String(d.getMinutes()).padStart(2, '0');
+		const ampm = hours >= 12 ? 'PM' : 'AM';
+		hours = hours % 12;
+		hours = hours ? hours : 12;
+		mobileClock = `${hours}:${minutes} ${ampm}`;
+	}
+
+	function toggleMobileStartMenu() {
+		mobileStartOpen = !mobileStartOpen;
+	}
+
+	function selectMobileStartApp(appId) {
+		mobileStartOpen = false;
+		createWindowFromApp(appId);
+	}
+
+	function closeMobileStartMenuOutside(e) {
+		if (!mobileStartOpen) return;
+		if (!mobileStartMenuEl || !mobileStartButtonEl) return;
+		if (!mobileStartMenuEl.contains(e.target) && !mobileStartButtonEl.contains(e.target)) {
+			mobileStartOpen = false;
+		}
+	}
 
 	async function ensureRetroComponentsLoaded() {
 		if (RetroDesktop && RetroTaskbar) return;
@@ -128,12 +168,21 @@
 	// Al montar: centra la ventana "Sobre mí" en la pantalla
 	onMount(() => {
 		updateInitialWindowPosition();
+		updateMobileViewport();
+		updateMobileClock();
 		showModeHint = localStorage.getItem('modeHintSeen') !== '1';
-		const handleResize = () => updateInitialWindowPosition();
+		const handleResize = () => {
+			updateInitialWindowPosition();
+			updateMobileViewport();
+		};
 		window.addEventListener('resize', handleResize);
+		document.addEventListener('click', closeMobileStartMenuOutside);
+		mobileClockTimer = setInterval(updateMobileClock, 1000);
 
 		return () => {
 			window.removeEventListener('resize', handleResize);
+			document.removeEventListener('click', closeMobileStartMenuOutside);
+			clearInterval(mobileClockTimer);
 		};
 	});
 
@@ -311,6 +360,7 @@
 <div class="mode-switcher">
 	<button
 		class="slider-switch"
+		class:mobile-hidden={mode === 'retro' && isMobileViewport}
 		class:attention={mode === 'modern' && showModeHint}
 		class:is-retro={mode === 'retro'}
 		onclick={toggleMode}
@@ -339,6 +389,44 @@
 		</div>
 	{/if}
 </div>
+
+{#if mode === 'retro' && isMobileViewport}
+	<div class="mobile-retro-nav">
+		<div class="mobile-start-wrap">
+			<button
+				bind:this={mobileStartButtonEl}
+				class="mobile-start-btn"
+				onclick={toggleMobileStartMenu}
+				aria-label="Abrir menú Inicio"
+			>
+				<img src="/icons/windows.png" alt="" aria-hidden="true" />
+				<span>Start</span>
+			</button>
+
+			{#if mobileStartOpen}
+				<div bind:this={mobileStartMenuEl} class="mobile-start-menu">
+					{#each mobileStartItems as app}
+						<button class="mobile-start-item" onclick={() => selectMobileStartApp(app.id)}>
+							<img src={app.icon} alt="" aria-hidden="true" />
+							<span>{app.label}</span>
+						</button>
+					{/each}
+				</div>
+			{/if}
+		</div>
+
+		<button class="mobile-home-slider" onclick={toggleMode} aria-label="Cambiar al portafolio principal">
+			<span class="mobile-home-track">
+				<span class="mobile-home-thumb"></span>
+			</span>
+		</button>
+
+		<div class="mobile-clock-wrap" aria-label="Hora actual">
+			<img src="/icons/clock.png" alt="" aria-hidden="true" />
+			<span>{mobileClock}</span>
+		</div>
+	</div>
+{/if}
 
 {#if mode === 'modern'}
 	<!-- MODO MODERNO -->
@@ -525,6 +613,146 @@
 		gap: 10px;
 	}
 
+	.slider-switch.mobile-hidden {
+		display: none;
+	}
+
+	.mobile-retro-nav {
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		height: 52px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+		padding: 4px 6px;
+		background: #c0c0c0;
+		box-shadow: inset 0 1px 0 #fff;
+		z-index: 2500;
+		box-sizing: border-box;
+	}
+
+	.mobile-start-wrap {
+		position: relative;
+	}
+
+	.mobile-start-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		height: 40px;
+		padding: 0 10px;
+		border-top: 1px solid #ffffff;
+		border-left: 1px solid #ffffff;
+		border-right: 1px solid #363636;
+		border-bottom: 1px solid #363636;
+		background: #c0c0c0;
+		font-family: 'MS Sans Serif', Tahoma, Verdana, Arial, sans-serif;
+		font-size: 0.95rem;
+		font-weight: 700;
+	}
+
+	.mobile-start-btn img {
+		width: 18px;
+		height: 18px;
+	}
+
+	.mobile-start-menu {
+		position: absolute;
+		left: 0;
+		bottom: calc(100% + 6px);
+		min-width: 190px;
+		max-height: min(56vh, 320px);
+		overflow: auto;
+		padding: 4px;
+		background: #c0c0c0;
+		border-top: 2px solid #ffffff;
+		border-left: 2px solid #ffffff;
+		border-right: 2px solid #363636;
+		border-bottom: 2px solid #363636;
+		box-shadow: 2px 2px 0 #000;
+		z-index: 2600;
+	}
+
+	.mobile-start-item {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding: 7px 8px;
+		border: 1px solid transparent;
+		background: transparent;
+		text-align: left;
+		font-family: 'MS Sans Serif', Tahoma, Verdana, Arial, sans-serif;
+		font-size: 0.88rem;
+	}
+
+	.mobile-start-item img {
+		width: 18px;
+		height: 18px;
+	}
+
+	.mobile-start-item:active,
+	.mobile-start-item:hover {
+		background: #000080;
+		color: #fff;
+	}
+
+	.mobile-home-slider {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		height: 40px;
+		padding: 0 10px;
+		border-top: 1px solid #ffffff;
+		border-left: 1px solid #ffffff;
+		border-right: 1px solid #363636;
+		border-bottom: 1px solid #363636;
+		background: #c0c0c0;
+	}
+
+	.mobile-home-track {
+		position: relative;
+		width: 56px;
+		height: 28px;
+		border-radius: 999px;
+		background: rgba(134, 239, 172, 0.25);
+		box-shadow: inset 0 0 0 1px rgba(46, 133, 72, 0.5);
+	}
+
+	.mobile-home-thumb {
+		position: absolute;
+		top: 3px;
+		left: 30px;
+		width: 22px;
+		height: 22px;
+		border-radius: 50%;
+		background: #86efac;
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+	}
+
+	.mobile-clock-wrap {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		height: 40px;
+		padding: 0 10px;
+		border-top: 1px solid #ffffff;
+		border-left: 1px solid #ffffff;
+		border-right: 1px solid #363636;
+		border-bottom: 1px solid #363636;
+		background: #c0c0c0;
+		font-size: 0.92rem;
+		font-weight: 700;
+	}
+
+	.mobile-clock-wrap img {
+		width: 16px;
+		height: 16px;
+	}
+
 	.slider-switch {
 		display: inline-flex;
 		align-items: center;
@@ -707,6 +935,11 @@
 
 		.mode-hint-actions {
 			flex-wrap: wrap;
+		}
+
+		.mobile-retro-nav {
+			padding-bottom: max(4px, env(safe-area-inset-bottom));
+			height: calc(52px + env(safe-area-inset-bottom));
 		}
 	}
 
