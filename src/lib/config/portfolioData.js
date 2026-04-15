@@ -124,7 +124,7 @@ export const PROJECTS = [
 		title: 'Windows 98 Portfolio',
 		description:
 			'Portafolio interactivo con estética nostálgica de Windows 98. Incluye ventanas arrastrables, Paint funcional, Calculadora, Snake y Buscaminas. Arquitectura modular con componentes Svelte.',
-		highlight: 'Experiencia de usuario única y memorable',
+		highlight: 'Portafolio doble con layout moderno y retro',
 		stack: ['Svelte', 'SvelteKit', 'JavaScript', 'CSS'],
 		image: '/proyectos/windows_logo.webp',
 		links: [
@@ -324,7 +324,7 @@ export const STATS = [
 		value: 81,
 		suffix: '%',
 		label: 'Precisión en Limpieza',
-		icon: '✨'
+		icon: '✓'
 	},
 	{
 		value: 4,

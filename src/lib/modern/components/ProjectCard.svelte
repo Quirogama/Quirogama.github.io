@@ -1,5 +1,6 @@
 <script>
 	let { project } = $props();
+	let showAllStack = $state(false);
 
 	// Placeholder image con gradiente único por proyecto
 	const gradients = [
@@ -13,6 +14,7 @@
 	const projectIndex = project.id ? project.id.split('-')[0].length % gradients.length : 0;
 	const projectGradient = gradients[projectIndex];
 	const visibleStack = (project.stack || []).slice(0, 3);
+	const hiddenStack = (project.stack || []).slice(3);
 	const hiddenStackCount = Math.max(0, (project.stack || []).length - visibleStack.length);
 </script>
 
@@ -40,7 +42,6 @@
 			<h3 class="project-title">{project.title}</h3>
 			{#if project.highlight}
 				<div class="project-highlight">
-					<span class="highlight-icon">✨</span>
 					{project.highlight}
 				</div>
 			{/if}
@@ -53,7 +54,20 @@
 				<span class="stack-tag">{tech}</span>
 			{/each}
 			{#if hiddenStackCount > 0}
-				<span class="stack-tag stack-tag-more">+{hiddenStackCount} más</span>
+				<button
+					class="stack-tag stack-tag-more"
+					onclick={() => (showAllStack = !showAllStack)}
+					aria-expanded={showAllStack}
+				>
+					+{hiddenStackCount} más
+				</button>
+			{/if}
+			{#if showAllStack}
+				<div class="stack-dropdown">
+					{#each hiddenStack as tech}
+						<span class="stack-tag">{tech}</span>
+					{/each}
+				</div>
 			{/if}
 		</div>
 
@@ -197,10 +211,6 @@
 		font-weight: 600;
 	}
 
-	.highlight-icon {
-		font-size: 1rem;
-	}
-
 	.project-description {
 		color: var(--text);
 		font-size: 1.25rem;
@@ -230,6 +240,35 @@
 
 	.stack-tag-more {
 		opacity: 0.85;
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+
+	.stack-tag-more:hover {
+		transform: scale(1.05);
+		background: var(--primary);
+		color: var(--secondary);
+		border-color: var(--primary);
+	}
+
+	.stack-dropdown {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		padding-top: 12px;
+		border-top: 1px solid rgba(212, 175, 55, 0.15);
+		animation: slideDown 0.2s ease-out;
+	}
+
+	@keyframes slideDown {
+		from {
+			opacity: 0;
+			transform: translateY(-8px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
 	}
 
 	.stack-tag:hover {
