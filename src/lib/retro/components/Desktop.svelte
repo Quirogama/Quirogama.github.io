@@ -7,7 +7,7 @@
 	import ExperienceViewer from './ExperienceViewer.svelte';
 	import ContactViewer from './ContactViewer.svelte';
 	import PaintViewer from './PaintViewer.svelte';
-	import Calculator from '$lib/Calculator.svelte';
+	import Calculator from './Calculator.svelte';
 	import MinesweeperViewer from './MinesweeperViewer.svelte';
 	import SnakeViewer from './SnakeViewer.svelte';
 	import {

@@ -63,7 +63,7 @@
 		<div class="contact-header">
 			<p class="contact-kicker">Contacto directo</p>
 			<h2 class="section-title section-title-shell">Hablemos</h2>
-			<p class="contact-intro">Si te interesa trabajar juntos, escríbeme.</p>
+			<p class="contact-intro">Si te interesa trabajar juntos, escríbeme!</p>
 		</div>
 
 		<div class="contact-grid">
