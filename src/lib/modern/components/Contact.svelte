@@ -30,12 +30,10 @@
 
 			if (response.ok) {
 				submitStatus = 'success';
-				// Reset form
 				formData.name = '';
 				formData.email = '';
 				formData.message = '';
 
-				// Clear success message after 4 seconds
 				setTimeout(() => {
 					submitStatus = '';
 				}, 4000);
@@ -57,121 +55,96 @@
 	}
 </script>
 
-<section class="contact section-shell" data-reveal id="contact">
+<section class="contact section-shell section-shell--soft" data-reveal id="contact">
+	<div class="contact-glow contact-glow--left" aria-hidden="true"></div>
+	<div class="contact-glow contact-glow--right" aria-hidden="true"></div>
+
 	<div class="section-content section-content-shell">
-		<h2 class="section-title section-title-shell">Contacto</h2>
+		<div class="contact-header">
+			<p class="contact-kicker">Contacto directo</p>
+			<h2 class="section-title section-title-shell">Hablemos</h2>
+			<p class="contact-intro">
+				Si tienes una oportunidad, una colaboración o una idea que quieras aterrizar, este es el
+				mejor punto de partida.
+			</p>
+		</div>
+
 		<div class="contact-grid">
-			<div class="contact-info">
+			<div class="contact-rail">
 				<div class="contact-cards">
-					<div class="contact-card">
+					<a class="contact-card" href="mailto:{PERSONAL_INFO.email}">
 						<div class="contact-icon">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							>
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 								<rect width="20" height="16" x="2" y="4" rx="2" />
 								<path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
 							</svg>
 						</div>
-						<div>
-							<h3>Correo Electrónico</h3>
-							<a href="mailto:{PERSONAL_INFO.email}" class="contact-detail">{PERSONAL_INFO.email}</a
-							>
-							<p class="contact-disclaimer">Abre tu cliente de correo</p>
+						<div class="contact-card-body">
+							<p class="contact-card-label">Correo electrónico</p>
+							<h3>{PERSONAL_INFO.email}</h3>
+							<p class="contact-detail">Ideal para propuestas, briefs y seguimiento formal.</p>
 						</div>
-					</div>
+					</a>
 
-					<div class="contact-card">
+					<a class="contact-card" href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer">
 						<div class="contact-icon">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							>
-								<path
-									d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
-								/>
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
 								<path d="M9 18c-4.51 2-5-2-7-2" />
 							</svg>
 						</div>
-						<div>
-							<h3>GitHub</h3>
-							<a href={SOCIAL_LINKS.github} target="_blank" rel="noopener" class="contact-detail"
-								>@Quirogama</a
-							>
-							<p class="contact-disclaimer">Enlace externo</p>
+						<div class="contact-card-body">
+							<p class="contact-card-label">GitHub</p>
+							<h3>@Quirogama</h3>
+							<p class="contact-detail">Perfil de trabajo, proyectos y repositorios.</p>
 						</div>
-					</div>
+					</a>
 
-					<div class="contact-card">
+					<a class="contact-card" href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer">
 						<div class="contact-icon">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							>
-								<path
-									d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
-								/>
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
 								<rect width="4" height="12" x="2" y="9" />
 								<circle cx="4" cy="4" r="2" />
 							</svg>
 						</div>
-						<div>
-							<h3>LinkedIn</h3>
-							<a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener" class="contact-detail"
-								>quirogama</a
-							>
-							<p class="contact-disclaimer">Enlace externo</p>
+						<div class="contact-card-body">
+							<p class="contact-card-label">LinkedIn</p>
+							<h3>quirogama</h3>
+							<p class="contact-detail">Conexiones, experiencia y contexto profesional.</p>
 						</div>
-					</div>
+					</a>
 				</div>
 			</div>
 
 			<form class="contact-form" onsubmit={handleSubmit}>
-				<input
-					type="text"
-					placeholder="Nombre"
-					required
-					bind:value={formData.name}
-					class="form-input"
-				/>
-				<input
-					type="email"
-					placeholder="Correo electrónico"
-					required
-					bind:value={formData.email}
-					class="form-input"
-				/>
-				<textarea
-					placeholder="Mensaje"
-					required
-					rows="6"
-					bind:value={formData.message}
-					class="form-textarea"
-				></textarea>
-				<button type="submit" class="form-submit" disabled={isSubmitting}>
-					{isSubmitting ? 'Enviando...' : 'Enviar Mensaje'}
-				</button>
+				<label class="field">
+					<span>Nombre</span>
+					<input type="text" required bind:value={formData.name} class="form-input" placeholder="Tu nombre" />
+				</label>
+
+				<label class="field">
+					<span>Correo electrónico</span>
+					<input type="email" required bind:value={formData.email} class="form-input" placeholder="tu@correo.com" />
+				</label>
+
+				<label class="field field--message">
+					<span>Mensaje</span>
+					<textarea
+						required
+						rows="6"
+						bind:value={formData.message}
+						class="form-textarea"
+						placeholder="Cuéntame qué necesitas, en qué etapa estás y qué sería un buen resultado."
+					></textarea>
+				</label>
+
+				<div class="form-actions">
+					<button type="submit" class="form-submit" disabled={isSubmitting}>
+						{isSubmitting ? 'Enviando...' : 'Enviar mensaje'}
+					</button>
+				</div>
+
 				{#if submitStatus === 'success'}
 					<p class="submit-message success">✓ ¡Mensaje enviado! Te contactaré lo antes posible.</p>
 				{/if}
@@ -189,22 +162,71 @@
 
 <style>
 	.contact {
-		background: linear-gradient(135deg, var(--secondary) 0%, #000000 100%);
-		color: var(--text);
-		animation: fadeIn 0.6s ease-out;
 		position: relative;
-		z-index: 1;
+		overflow: hidden;
+		color: var(--text);
+		background:
+			radial-gradient(circle at 0% 42%, rgba(212, 175, 55, 0.1), transparent 28%),
+			radial-gradient(circle at right center, rgba(124, 58, 237, 0.12), transparent 28%),
+			linear-gradient(135deg, rgba(8, 9, 18, 0.98), rgba(15, 16, 34, 0.98));
+		animation: fadeIn 0.6s ease-out;
+	}
+
+	.contact-glow {
+		position: absolute;
+		border-radius: 999px;
+		filter: blur(18px);
+		pointer-events: none;
+		opacity: 0.8;
+		mix-blend-mode: screen;
+	}
+
+	.contact-glow--left {
+		width: 180px;
+		height: 180px;
+		left: -64px;
+		top: clamp(220px, 34vh, 360px);
+		background: radial-gradient(
+			circle,
+			rgba(212, 175, 55, 0.3) 0%,
+			rgba(212, 175, 55, 0.14) 28%,
+			rgba(212, 175, 55, 0) 60%
+		);
+		opacity: 0.65;
+	}
+
+	.contact-glow--right {
+		width: 280px;
+		height: 280px;
+		right: -100px;
+		bottom: 60px;
+		background: rgba(124, 58, 237, 0.16);
+		opacity: 0.45;
 	}
 
 	.section-content {
+		width: 100%;
 		max-width: var(--section-max-width);
 		margin: 0 auto;
+	}
+
+	.contact-header {
+		max-width: 760px;
+		margin-bottom: 32px;
+	}
+
+	.contact-kicker {
+		margin: 0 0 10px 0;
+		text-transform: uppercase;
+		letter-spacing: 0.16em;
+		font-size: 0.88rem;
+		color: var(--primary-light);
 	}
 
 	.section-title {
 		font-size: var(--section-title-size);
 		font-weight: 700;
-		margin: 0 0 var(--section-title-gap) 0;
+		margin: 0 0 14px 0;
 		letter-spacing: -0.01em;
 		position: relative;
 		display: inline-block;
@@ -222,66 +244,86 @@
 		border-radius: 2px;
 	}
 
+	.contact-intro {
+		margin: 0;
+		max-width: 58ch;
+		color: var(--text-dim);
+		font-size: var(--text-lg);
+		line-height: var(--line-height-normal);
+	}
+
 	.contact-grid {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 60px;
+		gap: 32px;
 		align-items: start;
 	}
 
-	.contact-info {
+	.contact-rail {
 		display: flex;
 		flex-direction: column;
-		height: auto;
-		width: 100%;
+		gap: 14px;
 		min-width: 0;
 	}
 
-	.contact-info p {
-		font-size: 1.25rem;
-		margin-bottom: 24px;
-		color: var(--text);
-		line-height: 1.6;
+	.contact-card-label {
+		margin: 0;
+		text-transform: uppercase;
+		letter-spacing: 0.14em;
+		color: var(--primary-light);
+	}
+
+	.contact-detail {
+		margin: 0;
+		line-height: var(--line-height-normal);
+		color: var(--text-dim);
 	}
 
 	.contact-cards {
 		display: grid;
-		grid-template-rows: repeat(3, auto);
-		gap: 16px;
-		flex: initial;
-		align-content: start;
-		width: 100%;
+		gap: 14px;
 	}
 
 	.contact-card {
-		background: rgba(26, 26, 46, 0.4);
-		border: 1px solid rgba(212, 175, 55, 0.2);
-		border-radius: var(--radius-lg);
-		padding: 22px 24px 16px;
-		transition: all 0.3s ease;
 		display: flex;
-		align-items: flex-start;
 		gap: 16px;
-		height: auto;
-		width: 100%;
+		align-items: center;
+		padding: 22px 24px;
+		border-radius: var(--radius-lg);
+		border: 1px solid rgba(212, 175, 55, 0.18);
+		background: rgba(255, 255, 255, 0.035);
+		color: inherit;
+		text-decoration: none;
+		transition:
+			transform 0.3s ease,
+			border-color 0.3s ease,
+			background 0.3s ease,
+			box-shadow 0.3s ease;
 	}
 
 	.contact-card:hover {
-		background: rgba(26, 26, 46, 0.6);
-		border-color: rgba(212, 175, 55, 0.4);
-		transform: translateX(8px);
+		transform: translateY(-3px);
+		background: rgba(255, 255, 255, 0.06);
+		border-color: rgba(212, 175, 55, 0.42);
+		box-shadow: var(--shadow-gold);
+	}
+
+	.contact-card:focus-visible {
+		outline: 2px solid var(--primary-light);
+		outline-offset: 3px;
 	}
 
 	.contact-icon {
-		width: 42px;
-		height: 42px;
+		width: 48px;
+		height: 48px;
 		flex-shrink: 0;
-		background: var(--primary);
-		border-radius: var(--radius-md);
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		border-radius: var(--radius-md);
+		background: linear-gradient(180deg, var(--primary-light), var(--primary));
 		color: var(--secondary);
+		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
 	}
 
 	.contact-icon :global(svg) {
@@ -289,53 +331,63 @@
 		height: 20px;
 	}
 
+	.contact-card-body {
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
 	.contact-card h3 {
-		font-size: 1.42rem;
-		font-weight: 600;
-		color: var(--primary);
 		margin: 0 0 4px 0;
+		font-size: var(--text-lg);
+		font-weight: 700;
+		line-height: 1.2;
+		color: var(--accent);
+	}
+
+	.contact-card-label {
+		font-size: 0.88rem;
+		margin-bottom: 8px;
 	}
 
 	.contact-detail {
-		color: var(--text);
-		text-decoration: none;
-		font-size: 1.36rem;
-		transition: color 0.3s ease;
-		display: block;
-	}
-
-	.contact-disclaimer {
-		margin: 2px 0 0 0;
-		font-size: 1.02rem;
-		color: var(--text-dim);
-	}
-
-	.contact-detail:hover {
-		color: var(--primary);
+		font-size: var(--text-base);
 	}
 
 	.contact-form {
-		background: rgba(26, 26, 46, 0.4);
-		border: 1px solid rgba(212, 175, 55, 0.2);
-		border-radius: var(--radius-lg);
-		padding: 40px;
 		display: flex;
 		flex-direction: column;
-		gap: 20px;
-		height: 100%;
-		width: 100%;
-		min-width: 0;
+		gap: 18px;
+		padding: 28px;
+		border-radius: var(--radius-lg);
+		border: 1px solid rgba(212, 175, 55, 0.2);
+		background: rgba(255, 255, 255, 0.04);
+		box-shadow: var(--shadow-md);
+	}
+
+	.field {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.field span {
+		font-size: 0.92rem;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: var(--primary-light);
 	}
 
 	.form-input,
 	.form-textarea {
 		width: 100%;
-		padding: 16px;
-		background: rgba(0, 0, 0, 0.3);
-		border: 1px solid rgba(212, 175, 55, 0.2);
+		padding: 16px 18px;
 		border-radius: var(--radius-md);
+		border: 1px solid rgba(212, 175, 55, 0.22);
+		background: rgba(4, 4, 10, 0.46);
 		color: var(--text);
-		font-size: 1.5rem;
+		font-size: var(--text-base);
 		font-family: inherit;
 		transition: all 0.3s ease;
 	}
@@ -344,21 +396,31 @@
 	.form-textarea:focus {
 		outline: none;
 		border-color: var(--primary);
-		background: rgba(0, 0, 0, 0.4);
+		background: rgba(4, 4, 10, 0.64);
+		box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.12);
 	}
 
 	.form-textarea {
 		resize: vertical;
-		min-height: 150px;
+		min-height: 136px;
+	}
+
+	.field--message .form-textarea {
+		min-height: 180px;
+	}
+
+	.form-actions {
+		display: flex;
+		justify-content: center;
 	}
 
 	.form-submit {
-		padding: 16px 32px;
+		padding: 16px 24px;
+		border-radius: var(--radius-full);
+		border: 1px solid var(--button-border);
 		background: var(--button-bg);
 		color: var(--button-text);
-		border: 1px solid var(--button-border);
-		border-radius: var(--radius-full);
-		font-size: 1.5rem;
+		font-size: var(--text-base);
 		font-weight: 600;
 		cursor: pointer;
 		transition: all 0.3s ease;
@@ -366,10 +428,10 @@
 	}
 
 	.form-submit:hover:not(:disabled) {
+		transform: translateY(-2px);
 		background: var(--button-bg-hover);
 		color: var(--button-text-hover);
 		border-color: var(--button-border-hover);
-		transform: translateY(-2px);
 		box-shadow: 0 14px 28px rgba(0, 0, 0, 0.24), 0 0 0 1px rgba(212, 175, 55, 0.18);
 	}
 
@@ -379,27 +441,27 @@
 	}
 
 	.submit-message {
-		text-align: center;
-		font-size: 1.5rem;
 		margin: 0;
 		padding: 12px;
 		border-radius: var(--radius-md);
+		text-align: center;
+		font-size: var(--text-sm);
 	}
 
 	.submit-message.success {
 		background: rgba(16, 163, 74, 0.2);
-		color: #10a34a;
 		border: 1px solid rgba(16, 163, 74, 0.3);
+		color: #10a34a;
 	}
 
 	.submit-message.error {
 		background: rgba(220, 38, 38, 0.2);
-		color: #dc2626;
 		border: 1px solid rgba(220, 38, 38, 0.3);
+		color: #dc2626;
 	}
 
 	.footer {
-		background: #000000;
+		background: #000;
 		color: var(--text-dim);
 		padding: 40px;
 		text-align: center;
@@ -414,165 +476,69 @@
 		from {
 			opacity: 0;
 		}
+
 		to {
 			opacity: 1;
 		}
 	}
 
-	/* Desktop mediano: 1600x900 / 1536x864 / 1440x900 / 1350x800 aprox */
 	@media (min-width: 1281px) and (max-width: 1600px), (min-width: 1281px) and (max-height: 900px) {
 		.section-content {
 			max-width: 1120px;
 		}
 
-		.section-title {
-			margin: 0 0 44px 0;
-		}
-
-		.contact-grid {
-			gap: 40px;
-			align-items: start;
-		}
-
-		.contact-info {
-			height: auto;
-		}
-
-		.contact-cards {
-			grid-template-rows: repeat(3, auto);
-			gap: 12px;
-			flex: initial;
-			align-content: start;
-		}
-
-		.contact-card {
-			padding: 16px 18px 12px;
-			align-items: flex-start;
-			gap: 12px;
-			height: auto;
-		}
-
-		.contact-icon {
-			width: 38px;
-			height: 38px;
-		}
-
-		.contact-icon :global(svg) {
-			width: 18px;
-			height: 18px;
-		}
-
-		.contact-card h3 {
-			font-size: 1.15rem;
-		}
-
-		.contact-detail {
-			font-size: 1.1rem;
-		}
-
-		.contact-disclaimer {
-			font-size: 0.86rem;
-		}
-
-		.contact-form {
-			padding: 34px;
-			gap: 18px;
-			height: auto;
-		}
-
-		.form-input,
-		.form-textarea,
-		.form-submit,
-		.submit-message {
-			font-size: 1.3rem;
-		}
-
-		.form-input,
-		.form-textarea,
-		.form-submit {
-			padding: 14px 15px;
-		}
-
-		.form-textarea {
-			min-height: 138px;
-		}
-	}
-
-	/* Desktop pequeno: 1366x768 / 1280x720 aprox */
-	@media (min-width: 1201px) and (max-width: 1280px), (min-width: 1201px) and (max-height: 760px) {
-		.section-content {
-			max-width: 1040px;
-		}
-
-		.section-title {
-			margin: 0 0 36px 0;
+		.contact-header {
+			margin-bottom: 24px;
 		}
 
 		.contact-grid {
 			gap: 28px;
 		}
 
-		.contact-cards {
-			gap: 14px;
-		}
-
 		.contact-card {
-			padding: 20px 18px 14px;
-			gap: 14px;
+			padding: 18px 20px;
 		}
 
 		.contact-icon {
-			width: 40px;
-			height: 40px;
-		}
-
-		.contact-icon :global(svg) {
-			width: 19px;
-			height: 19px;
-		}
-
-		.contact-card h3 {
-			font-size: 1.4rem;
-		}
-
-		.contact-detail {
-			font-size: 1.34rem;
-		}
-
-		.contact-disclaimer {
-			font-size: 1rem;
+			width: 44px;
+			height: 44px;
 		}
 
 		.contact-form {
-			padding: 22px;
-			gap: 12px;
-		}
-
-		.form-input,
-		.form-textarea,
-		.form-submit {
-			padding: 11px 12px;
-		}
-
-		.form-textarea {
-			min-height: 108px;
+			padding: 24px;
 		}
 	}
 
-	/* Sincroniza alturas de ambas columnas en desktop para evitar descuadre vertical */
+	@media (min-width: 1201px) and (max-width: 1280px), (min-width: 1201px) and (max-height: 760px) {
+		.contact-grid {
+			gap: 24px;
+		}
+
+		.contact-card {
+			padding: 16px 18px;
+		}
+
+		.contact-form {
+			padding: 20px;
+		}
+
+		.form-textarea {
+			min-height: 112px;
+		}
+	}
+
 	@media (min-width: 1201px) {
 		.contact-grid {
 			align-items: stretch;
 		}
 
-		.contact-info,
+		.contact-rail,
 		.contact-form {
 			height: 100%;
 		}
 
 		.contact-cards {
 			height: 100%;
-			grid-template-rows: repeat(3, minmax(0, 1fr));
 		}
 
 		.contact-card {
@@ -581,63 +547,55 @@
 	}
 
 	@media (max-width: 1200px) {
-		.section-content {
-			max-width: 1080px;
-		}
-
 		.contact-grid {
-			gap: 48px;
+			gap: 24px;
 		}
 
-		.contact-info p {
-			font-size: 1.15rem;
+		.contact-header {
+			margin-bottom: 24px;
 		}
 
-		.contact-card {
-			padding: 28px;
-		}
-
-		.contact-card h3,
-		.contact-detail,
-		.form-input,
-		.form-textarea,
-		.form-submit,
-		.submit-message {
-			font-size: 1.4rem;
+		.contact-form {
+			padding: 24px;
 		}
 	}
 
 	@media (max-width: 968px) {
 		.contact-grid {
 			grid-template-columns: 1fr;
-			gap: 40px;
+			gap: 24px;
 		}
 
 		.contact-form {
-			padding: 32px 24px;
+			padding: 22px 18px;
 		}
 	}
 
 	@media (max-width: 768px) {
-		.contact-grid {
-			gap: 24px;
+		.contact-header {
+			margin-bottom: 18px;
+		}
+
+		.contact-intro {
+			font-size: var(--text-base);
+		}
+
+		.contact-form {
+			padding: 18px 14px;
 		}
 
 		.contact-cards {
 			gap: 10px;
-			height: auto;
-			grid-template-rows: repeat(3, auto);
 		}
 
 		.contact-card {
-			padding: 14px 14px 7px;
-			gap: 10px;
-			height: auto;
+			padding: 14px;
+			gap: 12px;
 		}
 
 		.contact-icon {
-			width: 34px;
-			height: 34px;
+			width: 38px;
+			height: 38px;
 		}
 
 		.contact-icon :global(svg) {
@@ -645,44 +603,22 @@
 			height: 16px;
 		}
 
-		.contact-card h3 {
-			font-size: 1.14rem;
-		}
-
-		.contact-detail {
-			font-size: 1.1rem;
-		}
-
-		.contact-disclaimer {
-			font-size: 0.9rem;
-		}
-
-		.contact-form {
-			padding: 20px 16px;
-			gap: 10px;
-		}
-
-		.form-input,
-		.form-textarea,
-		.form-submit,
-		.submit-message {
-			font-size: 1.06rem;
-		}
-
-		.form-input,
-		.form-textarea,
-		.form-submit {
-			padding: 10px 11px;
-		}
-
 		.form-textarea {
-			min-height: 110px;
+			min-height: 118px;
+		}
+
+		.form-submit {
+			width: 100%;
+		}
+
+		.contact-glow {
+			opacity: 0.45;
 		}
 	}
 
 	@media (max-width: 480px) {
-		.contact-card {
-			padding: 12px 12px 5px;
+		.contact-intro {
+			font-size: 0.98rem;
 		}
 
 		.contact-card h3 {
@@ -690,15 +626,17 @@
 		}
 
 		.contact-detail {
-			font-size: 1rem;
-		}
-
-		.contact-disclaimer {
-			font-size: 0.84rem;
+			font-size: 0.98rem;
 		}
 
 		.contact-form {
-			padding: 16px 14px;
+			padding: 16px 12px;
 		}
+
+		.form-input,
+		.form-textarea {
+			padding: 12px 14px;
+		}
+
 	}
 </style>
