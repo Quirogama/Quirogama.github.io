@@ -63,10 +63,7 @@
 		<div class="contact-header">
 			<p class="contact-kicker">Contacto directo</p>
 			<h2 class="section-title section-title-shell">Hablemos</h2>
-			<p class="contact-intro">
-				Si tienes una oportunidad, una colaboración o una idea que quieras aterrizar, este es el
-				mejor punto de partida.
-			</p>
+			<p class="contact-intro">Si te interesa trabajar juntos, escríbeme.</p>
 		</div>
 
 		<div class="contact-grid">
