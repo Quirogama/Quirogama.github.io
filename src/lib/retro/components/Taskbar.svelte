@@ -21,10 +21,10 @@
 		dispatch('taskclick', { id: taskId });
 	}
 
-	// Genera menú Start desde APPS (única fuente de verdad)
+	// Genera menú Inicio desde APPS (incluye todo lo visible en escritorio)
 	const startMenuItems = [
 		...Object.values(APPS)
-			.filter((app) => app.showInStartMenu)
+			.filter((app) => app.showInDesktop)
 			.map((app) => ({
 				id: app.id,
 				label: app.label,
@@ -32,7 +32,7 @@
 				isImage: true
 			})),
 		{ id: 'separator', separator: true },
-		{ id: 'shutdown', label: 'Shut Down...', icon: '🔌' }
+		{ id: 'shutdown', label: 'Apagar...', icon: '🔌' }
 	];
 
 	// Alterna la visibilidad del menú Start
@@ -93,7 +93,7 @@
 </script>
 
 <div class="taskbar">
-	<!-- Botón de inicio y menú Start -->
+	<!-- Botón de inicio y menú Inicio -->
 	<div class="start">
 		<button
 			bind:this={buttonEl}
@@ -102,11 +102,11 @@
 			onclick={toggleStart}
 		>
 			<!-- Icono del botón de inicio -->
-			<img class="inicio-icon" src="/icons/windows.png" alt="Start" />
-			<span class="inicio">Start</span>
+			<img class="inicio-icon" src="/icons/windows.png" alt="Inicio" />
+			<span class="inicio">Inicio</span>
 		</button>
 
-		<!-- Menú Start con las aplicaciones disponibles -->
+		<!-- Menú Inicio con las aplicaciones disponibles -->
 		{#if startMenuOpen}
 			<div bind:this={menuEl} class="start-menu">
 				{#each startMenuItems as item}

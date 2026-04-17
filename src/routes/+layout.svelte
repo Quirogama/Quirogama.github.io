@@ -252,6 +252,15 @@
 			return;
 		}
 
+		// Si es un enlace externo, abrir en nueva pestaña
+		if (app.externalUrl) {
+			if (!window.confirm('Vas a abrir un sitio externo. ¿Continuar?')) {
+				return;
+			}
+			window.open(app.externalUrl, '_blank');
+			return;
+		}
+
 		// Si tiene downloadUrl, descarga el archivo directamente
 		if (app.downloadUrl) {
 			if (!window.confirm('Se va a descargar un archivo. ¿Deseas continuar?')) {
