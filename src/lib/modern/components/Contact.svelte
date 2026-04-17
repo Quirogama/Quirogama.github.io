@@ -79,7 +79,7 @@
 						<div class="contact-card-body">
 							<p class="contact-card-label">Correo electrónico</p>
 							<h3>{PERSONAL_INFO.email}</h3>
-							<p class="contact-detail">Ideal para propuestas, briefs y seguimiento formal.</p>
+							<p class="contact-detail">Disponible para propuestas y nuevas oportunidades.</p>
 						</div>
 					</a>
 
@@ -108,7 +108,7 @@
 						<div class="contact-card-body">
 							<p class="contact-card-label">LinkedIn</p>
 							<h3>quirogama</h3>
-							<p class="contact-detail">Conexiones, experiencia y contexto profesional.</p>
+							<p class="contact-detail">Conectemos!</p>
 						</div>
 					</a>
 				</div>

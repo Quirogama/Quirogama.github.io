@@ -1,19 +1,23 @@
 <script>
 	import { CONTENT_SECTIONS, SOFT_SKILLS } from '$lib/config/portfolioData.js';
 	import {
+		siAngular,
 		siBootstrap,
+		siCplusplus,
 		siDocker,
-		siExpress,
 		siGit,
 		siGithub,
 		siHtml5,
 		siJavascript,
-		siJupyter,
+		siKotlin,
 		siMongodb,
+		siNestjs,
 		siNodedotjs,
+		siOpenjdk,
 		siPandas,
 		siPostgresql,
 		siPython,
+		siSpringboot,
 		siSqlite,
 		siSvelte
 	} from 'simple-icons';
@@ -27,7 +31,9 @@
 			leadIcon: 'siPython',
 			items: [
 				{ label: 'Python', icon: 'siPython' },
-				{ label: 'Java', icon: null },
+				{ label: 'C++', icon: 'siCplusplus' },
+				{ label: 'Java', icon: 'siOpenjdk' },
+				{ label: 'Kotlin', icon: 'siKotlin' },
 				{ label: 'JavaScript', icon: 'siJavascript' },
 				{ label: 'SQL', icon: null }
 			]
@@ -38,6 +44,7 @@
 			leadIcon: 'siSvelte',
 			items: [
 				{ label: 'Svelte', icon: 'siSvelte' },
+				{ label: 'Angular', icon: 'siAngular' },
 				{ label: 'HTML / CSS', icon: 'siHtml5' },
 				{ label: 'JavaScript', icon: 'siJavascript' },
 				{ label: 'Bootstrap', icon: 'siBootstrap' }
@@ -49,21 +56,19 @@
 			leadIcon: 'siNodedotjs',
 			items: [
 				{ label: 'Node.js', icon: 'siNodedotjs' },
-				{ label: 'Java', icon: null },
-				{ label: 'Python', icon: 'siPython' },
-				{ label: 'Express', icon: 'siExpress' }
+				{ label: 'NestJS', icon: 'siNestjs' },
+				{ label: 'Spring Boot', icon: 'siSpringboot' },
+				{ label: 'Python', icon: 'siPython' }
 			]
 		},
 		{
 			title: 'Datos y BI',
 			subtitle: 'Análisis, limpieza y visualización.',
-			leadIcon: 'siJupyter',
+			leadIcon: 'siPandas',
 			items: [
 				{ label: 'Power BI', icon: null },
 				{ label: 'Pandas', icon: 'siPandas' },
-				{ label: 'Matplotlib', icon: null },
-				{ label: 'Seaborn', icon: null },
-				{ label: 'Jupyter', icon: 'siJupyter' }
+				{ label: 'Matplotlib', icon: null }
 			]
 		},
 		{
@@ -92,19 +97,23 @@
 	];
 
 	const ICONS = {
+		siAngular,
 		siBootstrap,
+		siCplusplus,
 		siDocker,
-		siExpress,
 		siGit,
 		siGithub,
 		siHtml5,
 		siJavascript,
-		siJupyter,
+		siKotlin,
 		siMongodb,
+		siNestjs,
 		siNodedotjs,
+		siOpenjdk,
 		siPandas,
 		siPostgresql,
 		siPython,
+		siSpringboot,
 		siSqlite,
 		siSvelte
 	};

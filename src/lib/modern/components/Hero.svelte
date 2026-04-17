@@ -139,8 +139,8 @@
 	.hero {
 		display: flex;
 		align-items: center;
-		padding-top: clamp(72px, 10vh, 140px);
-		padding-bottom: clamp(104px, 14vh, 180px);
+		padding-top: clamp(60px, 7vh, 100px);
+		padding-bottom: clamp(76px, 10vh, 124px);
 		position: relative;
 		z-index: 1;
 		flex-direction: column;
@@ -444,7 +444,7 @@
 
 	@media (max-width: 1200px) {
 		.hero {
-			padding: clamp(70px, 9vh, 120px) 32px clamp(120px, 14vh, 180px);
+			padding: clamp(56px, 7vh, 92px) 32px clamp(82px, 10vh, 120px);
 			gap: 56px;
 		}
 
@@ -486,7 +486,7 @@
 		}
 
 		.hero {
-			padding: 58px 20px 44px;
+			padding: 48px 20px 36px;
 			gap: 22px;
 		}
 

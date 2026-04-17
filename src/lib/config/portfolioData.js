@@ -22,7 +22,7 @@ export const PERSONAL_INFO = {
 };
 
 export const SOFT_SKILLS = [
-	'Resolución creativa de problemas',
+	'Orientación al logro',
 	'Adaptabilidad',
 	'Trabajo en equipo',
 	'Aprendizaje continuo',
@@ -53,28 +53,33 @@ ${PERSONAL_INFO.summary}`;
 // ─────────────────────────────────────────────────────────────────────────
 
 export const SKILLS = {
-	languages: ['Python', 'SQL', 'JavaScript', 'Java'],
-	frontend: ['Svelte', 'HTML/CSS', 'JavaScript', 'Bootstrap'],
-	backend: ['Python', 'Node.js'],
-	dataTools: ['Power BI', 'Matplotlib', 'Seaborn'],
+	languages: ['Python', 'C++', 'Java', 'Kotlin', 'SQL', 'JavaScript'],
+	frontend: ['Svelte', 'Angular', 'HTML/CSS', 'JavaScript', 'Bootstrap'],
+	backend: ['Node.js', 'NestJS', 'Spring Boot', 'Python'],
+	dataTools: ['Power BI', 'Matplotlib'],
 	databases: ['SQL Server', 'PostgreSQL', 'MongoDB'],
-	tools: ['Git', 'GitHub', 'AWS', 'Jupyter', 'Excel']
+	tools: ['Git', 'GitHub', 'AWS', 'Excel']
 };
 
 // Versión flat para más fácil iterar (usado en landing moderno)
 export const SKILLS_FLAT = [
 	'Python',
+	'C++',
 	'Java',
+	'Kotlin',
 	'SQL',
 	'JavaScript',
 	'Svelte',
+	'Angular',
 	'Power BI',
 	'HTML/CSS',
 	'Git',
 	'PostgreSQL',
 	'Bootstrap',
 	'AWS',
-	'Node.js'
+	'Node.js',
+	'NestJS',
+	'Spring Boot'
 ];
 
 // Habilidades con niveles de proficiencia (para progress bars)
@@ -100,9 +105,9 @@ export const PROJECTS = [
 		id: 'medical-dicom-api-thesis',
 		title: 'Tesis: API de Imágenes Médicas DICOM',
 		description:
-			'API REST para almacenar, consultar y descargar imágenes médicas DICOM, enfocada en estudios transfontanelares de la Fundación Canguro y en el intercambio con terceros/hospitales. Implementa estándares DICOMWeb (STOW-RS, QIDO-RS y WADO-RS) con arquitectura Node.js + Express, SQLite y almacenamiento de archivos en servidor.',
+			'API REST para almacenar, consultar y descargar imágenes médicas DICOM, enfocada en estudios transfontanelares de la Fundación Canguro y en el intercambio con terceros/hospitales. Implementa estándares DICOMWeb (STOW-RS, QIDO-RS y WADO-RS) con arquitectura Node.js, SQLite y almacenamiento de archivos en servidor.',
 		highlight: 'API DICOMWeb funcional con flujo completo STOW-QIDO-WADO',
-		stack: ['Node.js', 'Express', 'SQLite', 'DICOMWeb'],
+		stack: ['Node.js', 'SQLite', 'DICOMWeb'],
 		image: '/proyectos/canguro_logo.webp',
 		links: [{ label: 'GitHub', url: 'https://github.com/JoseJ1709/ATIM.git' }]
 	},
@@ -255,7 +260,7 @@ export const PROFESSIONAL_INTERESTS = {
 export const CONTENT_SECTIONS = {
 	hero: {
 		lead:
-			'Desarrollador full‑stack junior enfocado en backend y soluciones end‑to‑end. Cuento con experiencia en backend, frontend y despliegue. He construido aplicaciones con Java/Spring Boot, Angular y Svelte, integrando APIs y bases de datos. Mi foco actual es convertir proyectos académicos y de producto en experiencia de ingeniería cada vez más medible.'
+			'Desarrollador full‑stack junior enfocado en backend y soluciones end‑to‑end. Cuento con experiencia en backend, frontend y despliegue. He construido aplicaciones con Java/Spring Boot, Angular y Svelte, integrando APIs y bases de datos. Actualmente busco seguir fortaleciendo mi experiencia en ingeniería de software con proyectos reales de producto.'
 	},
 	about: {
 		intro: PERSONAL_INFO.aboutMe,
