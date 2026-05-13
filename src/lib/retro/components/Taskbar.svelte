@@ -1,7 +1,7 @@
 <script>
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
-	import { APPS } from '../windowsConfig.js';
-	import { playUiClick, playUiOpen } from '../retroAudio.js';
+	import { APPS } from '../config/windowsConfig.js';
+	import { playUiClick, playUiOpen } from '../config/retroAudio.js';
 
 	// Props: lista de tareas visibles y ventana activa
 	let { tasks = [], activeWindowId = null } = $props();

@@ -5,7 +5,7 @@
 		playMinesweeperLose,
 		playMinesweeperWin,
 		playUiClick
-	} from '../retroAudio.js';
+	} from '../config/retroAudio.js';
 
 	let rows = 9;
 	let cols = 9;

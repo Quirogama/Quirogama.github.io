@@ -10,6 +10,7 @@
 	import Calculator from './Calculator.svelte';
 	import MinesweeperViewer from './MinesweeperViewer.svelte';
 	import SnakeViewer from './SnakeViewer.svelte';
+	import MediaPlayer from './MediaPlayer.svelte';
 	import {
 		aboutText,
 		aboutTitle,
@@ -20,7 +21,7 @@
 		APPS,
 		CONTACT_TEXT,
 		SOCIAL_LINKS
-	} from '../windowsConfig.js';
+	} from '../config/windowsConfig.js';
 	import { onMount } from 'svelte';
 
 	let { windows = $bindable([]) } = $props();
@@ -298,6 +299,8 @@
 							<SnakeViewer />
 						{:else if w.componentType === 'minesweeper'}
 							<MinesweeperViewer />
+						{:else if w.componentType === 'mediaPlayer'}
+							<MediaPlayer />
 						{:else if w.content}
 							<div style="padding:8px">{w.content}</div>
 						{:else}
@@ -371,6 +374,8 @@
 						<SnakeViewer />
 					{:else if w.componentType === 'minesweeper'}
 						<MinesweeperViewer />
+					{:else if w.componentType === 'mediaPlayer'}
+						<MediaPlayer />
 					{:else if w.content}
 						<div style="padding:8px">{w.content}</div>
 					{:else}

@@ -1,6 +1,6 @@
 <script>
 	import { onMount, onDestroy } from 'svelte';
-	import { playUiClick, playUiClose } from '../retroAudio.js';
+	import { playUiClick, playUiClose } from '../config/retroAudio.js';
 
 	// Props principales de la ventana (posiciones bindables para drag/resize)
 	let {

@@ -8,7 +8,7 @@
 		WINDOW_SIZES,
 		APPS,
 		CONTACT_TEXT
-	} from '$lib/retro/windowsConfig.js';
+	} from '$lib/windowsConfig.js';
 	import { onMount } from 'svelte';
 	import '../global.css';
 

@@ -1,6 +1,6 @@
 <script>
 	import { onMount, onDestroy } from 'svelte';
-	import { playSnakeCrash, playSnakeEat, playUiClick } from '../retroAudio.js';
+	import { playSnakeCrash, playSnakeEat, playUiClick } from '../config/retroAudio.js';
 
 	// Configuración del juego
 	const GRID_SIZE = 14;
@@ -31,6 +31,7 @@
 	let rafId = null;
 	let accumulator = 0;
 	let lastTime = 0;
+	let gameOverCooldown = $state(false); // Previene reinicio accidental inmediato
 
 	function generateFood() {
 		let newFood;
@@ -61,6 +62,7 @@
 		inputQueue = [];
 		accumulator = 0;
 		lastTime = 0;
+		gameOverCooldown = false;
 
 		if (rafId) cancelAnimationFrame(rafId);
 	}
@@ -141,6 +143,13 @@
 	function endGame() {
 		playSnakeCrash();
 		gameOver = true;
+		gameOverCooldown = true;
+
+		// Cooldown de 1 segundo: evita reinicio accidental con teclas de movimiento
+		setTimeout(() => {
+			gameOverCooldown = false;
+		}, 1000);
+
 		if (score > highScore) {
 			highScore = score;
 		}
@@ -152,15 +161,22 @@
 		const movementKeys = ['arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'w', 'a', 's', 'd'];
 
 		if (gameOver) {
+			// Cooldown: ignora teclas de movimiento durante 1 segundo después de game over
+			if (gameOverCooldown && movementKeys.includes(key)) {
+				e.preventDefault();
+				return;
+			}
+
+			// Enter sí puede reiniciar inmediatamente
 			if (key === 'enter') {
 				startGame();
 				return;
 			}
 
+			// Después del cooldown, las teclas de movimiento reinician
 			if (movementKeys.includes(key)) {
 				e.preventDefault();
 				startGame();
-				// Reinicia solamente; el siguiente input de dirección inicia la partida.
 			}
 
 			return;

@@ -11,7 +11,8 @@
 		"test:watch": "vitest",
 		"prepare": "svelte-kit sync || echo ''",
 		"format": "prettier --write .",
-		"lint": "prettier --check ."
+		"lint": "prettier --check .",
+		"albums:generate": "node scripts/generateAlbums.js"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-static": "^3.0.10",

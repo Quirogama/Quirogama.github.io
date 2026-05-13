@@ -1,5 +1,5 @@
 <script>
-	import { playUiClick, playUiOpen } from '../retroAudio.js';
+	import { playUiClick, playUiOpen } from '../config/retroAudio.js';
 
 	let {
 		icon = '/icons/cv.svg',
